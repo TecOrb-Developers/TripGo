@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  package_id: 
+  exclusion: MyText
+  conditions: MyText
+  cancallation_policy: MyText
+  extra: MyText
+
+two:
+  package_id: 
+  exclusion: MyText
+  conditions: MyText
+  cancallation_policy: MyText
+  extra: MyText

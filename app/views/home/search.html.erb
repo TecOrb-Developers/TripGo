@@ -1,0 +1,196 @@
+<section id="main-sec">
+	<div class="container">
+		<%if @packages.blank?%>	
+		<h1 class='not_found'>Sorry we are unable to find "Packages" !!</h1>
+		<h1 class='not_found'>Explore other exciting "Packages" !!</h1>
+		<%else%>
+		<div class="row">
+			<div class="col-sm-12">
+				<ol class="breadcrumb brd-crumb">
+					<li><a href="#">Home</a></li>
+					<li class="active">Search Result</li>
+				</ol>	
+			</div>
+		</div>
+		<%#unless @packages.blank?%>
+		<%= form_tag(home_search_path, :method=> :get, :enforce_utf8=> false, :id=> "filter-by") do -%>	
+		<div class="row">
+			<%= render 'sidebar_filters'%>
+			<div class="col-md-9 col-xs-12 col-lg-9 ">
+				<div class="row">
+					<%unless params[:destnation].blank?%>
+					<div class="col-sm-6 col-sm-offset-1 ">
+						<div class="search-top">
+							<p>
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+							</p>
+						</div>
+					</div>
+					<%end%>
+					<div class="col-sm-4 pull-right">
+						<div class="">
+							<form class="form-horizontal">
+								<div class="form-group">
+									<label for="inputEmail3" class="col-sm-4 control-label label-size">Sort By:</label>
+									<div class="col-sm-8">
+										<%= select_tag :sort_by, options_for_select(Package::SORT_BY, params[:sort_by]), include_blank: false, :class=>"form-control filter-by"%>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="row  div-gap">
+					<div class="col-sm-6">
+						<div class="search-top-text push-left">
+							<p>Search results <% unless params[:duration] == '' %> for <span class="search-color">
+								<%= params[:duration] %></span><% end %> in <span class="search-color">India</span></p>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="search-top-text pull-right">
+								<p>
+									Showing 
+									<span class="search-color">
+										<%=pluralize(@packages.count, 'Package')%>
+									</span> 
+									From 
+									<span class="search-color">
+										<%=pluralize(total_operators_of(@packages), 'Operator')%>
+									</span>
+								</p>
+							</div>
+						</div>
+					</div>
+
+					<div class="row div-gap">
+						<% @packages.each_with_index do |package, index|%>
+						<div class="col-sm-4">
+							<div class="product-image-wrapper">
+								<div class="single-products" id="<%=index%>">
+									<div class="productinfo text-center">
+										<div class="produimage">
+											<div class="imagebig">
+												<%= image_tag package.pictures.first.image.url(:weekend)%></div>
+											<div class="gropicon">
+												<ul>
+													<%package.holiday_types.each do |ht|%>
+													<li><%=image_tag $holiday_pngs_arr["#{ht}"]%></li>
+													<%end%>
+												</ul>
+											</div>
+										</div>
+									</div>
+									<div class="product-overlay traverscr-s" style="display:none;" id="content_<%=index%>">
+										<div class="overlay-content traveloversec" >
+											<div class="trvel-sction">
+												<ul>
+													<li class="view-row travel-flight">
+														<span class="travel-left">Travel</span>
+														<span class="travel-right" title= "<%= all_transport_mode_in package%>">
+															<%= truncate("#{all_transport_mode_in package}".split('-').first, length: 15)%>
+														</span>
+													</li>
+													<li class="view-row travel-hotels">
+														<span class="travel-left">Hotels</span>
+														<span class="travel-right" title= "<%= "#{all_hotel_rating_in package}" %>" >
+															<%= truncate("#{all_hotel_rating_in package}".split('-').first, length: 15)%>
+														</span>
+													</li>
+													<li class="view-row travel-loctransport">
+														<span class="travel-left">Local Transport</span>
+														<span class="travel-right" title= "<%= "#{all_local_city_transports_in package}" %>"> 
+															<%= truncate("#{all_local_city_transports_in package}".split('-').first, length: 15) %>
+														</span>
+													</li>
+													<li class="view-row travel-meal">
+														<span class="travel-left"> Meals</span>
+														<span class="travel-right" title= "<%=meal_type_in package %>">
+															<%= truncate(meal_type_in(package), length: 15)%>
+														</span>
+													</li>
+													<li class="view-row travel-sseen">
+														<span class="travel-left">Sightseeing</span>
+														<span class="travel-right" title= "<%=all_sight_scenes_in package %>">
+															<%= truncate(all_sight_scenes_in(package), length: 15)%>
+														</span>
+													</li>
+												</ul>  
+											</div>
+											<div class="traveltop-porstion">
+												<ul>
+													<%package.holiday_types.first(3).each do |ht|%>
+													<li><%=ht%></li>
+													<%end%>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="choose">
+									<div class="produimagedis">
+										<% if user_signed_in? %>
+										<div class="views-row enqerymale <%=is_enquired?(package) %>"><a data-target="#enquiry-form" data-toggle="modal" href="#" class="package_data" onclick="package_info(this);" data-package-id="<%= package.id %>" data-package-name="<%= package.itinerary_name %>" data-role="<%=current_user.role%>"><span class="icon"></span><span class="right1">Enquire</span></a></div>
+										<%else%>
+										<div class="views-row enqerymale"><a data-target="#signup_default" data-toggle="modal" href="#" onclick="javascript: alertify.error('You need to sign in as user to enquire!!');"><span class="icon"></span><span class="right1">Enquire</span></a></div>
+										<%end%>
+										<div class="views-row enqerywistlist <%= package.is_in_wishlist ? 'in-wishlist' : ''%>">
+											<a href="#" class="session-data" data-type="my-wishlist" data-package-id="<%= package.id%>" data-signed_in="<%= user_signed_in? ? 'true' : 'false'%>">
+												<span class="icon"></span>
+												<span class="right1">My WishList</span>
+											</a>
+										</div>
+
+										<div class="views-row enqerycomp <%= package.is_in_comparelist ? 'in-wishlist' : ''%>">
+											<a href="#" class="session-data" data-type="add-to-compare" data-package-id="<%= package.id%>" data-signed_in="<%= user_signed_in? ? 'true' : 'false'%>">
+												<span class="icon"></span>
+												<span class="right1" >Add To Compare</span>
+											</a>
+										</div>
+									</div>
+
+									<div class="produplace">
+										<div class="leftpart">
+											<div class="row-view"><%=link_to truncate((package.itinerary_name ),length: 40), inclusion_path(package)%></div>
+											<div class="row-view"><%=truncate((all_cities_in package ),length: 40)%></div>
+											<div class="row-view last"><%=truncate((all_holiday_destination_in package),length: 40)%></div>
+										</div>
+										<div class="rightpart">
+											<div class="distancetime">4.5</div>
+										</div>
+									</div>
+									<div class="produrate">
+										<div class="leftpart">
+											<div class="row-view">
+												<span title= "<%= package.package_duration%>"><%= duration_of package %></span>
+											</div>
+											<div class="row-view last">
+												<i class="fa fa-inr"></i> <%= package.price_per_person%></div>
+											</div>
+											<div class="rightpart">
+												<%if package.user.profile.logo.url%>
+												<div class="row-view">
+													<%=image_tag package.user.profile.logo.url,:width => 100,:height => 25 %>
+												</div>
+												<%end%>
+												<div class="row-view last">
+													<a href="<%=supplier_detail_path(package.user_id)%>"><%=package.user.name%></a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<% end %>
+						</div>
+						<%end%>
+					</div>
+				</div>
+				<% end %>
+				<%#else%>
+				<!-- No packages avalible. -->
+				<%#end%>
+			</div>
+		
+		</section>

@@ -1,0 +1,5 @@
+$("#crms_container").html("<%=j render(:partial => '/crms/index', :locals => {:@crms => crms }, :format => 'html') %>");
+
+<% if message %>
+	alertify.success("<%=message%>");
+<%end%>

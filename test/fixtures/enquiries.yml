@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 
+  package_id: 
+  name: MyString
+  phone_no: MyString
+  email: MyString
+  custome_travel: MyString
+  custome_hotel: MyString
+  custome_local_transport: MyString
+  custome_meals: MyString
+  custome_sights: MyString
+
+two:
+  user_id: 
+  package_id: 
+  name: MyString
+  phone_no: MyString
+  email: MyString
+  custome_travel: MyString
+  custome_hotel: MyString
+  custome_local_transport: MyString
+  custome_meals: MyString
+  custome_sights: MyString

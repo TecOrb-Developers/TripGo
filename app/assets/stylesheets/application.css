@@ -1,0 +1,62 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ *= require jquery-ui
+ *= require bootstrap-tagsinput
+ *= require_tree .
+ *= require_self
+ */
+
+ .error{
+ 	color:red;
+ }
+.actual-message_alert-notice{background-color: #f0f8db;color:#468847;height: auto;font-size: 1.2em;
+    text-align: center;
+}
+.actual-message_alert-alert , .actual-message_alert-error{background-color: #FFE4E4;color: #B94A48;font-size: 1.2em;height: auto;text-align: center;}
+.close {margin-right:10px;}
+
+
+/*hr { display: block; height: 1px;
+    border: 0; border-top: 1px solid #ff5959;
+    margin: 1em 0; padding: 0; }*/
+
+    hr {
+  opacity: 0.5;
+  border-top: 2px solid #500000;
+  border-bottom: 2px solid #fd5950;
+}
+
+.ui-datepicker {
+   background: #333;
+   border: 1px solid #555;
+   color: #EEE;
+ }
+ .ui-datepicker-calendar .ui-state-active {
+	background: #458B00;
+	-webkit-box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, .1);
+	-moz-box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, .1);
+	box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, .1);
+	color: #e0e0e0;
+	text-shadow: 0px 1px 0px #4d7a85;
+	filter: dropshadow(color=#4d7a85, offx=0, offy=1);
+	border: 1px solid #55838f;
+	position: relative;
+	margin: -1px;
+}
+
+.ui-datepicker-calendar .ui-state-hover {
+	background: #FF5050;
+}
+.right_term{
+	padding-right: 10px;
+}

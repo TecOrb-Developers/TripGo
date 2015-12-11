@@ -1,0 +1,236 @@
+<section class="inner">
+  <div class="container">
+    <div class="package-border">
+      <div class="content clearfix">
+        <div class="row">
+          <div class="col-md-9 col-sm-8 col-xs-12">
+            <h2 class="page-title">Add New Package</h2>
+            <h3 class="page-sub-title"> Package  - Package Inclusions</h3>
+          </div>
+        </div>
+      </div>
+      <div class="content clearfix">
+        <ul class="package-list">
+          <li ><span class="active">Package Details</span></li>
+          <li><span >Transport</span></li>
+          <li><span >City Transport</span></li>
+          <li><span >Hotels</span></li>
+          <li><span >Meals</span></li>
+          <li><span >Sightseeing</span></li>
+          <li><span >Itinerary</span></li>
+          <li><span >Other Inclusion</span></li>
+        </ul>
+        <div id="myTabContent" class="tab-content  content-tab">
+          <div class="tab-pane fade in active" id="package" data-action ='<%=@package.new_record? ? "New" : "Edit" %>' >
+            <%= nested_form_for @package ,:class => "package_form" do |f| %>
+            <div class="row">
+             <div class="col-md-6 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1 col-xs-offset-0">
+               <%= f.fields_for :cities do |cf| %>
+               <%= render 'packages/cities', f: cf %>
+               <%end%>
+               <p class="click_nest"><%= f.link_to_add "Add city", :cities,:class=>"btn red-btn" %></p>
+               <span class="add_city_field error"></span>
+               <div class="form-group">
+                 <label class="form-label" for="exampleInputEmail1">Itinerary Name<span class="red-star">*</span></label>
+                 <%= f.text_field :itinerary_name,:class => "form-control input-box-1"%>
+                 <span class="package_itinerary_field error"></span>
+               </div>
+               <div class="row ">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                  <div class="form-group-title">Type of Holiday Destination<span class="red-star">*</span></div>
+                </div>
+              </div>
+              <div class="row form-group">
+                <div class = "holydays_checks">
+                 <%Package::HOLIDAYS.each do |h|%>
+                 <div class="custom-checkbox col-sm-6  col-md-6 col-xs-12">
+                   <%= f.check_box(:holidays,{ :multiple => true,:class => "holiday"}, h,nil) %>
+                   <label for="<%=h%>"><span></span><%=h%></label>
+                 </div>
+                 <%end%>
+                 <span class="holidays_field error"></span>
+               </div>
+             </div>
+             <div class="row ">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="form-group-title">Type of Holiday <span class="red-star">*</span></div>
+              </div>
+            </div>
+            
+            <div class="row form-group">
+              <div class = "holyday_types_checks">
+               <%Package::HOLIDAY_TYPES.each do |h|%>
+               <div class="custom-checkbox col-sm-6  col-md-6 col-xs-12">
+                 <%= f.check_box(:holiday_types,{ :multiple => true,:class => "holiday_types"}, h,nil) %>
+                 <label for="<%=h%>"><span></span><%=h%></label>
+               </div>
+               <%end%>
+               <span class="holiday_types_field error"></span>
+             </div>
+           </div>
+           <div class="form-group">
+             <label class="form-label" for="exampleInputEmail1">Price per person in INR<span class="red-star">*</span></label>
+             <%= f.text_field :price_per_person,:class => "form-control input-box-1"%>
+             <span class="price_per_person_field error"></span>
+           </div>
+
+           <div class="form-group">
+            <div class="row ">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="form-group-title">Room Sharing Basis<span class="red-star">*</span></div>
+              </div>
+            </div>
+
+            <%Package::ROOM_SHARING.each_with_index do |r,index|%>
+            <div class="radio">
+             <%unless r == 'Other'%>
+             <label class="radio-btn">
+               <%= f.radio_button :room_sharing, r,:checked => (r == "2 Person per Room")%>
+               <%= r%> </label>
+               <%else%>
+               <label class="radio-btn">
+                 <%= f.radio_button :room_sharing,'',:checked => false,:class => 'other_room_share'%>
+                 <%= r%> </label>
+                 <%=text_field_tag 'get_input',get_room_sharing(f.object.room_sharing),:id => 'get_input',:placeholder => 'Please specify'%>
+                 <span class="get_input_field error"></span>
+                 <%end%>
+               </div>
+               <%end%>
+             </div>
+
+
+
+             <div class="form-group">
+              <div class="row ">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                  <div class="form-group-title">Room Extra Person Possible?</div>
+                </div>
+              </div>
+              
+              <div class="radio">
+                <label class="radio-btn">
+                  <%= f.radio_button :extra_room, false , :checked => true , :value => false %>
+                  Yes </label>
+                </div>
+                
+                <div class="radio">
+                 <label class="radio-btn">
+                  <%= f.radio_button :extra_room, false , :checked => true , :value => false %>
+                  No </label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="exampleInputEmail1">Cost of  Extra Person per Room in INR</label>
+                <%= f.text_field :extra_cost,:class => "form-control input-box-1"%>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="exampleInputEmail1">Duration of Package<span class="red-star">*</span> <span class="package_duration_field error"></span></label></div>
+                <%= f.hidden_field :package_duration %>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group row">
+                      <label for="inputEmail3" class="col-sm-3 label-l control-label">Nights</label>
+                      <div class="col-sm-9">
+                        <%= text_field_tag "nights", (f.object.nil? ? '': f.object.package_duration.split(' ')[0]), :class => "form-control package_duration_night"%>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                   <div class="form-group row">
+                     <label for="inputEmail3" class="col-sm-3 label-l control-label">Days</label>
+                     <div class="col-sm-9">
+                      <%= text_field_tag "days", (f.object.nil? ? '': f.object.package_duration.split(' ')[2]), :class => "form-control package_duration_day", :readonly=> true%>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="custom-checkbox ">
+                  <%= f.check_box :tag_as_weakend%>
+                  <label><span></span>Tag as Weekend Gataway </label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label date-label col-md-4 col-sm-4 col-xs-12" for="exampleInputEmail1">Validity (Start)<span class="red-star">*</span></label>
+                <div id="datetimepicker3" class="input-group date col-md-8 col-sm-8 col-xs-12">
+                  <%=f.text_field :start_date,:class=>"form-control input-box clearit",'data-time' => Date.today.strftime("%d-%m-%Y"),:readonly => true,:style=>"cursor:pointer"%>
+                  
+                  <span class="input-group-addon"><span><i class="fa fa-calendar" style="cursor:pointer"></i></span></span> </div>
+                  <span class="start_date_field error"></span>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label date-label col-md-4 col-sm-4 col-xs-12" for="exampleInputEmail1">Validity (End)<span class="red-star">*</span></label>
+                  <div id="datetimepicker3" class="input-group date col-md-8 col-sm-8 col-xs-12">
+                    <%=f.text_field :end_date,:class=>"form-control input-box clearit",:readonly =>true,:style=>"cursor:pointer"%>
+                    <span class="input-group-addon"><span><i class="fa fa-calendar"></i></span></span> </div>
+                    <span class="end_date_field error"></span>
+                  </div>
+
+                  <%= f.fields_for :pictures do |p| %>
+                  <div class="row form-group">
+                   <div class="image-field clearfix">
+                     <label class="form-label  col-md-4 col-sm-4 col-xs-12" for="exampleInputEmail1">Add Image<span class="red-star">*</span></label>
+                     <div class="col-md-8 col-sm-8 col-xs-12">
+                      <%=p.file_field :image,:class=>"file", 'data-img_present' => (p.object.image.url.nil? ? false : true) %>
+                      <span class="pictures_field error"></span>
+                      <%unless p.object.image.url.nil?%>
+                      <div class='package_image'>
+                        <%=image_tag p.object.image.url(:package_icon),:style=>"width: 111px; height: 80px;" %>
+                      </div>
+                      <%end%>
+                      <%=p.link_to_remove "Remove this image",:class=>"btn black-btn" %>
+                    </div>
+                  </div>
+                </div>
+                
+                <%end%>
+                <p><%= f.link_to_add "Add image", :pictures,:class=>"btn red-btn" %></p><span class="add_picture_field error"></p></span>
+                
+
+                <div class="form-group ftr-btn">
+                  <%=f.submit "Save",:class=>"btn red-default save submit_package"%>
+
+                  <%=f.submit "Continue",:class=>"btn red-default black submit_package"%>
+                </div>
+              </div>
+            </div>
+            <%end%>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script type="text/javascript">
+// $(document).ready(function(){
+//   var availableTags = [];
+
+//             $.ajax({
+//                 type: "GET",
+//                 url: "/home/find_city",                
+//                 dataType: "json",
+//                 success:function(data){         
+//                     availableTags = data.cities;
+//                     availableTags = $.grep(availableTags,function(n){ return(n) });  
+
+//                 }
+//               });
+
+
+// $(document).bind('DOMNodeInserted', function(e) {
+//   console.log(availableTags);
+//     $('[id ^=package_cities_attributes_]' ).autocomplete({
+//       source: availableTags
+//     });
+//   });
+// });
+
+</script>
+
+

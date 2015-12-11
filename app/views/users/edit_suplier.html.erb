@@ -1,0 +1,60 @@
+<section class="inner">
+
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-8 col-md-6 col-sm-push-2 col-md-push-3">
+          <div class="sign-up">
+            <div class="title"> Tour Operator section</div>
+            <div class="form-section my-account clearfix">
+              <div class="title"> Edit account </div>
+              
+              <%= form_for @user,url: update_supplier_account_path do |f| %>
+              <div id="form_one">
+                <div class="form-group">
+                <label for="exampleInputEmail1">Full Name<span class="red-star">*</span></label>
+                <%= f.text_field :name, autofocus: true,:class=>"form-control" %>
+                <span class="pr_error_label error"></span>
+                </div>
+                
+                
+
+                 <%= f.hidden_field :role, :value => "supplier"%>
+                
+                
+                <div class="form-group">
+                <label for="exampleInputPassword1">Email<span class="red-star">*</span></label>
+                <%= f.email_field :email,:class=>"form-control", :id => "user_email_id",:disabled => true%>
+                <span class="pr_error_label3 error"></span>
+                </div>
+                
+                <div class="form-group">
+                <label for="exampleInputPassword1">Contact Phone No. for Customers<span class="red-star">*</span></label>
+                <%= f.text_field :contact_no,:class=>"form-control" %>
+                <span class="pr_error_label4 error"></span>
+                </div>
+
+                <%= f.fields_for :profile do |pf| %>
+                <%= render 'users/profile_fields', pf: pf %>
+                <%end%>
+                <div class="form-group ftr-btn clearfix">
+                
+                <button type="back" id="Privious" onclick="return false" class="btn red-default black pull-left " > back </button> 
+                <div class="sub-can-btn pull-right">
+                <%=f.submit "Save",:class=>"btn red-default save",:id => "submit_sign_up"%>
+                <%=link_to "Cancel",root_path,:class=>"btn red-default black"%>
+                </div>
+                <!-- <button type="submit" class="btn red-default black pull-right">Cancel</button> -->
+                </div>
+                </div>
+
+              <%end%>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+           
+
+<script type="text/javascript">
+
+</script>

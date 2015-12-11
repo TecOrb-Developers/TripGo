@@ -1,0 +1,33 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 
+  itinerary_name: MyString
+  start_location: MyString
+  destination: MyString
+  holidays: MyString
+  holyday_types: MyString
+  price_per_person: 1.5
+  room_sharing: MyString
+  extra_room: false
+  extra_cost: 1.5
+  package_duration: MyString
+  tag_as_weakend: MyString
+  start_date: 2015-03-17
+  end_date: 2015-03-17
+
+two:
+  user_id: 
+  itinerary_name: MyString
+  start_location: MyString
+  destination: MyString
+  holidays: MyString
+  holyday_types: MyString
+  price_per_person: 1.5
+  room_sharing: MyString
+  extra_room: false
+  extra_cost: 1.5
+  package_duration: MyString
+  tag_as_weakend: MyString
+  start_date: 2015-03-17
+  end_date: 2015-03-17

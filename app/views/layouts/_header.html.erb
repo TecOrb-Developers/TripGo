@@ -1,0 +1,193 @@
+	<!--header-->
+	<header id="header">
+		<!--header_top-->
+		<div class="header_top">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-2">
+						<div class="logo pull-left">
+							<a href="<%=root_url%>"><img src="/assets/logo2.png" alt="" /></a>
+						</div>
+					</div>
+					<div class="col-sm-8">
+						<div class="hdr-slogan">
+							<div class="top-slogan">
+								<div class="view-rows discover">
+									<span class="left"><img src="/assets/hdr-search.png" alt=""/></span>
+									<span class="right">Discover</span>
+								</div>
+								<div class="view-rows compare">
+									<span class="left"><img src="/assets/hdr-compair.png" alt=""/></span>
+									<span class="right">Compare</span>								
+								</div>
+								<div class="view-rows holiday">
+									<span class="left"><img src="/assets/hdr-holiday.png" alt=""/></span>
+									<span class="right">Holiday</span>
+								</div>
+							</div>
+							<div class="bottom-slogan">
+								Your One Stop Shop For Holiday Packages. Unlimited Tours From Unlimited Operators.
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-2">
+						<div class="howitwordhrd">   
+							<div class="header-howtop">
+								<%if user_signed_in?%>
+								<% if can? :see_notifications, current_user%>
+								<div class="view-rows hdrbell">
+									<span class="top"><%=current_user.my_notifications.count%></span>
+									<span class="bottom">
+										<a href="<%= notifications_path%>">
+											<img src="/assets/hdrbell.png" alt=""/>
+										</a>
+									</span>
+								</div>
+								<% end %>
+								<div class="dropdown view-rows hdrtiletransfer" >
+									<span class="top"></span>
+									<%= link_to image_tag("hdruser.png"),"#",:class => 'dropdown-toggle','data-toggle'=>"dropdown" ,'aria-expanded'=>"false"%>
+									<ul class="dropdown-menu" role="menu">
+										<% if can? :see_dashboard, current_user %>
+										<li>
+											<%= link_to 'Dashboard', menu_board_path%>
+										</li>
+										<li>
+											<%= link_to 'My account', edit_suplier_path(current_user)%>
+										</li>
+										<% end %>
+										<li><%= link_to 'Log out', destroy_user_session_path, method: :delete%></li>
+									</ul>
+								</div>
+								<%else%>
+								<div class="view-rowss hdruser">
+									<span class="top"></span>
+									<span class="bottom user-signup" data-toggle="modal" data-target="#signup_default"><a href="#" class= "hdr-top btn red-btn">Log in</a></span>					
+								</div>	
+								<%end%>												
+							</div>
+							<div class="header-howbottom">
+								<a href="#">How It Works</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--/header_top-->
+
+		<!--header-middle-->
+		<% if can? :see_middle_header, current_user %>
+		<div class="header-middle">
+			<div class="container">
+				<div class="row">
+					<div class="hdrwishlist clearfix">
+						<div class="col-sm-9 col-md-9 col-xs-12">
+
+							<%= form_tag(home_search_path, :method=> :get, :enforce_utf8=> false) do -%>					  
+							<div class="lefthdrpart">
+								<div class="view-row leaveform form-group">
+									<label for="leaveform">gfdg</label>
+									<%=text_field_tag :base_city, current_city, :class=> "form-control", :id=>'landing_page_search_base_city',:placeholder=>"Leave From"%>
+								</div>
+								<div class="view-row date form-group">
+									<%=text_field_tag :date, '', :class=> "form-control custom_datepicker clearit", :id=>'landing_page_search_date', readonly: true, :value => params[:date] ,:style=>"cursor:pointer;"%>
+									<label for="date"><i class="fa fa-calendar"></i></label>
+								</div>
+								<div class="view-row destnation form-group">
+									<span class="destnation-img"></span>
+									<%=text_field_tag :destination, params[:destination], :class=> "form-control", :id=>'landing_page_search_destination', :placeholder=>"Destination" %>
+									<label for="date"><i class="fa fa-plus"></i></label>								
+								</div>
+								<div class="view-row duration form-group">
+									<div class="select-stylee">
+										<%=text_field_tag :nights, params[:nights], :class=> "form-control", :id=>'landing_page_search_duration', :placeholder=>"Nights" %>
+										<%#= select_tag :duration, options_for_select(package_duration, params[:duration]), include_blank: 'none', :class=>"form-control"%>
+									</div>
+								</div>
+								<div class="view-row Search form-group">
+									<%=submit_tag "SEARCH", :id=>'landing_page_search_btn', name: nil %>
+								</div>
+							</div>
+							<% end %>
+						</div>
+						<div class="col-sm-3 col-md-3 col-xs-12 righthder">
+							<div class="righthdrpart">
+								<ul>
+									<li class="first">
+										<a href="<%=wishlist_path%>" class="wishlist-bucket wishlist-link" data-signed_in="<%= user_signed_in? ? 'true' : 'false'%>" >
+											<span class="images wishlist_bucket_count"><%=list_count[:wishlist]%></span>
+											<span class="text">My Wish List</span>
+										</a>
+									</li>
+									<li class="last">
+										<a href="<%=comparision_path%>" class="comparision-bucket">
+											<span class="images compare_bucket_count"><%=list_count[:compare_list]%></span>
+											<span class="text">Comparision Bucket</span>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+
+						<div class="col-sm-9 col-md-9 col-xs-12 err_container">
+							<div class="lefthdrpart">
+								<div class="view-row">
+									<span class="red-star erorrr error_search_base_city"></span>
+								</div>
+								<div class="view-row">
+									<span class="red-star erorrr error_search_date"></span>
+								</div>
+								<div class="view-row">
+									<span class="red-star erorrr error_search_destination"></span>
+								</div>
+								<div class="view-row">
+									<span class="red-star erorrr error_search_transport"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<% end %>
+		<!--/header-middle-->
+
+		<!--header-bottom-->
+		<div class="header-bottom">
+			<div class="container">
+				<div class="row">
+					<% if can? :see_middle_header, current_user %>
+					<div class="col-sm-9">
+						<div class="navbar-header">
+							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+								<span class="sr-only">Toggle navigation</span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+							</button>
+						</div>
+						<div class="mainmenu pull-left">
+							<ul class="nav navbar-nav collapse navbar-collapse">
+								<li class="dropdown"><a href="#">See All Categories<i class="fa fa-angle-down"></i></a>
+									<ul role="menu" class="sub-menu">
+										<li><a href="#">Products</a></li>
+										<li><a href="#">Product Details</a></li> 
+										<li><a href="#">Checkout</a></li>
+										<li><a href="#">Cart</a></li>
+									</ul>
+								</li> 
+							</ul>
+						</div>
+					</div>
+					<div class="col-sm-3">
+					</div>
+					<% end %>
+				</div>
+			</div>
+		</div>
+		<!--/header-bottom-->	
+	</header>
+	<%= render :partial => "devise/sessions/sign_in" %>
+
+

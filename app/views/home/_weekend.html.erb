@@ -1,0 +1,313 @@
+<section class="weekend-gatwaysmain clearfix">
+	<div class="holiday-type">
+		<h3>Weekend Getaways</h3>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12 weekend-row">
+				<div class="weekend-gatways">					
+					<span class="left">Weekend Getaways from</span>
+					<span class="right"><%=text_field_tag 'from',"",:id => 'place_from',:onchange => "change_place(this.value)"%></span>
+				</div>
+				<div class="weekend-gatwaysright">					
+					<span class="left"><%=pluralize(@packages_start_with.count, 'Package')%>  </span><span style = "color:black;">From</span>
+					<span class="right"><%=pluralize(total_operators_of(@packages_start_with), 'Operator')%></span>
+				</div>
+			</div>	
+		</div>
+	</div>
+</div>
+</section>
+
+<% unless @packages_start_with.blank? %>
+<section class="weekendgetways">
+	<div class="container">
+		<div class="row">
+			<div id="slider-carousel1" class="carousel slide" data-ride="carousel">
+				<ol class="carousel-indicators">
+					<li data-target="#slider-carousel1" data-slide-to="0" class="active"></li>
+					<li data-target="#slider-carousel1" data-slide-to="1"></li>
+					<li data-target="#slider-carousel1" data-slide-to="2"></li>
+				</ol>
+				<%index = 0%>
+				<div class="carousel-inner">
+					<% @packages_start_with.each_slice(4) do |start_based|%>
+					<%index = index + 1%>
+					<div class="item <%= index == 1 ? "active" : ""%>">
+						<% start_based.each_with_index do |psf,i|%>
+						<div class="col-sm-3">
+							<div class="product-image-wrapper">
+								<div class="single-products" id="<%=i%>">
+									<div class="productinfo text-center">
+										<div class="produimage">
+											<div class="imagebig"><%=image_tag psf.pictures.first.image.url(:weekend)%></div>
+											<div class="gropicon">
+												<ul>
+													<%psf.holiday_types.first(3).each do |ht|%>
+													<li><%=image_tag $holiday_pngs_arr["#{ht}"]%></li>
+													<%end%>
+												</ul>
+											</div>
+										</div>
+									</div>
+									<div class="product-overlay traverscr-s" style="display:none;" id="content_<%=i%>">
+										<div class="overlay-content traveloversec" >
+											<div class="trvel-sction">
+												<ul>
+													<li class="view-row travel-flight"><span class="travel-left">Travel</span><span class="travel-right"><%=truncate((all_transport_mode_in psf), length: 15)%></span></li>
+													<li class="view-row travel-hotels"><span class="travel-left">Hotels</span><span class="travel-right"><%=all_hotel_rating_in psf%></span></li>
+													<li class="view-row travel-loctransport"><span class="travel-left">Local Transport</span><span class="travel-right"><%=local_transport_mode psf%></span></li>
+													<li class="view-row travel-meal"><span class="travel-left"> Meals</span><span class="travel-right"><%=truncate((meal_type_in psf), length: 15)%></span></li>
+													<li class="view-row travel-sseen"><span class="travel-left">Sightseeing</span><span class="travel-right"><%=all_sight_scenes_in(psf)%></span></li>
+												</ul>
+											</div>
+											<div class="traveltop-porstion">
+												<ul>
+													<%psf.holiday_types.first(3).each do |ht|%>
+													<li><%=ht%></li>
+													<%end%>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="choose">
+									<div class="produimagedis">
+
+										<% if user_signed_in? %>
+										<div class="views-row enqerymale <%=is_enquired?(psf) %>"><a data-target="#enquiry-form" data-toggle="modal" href="#" class="package_data" onclick="package_info(this);" data-package-id="<%= psf.id %>" data-package-name="<%= psf.itinerary_name %>" data-role="<%=current_user.role%>">
+												<span class="icon"></span>
+												<span class="right1">Enquire</span>
+											</a>
+										</div>
+										<%else%>
+										<div class="views-row enqerymale">
+											<a data-target="#signup_default" data-toggle="modal" href="#" onclick="javascript: alertify.error('You need to sign in as user to enquire!!');">
+												<span class="icon"></span>
+												<span class="right1">Enquire</span>
+											</a>
+										</div>
+										<%end%>
+
+										<div class="views-row enqerywistlist <%= psf.is_in_wishlist ? 'in-wishlist' : ''%>">
+											<a href="#" class="session-data" data-type="my-wishlist" data-package-id="<%= psf.id%>" data-signed_in="<%= user_signed_in? ? 'true' : 'false'%>">
+												<span class="icon"></span>
+												<span class="right1" >My WishList</span>
+											</a>
+										</div>
+
+										<div class="views-row enqerycomp <%= psf.is_in_comparelist ? 'in-wishlist' : ''%>">
+											<a href="#" class="session-data" data-type="add-to-compare" data-package-id="<%= psf.id%>" data-signed_in="<%= user_signed_in? ? 'true' : 'false'%>">
+												<span class="icon"></span>
+												<span class="right1" >Add To Compare</span>
+											</a>
+										</div>
+									</div>
+
+									<div class="produplace">
+										<div class="leftpart">
+											<div class="row-view"><%=link_to truncate((psf.itinerary_name ),length: 40), inclusion_path(psf)%></div>
+											<div class="row-view"><%=truncate((all_cities_in psf ),length: 40)%></div>
+											<div class="row-view last"><%=truncate((all_holiday_destination_in psf),length: 40)%></div>
+										</div>
+										<div class="rightpart">
+											<div class="distancetime">4.5</div>
+										</div>
+									</div>
+									
+									<div class="produrate">
+										<div class="leftpart">
+											<div class="row-view"><span><%=duration_of(psf)%></span></div>
+											<div class="row-view last"><i class="fa fa-inr"></i> <%= psf.price_per_person%></div>
+										</div>
+										<div class="rightpart">
+										<% if psf.user.profile.logo.url%>
+											<div class="row-view"><%=image_tag psf.user.profile.logo.url(:logo) unless psf.user.profile.nil?%></div>
+										<%end%>
+											<div class="row-view last"><a href="<%=supplier_detail_path(psf.user_id)%>"><%=psf.user.name%></a></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- <a href= "<%#= inclusion_path(psf)%>"> link</a> -->
+						<%end%>
+					</div>	
+					<%end%>
+				</div>
+
+				<a href="#slider-carousel1" class="left control-carousel hidden-xs" data-slide="prev">
+					<span class="left-icon"><img src="/assets/slidleft.png" class="img-responsive" alt="" /></span>
+				</a>
+				<a href="#slider-carousel1" class="right control-carousel hidden-xs" data-slide="next">
+					<span class="left-icon"><img src="/assets/slidright.png" class="img-responsive" alt="" /></span>
+				</a>
+			</div>
+		</section>
+	<% else %>
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="not_found">“No Packages from <%= params[:place_from] %>”</div>
+			</div>				
+		</div>
+	<% end %>
+
+		<section>
+			<div class="holiday-type">
+				<h3>Holiday Type</h3>
+			</div>
+			<div class="container">
+				<div class="row">
+					<div id="whatever" class="hover-grid">
+						<div id="whatever">
+							<div class="item col-sm-2">
+								<img src="/assets/img10.png" alt="my image" title="my image" />
+								<h2>Romantic</h2>
+								<div class="caption" style="display: none;">
+									<div class="rows-views">
+										<div class="imagescap"><img src="/assets/heartimage.png"/></div>
+										<div class="discap"><%= pluralize(@packages_start_with.map{|x| x if ( x.holiday_types.include?('Romantic'))}.compact.count,'Package')%></div>
+									</div>
+								</div>
+							</div>       
+							<div class="item col-sm-2">
+								<img  src="/assets/img11.png" alt="my image" title="my image" />
+								<h2>Family</h2>
+								<div class="caption" style="display: none;">
+									<div class="rows-views">
+										<div class="imagescap"><img src="/assets/family.png"/></div>
+										<div class="discap"><%=pluralize(@packages_start_with.map{|x| x if ( x.holiday_types.include?('Family'))}.compact.count,'Package')%></div>
+									</div>
+								</div>
+							</div>  
+							<div class="item col-sm-2">
+								<img src="/assets/img12.png" alt="my image" title="my image" />
+								<h2>Adventure</h2>
+								<div class="caption" style="display: none;">
+									<div class="rows-views">
+										<div class="imagescap"><img src="/assets/Adventure.png"/></div>
+										<div class="discap"><%=pluralize(@packages_start_with.map{|x| x if ( x.holiday_types.include?('Adventure'))}.compact.count,'Package')%></div>
+									</div>
+								</div>
+							</div>  	
+							<div class="item col-sm-2">
+								<img src="/assets/img13.png" alt="my image" title="my image" />
+								<h2>Foods & Drinks</h2>
+								<div class="caption" style="display: none;">
+									<div class="rows-views">
+										<div class="imagescap"><img src="/assets/fastfood.png"/></div>
+										<div class="discap"><%=pluralize(@packages_start_with.map{|x| x if ( x.holiday_types.include?('Foods & Drinks'))}.compact.count,'Package')%></div>
+									</div>
+								</div>
+							</div>       
+							<div class="item col-sm-2">
+								<img src="/assets/img14.png" alt="my image" title="my image" />
+								<h2>Spa & Wellness</h2>
+								<div class="caption" style="display: none;">
+									<div class="rows-views">
+										<div class="imagescap"><img src="/assets/spa.png"/></div>
+										<div class="discap"><%=pluralize(@packages_start_with.map{|x| x if ( x.holiday_types.include?('Spa & Wellness'))}.compact.count,'Package')%></div>
+									</div>
+								</div>
+							</div>  
+							<div class="item col-sm-2">
+								<img src="/assets/img15.png" alt="my image" title="my image" />
+								<h2>Chilling/Friends</h2>
+								<div class="caption" style="display: none;">
+									<div class="rows-views">
+										<div class="imagescap"><img src="/assets/friends.png"/></div>
+										<div class="discap"><%=pluralize(@packages_start_with.map{|x| x if ( x.holiday_types.include?('Chilling/Friends'))}.compact.count,'Package')%></div>
+									</div>
+								</div>
+							</div>  	
+						</div>
+
+					</div>	
+				</div>
+			</div>
+		</section>
+
+		
+		<section class="destin-catgoery-main">
+			<div class="destination-cat-type">
+				<h3>Destination Categories</h3>
+			</div>
+			<div class="container">
+				<div class="row">
+					<div id="whatever1" class="hover-grid">
+						<div id="whatever1">
+							<div class="item col-sm-2">
+								<img src="/assets/img16.png" alt="my image" title="my image" />
+								<h2>Beaches</h2>
+								<div class="caption" style="display: none;">
+									<div class="rows-views">
+										<div class="imagescap"><img src="/assets/esinimage.png"/></div>
+										<div class="discap"><%=pluralize(@packages_start_with.map{|x| x if ( x.holidays.include?('Beaches'))}.compact.count,'Package')%></div>
+									</div>
+								</div>
+							</div>       
+							<div class="item col-sm-2">
+								<img  src="/assets/img17.png" alt="my image" title="my image" />
+								<h2>Hills and Valleys</h2>
+								<div class="caption" style="display: none;">
+									<div class="rows-views">
+										<div class="imagescap"><img src="/assets/hills.png"/></div>
+										<div class="discap"><%=pluralize(@packages_start_with.map{|x| x if ( x.holidays.include?('Hills and Valleys'))}.compact.count,'Package')%></div>
+									</div>
+								</div>
+							</div>  
+							<div class="item col-sm-2">
+								<img src="/assets/img18.png" alt="my image" title="my image" />
+								<h2>Rivers & Lakes</h2>
+								<div class="caption" style="display: none;">
+									<div class="rows-views">
+										<div class="imagescap"><img src="/assets/rivers.png"/></div>
+										<div class="discap"><%=pluralize(@packages_start_with.map{|x| x if ( x.holidays.include?('Rivers & Lakes'))}.compact.count,'Package')%></div>
+									</div>
+								</div>
+							</div>  	
+							<div class="item col-sm-2">
+								<img src="/assets/img19.png" alt="my image" title="my image" />
+								<h2>Desert</h2>
+								<div class="caption" style="display: none;">
+									<div class="rows-views">
+										<div class="imagescap"><img src="/assets/deserts.png"/></div>
+										<div class="discap"><%=pluralize(@packages_start_with.map{|x| x if ( x.holidays.include?('Desert'))}.compact.count,'Package')%></div>
+									</div>
+								</div>
+							</div>       
+							<div class="item col-sm-2">
+								<img src="/assets/img20.png" alt="my image" title="my image" />
+								<h2>Heritage</h2>
+								<div class="caption" style="display: none;">
+									<div class="rows-views">
+										<div class="imagescap"><img src="/assets/heritage.png"/></div>
+										<div class="discap"><%=pluralize(@packages_start_with.map{|x| x if ( x.holidays.include?('Haritage'))}.compact.count,'Package')%></div>
+									</div>
+								</div>
+							</div>  
+							<div class="item col-sm-2">
+								<img src="/assets/img21.png" alt="my image" title="my image" />
+								<h2>Religious</h2>
+								<div class="caption" style="display: none;">
+									<div class="rows-views">
+										<div class="imagescap"><img src="/assets/religious.png"/></div>
+										<div class="discap"><%=pluralize(@packages_start_with.map{|x| x if ( x.holidays.include?('Religious'))}.compact.count,'Package')%></div>
+									</div>
+								</div>	
+								<div class="clearheight"></div>
+							</div>
+						</div>
+					</section>	
+
+					<script type="text/javascript">
+					function change_place(place){
+						if (place !== ""){
+							window.location = "<%= url_for(:controller => 'home', :action => 'index') %>?place_from=" + place;
+						}
+					}
+					document.getElementById('place_from').value = "<%= @place%>";
+
+					
+					</script>

@@ -1,0 +1,192 @@
+	<%# packages = wishlist_packages.sort_by{|x| x.price_per_person} %>
+	<section id="main-sec">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12">
+					<ol class="breadcrumb brd-crumb1">
+						<li><a href="<%=root_path%>">Home</a></li>
+						<li class="active">My Wishlist</li>
+					</ol>	
+				</div>
+				<div class="col-md-5 pull-right">
+					<div class="form-group">
+						<div class="col-md-4">
+							<span class= "hyper-txt wishlist_total_package"><%=pluralize(@packages.count, 'Package')%></span>
+						</div>
+						<label for="" class="col-sm-3 control-label">Sort By:</label>
+						<div class="col-sm-5">
+							<%= select_tag :wishlist_sort_by, options_for_select(Package::SORT_BY, params[:sort_by]), include_blank: false, :class=>"form-control wishlist-sort-by"%>
+						</div>
+					</div>	
+				</div>	
+			</div>
+			<div class="row">
+				<div class="col-md-12">	
+					<div class="title-pageheading title-new">
+						<div class="about-border"></div>						
+						<div class="page-title-text">
+							<span class="page-title-bg">My Wishlist</span>
+						</div>
+					</div>	
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-4  col-md-4 col-xs-12 pull-right">
+					<div class="remove-sec"> 
+						<%# unless user_signed_in? %>
+						<span class="signup hyper" data-toggle="modal" data-target="#signup_default">
+							<!-- <img alt="" src="assets/hdrfilesend.png"> Sign Up to Save Changes -->
+						</span>
+						<%# else %>
+						<span class="signup hyper wishlist-save-changes">
+							<!-- <img alt="" src="assets/hdrfilesend.png"> Save Changes -->
+						</span>
+						<%# end %>
+						<span class="remv wishlist-remove hyper" data-signed_in="<%= user_signed_in? ? 'true' : 'false'%>" data-is_all = 'true'>
+							<img alt="" src="assets/cross.png" >
+							<a href="#">  Remove All</a>
+						</span>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<% @packages.each_with_index do |package, index|%>
+				<div class="col-sm-3 wishlist">
+					<div class="close-btn booking-list booking-list-wishlist">
+						<a class="fa fa-times booking-item-wishlist-remove wishlist-remove" href="#" rel="tooltip" data-package="<%=package.id%>" data-original-title="remove from wishlist" ></a>
+					</div>
+					<div class="product-image-wrapper">
+						<div class="single-products" id="<%=index%>">
+							<div class="productinfo text-center">
+								<div class="produimage">
+									<div class="imagebig"><%= image_tag package.pictures.first.image.url(:weekend)%></div>
+									<div class="gropicon">
+										<ul>
+											<%package.holiday_types.each do |ht|%>
+													<li><%=image_tag $holiday_pngs_arr["#{ht}"]%></li>
+											<%end%>
+										</ul>
+									</div>
+								</div>
+							</div>
+							<div class="product-overlay traverscr-s" style="display:none;" id="content_<%=index%>">
+								<div class="overlay-content traveloversec" >
+									<div class="trvel-sction">
+										<ul>
+											<li class="view-row travel-flight">
+												<span class="travel-left">Travel</span>
+												<span class="travel-right" title= "<%= all_transport_mode_in package%>">
+													<%= truncate("#{all_transport_mode_in package}".split('-').first, length: 15)%>
+												</span>
+											</li>
+											<li class="view-row travel-hotels">
+												<span class="travel-left">Hotels</span>
+												<span class="travel-right" title= "<%= "#{all_hotel_rating_in package}" %>" >
+													<%= truncate("#{all_hotel_rating_in package}".split('-').first, length: 15)%>
+												</span>
+											</li>
+											<li class="view-row travel-loctransport">
+												<span class="travel-left">Local Transport</span>
+												<span class="travel-right" title= "<%= "#{all_local_city_transports_in package}" %>"> 
+													<%= truncate("#{all_local_city_transports_in package}".split('-').first, length: 15) %>
+												</span>
+											</li>
+											<li class="view-row travel-meal">
+												<span class="travel-left"> Meals</span>
+												<span class="travel-right" title= "<%=meal_type_in package %>">
+													<%= truncate(meal_type_in(package), length: 15)%>
+												</span>
+											</li>
+											<li class="view-row travel-sseen">
+												<span class="travel-left">Sightseeing</span>
+												<span class="travel-right" title= "<%=all_sight_scenes_in package %>">
+													<%= truncate(all_sight_scenes_in(package), length: 15)%>
+												</span>
+											</li>
+										</ul>  
+									</div>
+									<div class="traveltop-porstion">
+										<ul>
+										<%package.holiday_types.first(3).each do |ht|%>
+											<li><%=ht%></li>
+										<%end%>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="choose">
+							<div class="produimagedis">
+
+								<% if user_signed_in?%>
+										<div class="views-row enqerymale <%=is_enquired?(package)%>"><a data-target="#enquiry-form" data-toggle="modal" href="#" class="package_data" onclick="package_info(this);" data-package-id="<%= package.id %>" data-package-name="<%= package.itinerary_name %>" data-role="<%=current_user.role%>"><span class="icon"></span><span class="right1">Enquire</span></a></div>
+								<%else%>
+										<div class="views-row enqerymale"><a data-target="#signup_default" data-toggle="modal" href="#" onclick="javascript: alertify.error('You need to sign in as user to enquire!!');"><span class="icon"></span><span class="right1">Enquire</span></a></div>
+								<%end%>
+
+								<div class="views-row enqerywistlist <%= package.is_in_wishlist ? 'in-wishlist' : ''%>">
+									<a href="#" class="session-data" data-type="my-wishlist" data-package-id="<%= package.id%>" data-signed_in="<%= user_signed_in? ? 'true' : 'false'%>" data-in-wishlist='true'>
+										<span class="icon"></span>
+										<span class="right1">My WishList</span>
+									</a>
+								</div>
+
+								<!-- <div class="views-row enqerywistlist <%#= package.is_in_wishlist ? 'in-wishlist' : ''%>">
+									<a ><span class="icon"></span>
+										<span class="right1">In WishList</span>
+									</a>
+								</div> -->
+								<div class="views-row enqerycomp <%= package.is_in_comparelist ? 'in-wishlist' : ''%>">
+									<a href="#" class="session-data" data-type="add-to-compare" data-package-id="<%= package.id%>" data-signed_in="<%= user_signed_in? ? 'true' : 'false'%>">
+										<span class="icon"></span>
+										<span class="right1" >Add To Compare</span>
+									</a>
+								</div>
+									
+							</div>
+							<div class="produplace">
+									<div class="leftpart">
+										<div class="row-view"><%=link_to truncate((package.itinerary_name ),length: 40), inclusion_path(package)%></div>
+										<div class="row-view"><%=truncate((all_cities_in package ),length: 40)%></div>
+										<div class="row-view last"><%=truncate((all_holiday_destination_in package),length: 40)%></div>
+									</div>
+									<div class="rightpart">
+										<div class="distancetime">4.5</div>
+									</div>
+								</div>
+							<div class="produrate">
+								<div class="leftpart">
+									<div class="row-view">
+										<span title= "<%= package.package_duration%>"><%= duration_of package %></span>
+									</div>
+									<div class="row-view last">
+										<i class="fa fa-inr"></i> <%= package.price_per_person%></div>
+									</div>
+									<div class="rightpart">
+									<% if package.user.profile.logo.url%>
+										<div class="row-view">
+											<%=image_tag package.user.profile.logo.url(:logo) %>
+										</div>
+									<%end%>
+										<div class="row-view last">
+											<a href="#"><%=package.user.name%></a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<% end %>
+				</div>
+			</div>
+		</section>
+
+
+		<script type="text/javascript">
+	// sort wishlist
+	$('.wishlist-sort-by').change(function(){
+		window.location = "<%= url_for(:controller => 'home', :action => 'wishlist') %>?sort_by=" + $(this).val();
+	});
+
+	</script>

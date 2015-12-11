@@ -1,0 +1,100 @@
+<section class="inner">
+	<div class="container">
+		<div class="row">
+			<div class="pull-right">
+				<span class="pending">Application Status <a href="#">Pending</a></span><%=link_to "Notification Offers",notifications_path,:class => "btn notification m-r-15" %>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">	
+				<div class="title-page-sec">
+					<div class="about-border">
+					</div>
+					<div class="page-title-text">
+						<span class="page-title-bg">CRM</span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<%= form_tag export_csv_action_path(:format=> 'csv') do %>
+		<div class="row crmfillter-s">
+			<div class="col-sm-6 col-md-6 col-xs-12">
+				<div class="filter-box">
+					<div class="col-md-12">
+						<div class="col-sm-8 col-md-8 col-xs-12">	
+							<div class="title">Filters</div>
+							<div class="form-group">
+								<div class="contain filterselect clearfix">
+									<%= select_tag :filter_against, options_for_select(Crm::FILTER_BY.map {|d| d.titleize}), {:class=> "contain ui dropdown", :id=> 'crms_filter_against'} %>
+									<label>Contains</label>
+									<%= text_field_tag :filter_query, '',class: "contain", :id=> 'crms_filter_query' %>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-4 col-md-4 col-xs-12">	
+							<div class="form-action m-t-20">
+								<button class="btn red-default" type="button" id="crms_filter_submit_btn">Filter</button>
+								<button class="btn red-default" type="button" id="crms_filter_reset_btn">Clear filter</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-sm-6 col-md-6 col-xs-12 addnew-s">
+				<div class="pull-right">
+					<button type="button" class="btn notification send-to" data-toggle="modal" data-target="#send-to">Send To
+					</button>
+					<%= submit_tag "Export",:class=>"btn notification export_csv" %>
+					<a button type="button" class="btn notification dropdown-toggle" type="button" id="dm1" data-toggle="dropdown" aria-expanded="true" >
+						<span class="mark-as-value"> Mark AS</span>
+						<span class="caret"></span>
+					</button>
+				</a>
+				<ul class="dropdown-menu" role="menu" aria-labelledby="dm1">
+					<li role="presentation"><a class= "mark-as-dropdown" role="menuitem" tabindex="-1" href="#">Pending</a></li>
+					<li role="presentation"><a class= "mark-as-dropdown" role="menuitem" tabindex="-1" href="#">Unassigned</a></li>
+					<li role="presentation"><a class= "mark-as-dropdown" role="menuitem" tabindex="-1" href="#">Fraud</a></li>
+					<li role="presentation"><a class= "mark-as-dropdown" role="menuitem" tabindex="-1" href="#">Assigned</a></li>
+				</ul>
+				<%= link_to  "Delete", "#", :class=>"btn notification delete-selected"%>
+			</div>
+		</div>
+	</div>
+	<div id="crms_container">
+		<%= render :partial =>"crms/index"%>
+	</div>
+	<% end %>
+
+</div>
+</section>
+
+<div class="modal fade" id="send-to" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header model-head">
+				<button type="button" class="close close-1" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<span class="left-span">Send To</span>
+			</div>
+			<div class="modal-body">
+				<div class="form-group">
+					<label for="" class="col-sm-2 control-label ctrl-label ">Email</label>
+					<span class="col-sm-2 red-star error_send_to_email">Invalid</span>
+					<div class="col-sm-8">
+						<%= email_field_tag :send_to_email, "", :placeholder => "Enter Email address", :class=>"form-control"%>
+						<!-- <input type="email" class="form-control" id="" placeholder="Enter your Email"> -->
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer model-ftr">
+				<%=link_to "Send Email", "#", :class =>"btn notification", :id=> "crms_send_email_btn" %>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- enquiry modal -->
+<div class="modal fade" id="enquiry_detail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+ 	
+</div>

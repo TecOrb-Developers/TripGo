@@ -1,0 +1,64 @@
+<section class="inner">
+  <div class="container">
+    <div class="package-border">
+      <div class="content clearfix">
+        <div class="row">
+          <div class="col-md-9 col-sm-8 col-xs-12">
+            <h2 class="page-title">Add New Package</h2>
+            <h3 class="page-sub-title">Package  - Package Inclusions</h3>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="content clearfix">
+       <ul class="package-list">
+        <li ><span>Package Details</span></li>
+        <li><span >Transport</span></li>
+        <li><span >City Transport</span></li>
+        <li><span >Hotels</span></li>
+        <li><span >Meals</span></li>
+        <li><span >Sightseeing</span></li>
+        <li><span >Itinerary</span></li>
+        <li><span class="active">Other Inclusion</span></li>
+      </ul>
+      <div id="myTabContent" class="tab-content  content-tab">
+       <div class="tab-pane fade in active" id="other-inc">
+        <%=nested_form_for @inclusion,url: update_inclusion_path(@inclusion)  do |f| %>
+        <div class="row">
+          <div class="col-md-6 col-sm-8 col-xs-12 col-md-offset-1 col-sm-offset-1 col-xs-offset-0">
+            <div class="form-group">
+              <label for="exampleInputEmail1" class="form-label">Exclusions</label>
+              <%= f.text_area :exclusion,:class => "form-control input-box-1"%>
+              <span class="inclusion_exclusion_field error"></span> 
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1" class="form-label">Terms & Conditions<span class="red-star">*</span></label>
+              <%= f.text_area :conditions,:class => "form-control input-box-1"%>
+              <span class="inclusion_conditions_field error"></span> 
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1" class="form-label">Cancellation Policy<span class="red-star">*</span></label>
+              <%= f.text_area :cancallation_policy,:class => "form-control input-box-1"%>
+              <span class="inclusion_cancallation_policy_field error"></span> 
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1" class="form-label">Optional Extras<span class="red-star"></span></label>
+              <%= f.text_area :extra,:class => "form-control input-box-1"%>
+              <span class="inclusion_extra_field error"></span> 
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="package-action pkg-action_p">
+           <%= link_to 'Back',edit_itineraries_path(@inclusion.package),:class=>"btn red-btn save" %>
+           <%=f.submit "Submit",:class=>"btn red-default save submit_inclusion"%>
+         </div>
+       </div>
+       <%end%>
+     </div>
+   </div>
+ </div>
+</div>
+</div>
+</section>

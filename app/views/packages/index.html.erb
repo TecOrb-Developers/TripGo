@@ -1,0 +1,112 @@
+<section class="inner">
+	<div class="container">
+		<div class="row">
+			<div class="pull-right">
+				<span class="pending">Application Status <a href="#">Pending</a></span>	
+				<%= link_to "Notification & Offers",notifications_path ,:class=>"btn notification m-r-15"%>
+				
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-12">	
+				<div class="title-page-sec">
+					<div class="about-border">
+					</div>
+					<div class="page-title-text">
+						<span class="page-title-bg">My Package</span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="row crmfillter-s">
+			<div class="col-sm-6 col-md-6 col-xs-12">
+				<div class="filter-box">
+					<div class="col-md-12">
+						<div class="col-sm-8 col-md-8 col-xs-12">	
+							<div class="title">Filters</div>
+							<div class="form-group">
+								<div class="contain filterselect clearfix">
+									<%= select_tag :filter, options_for_select(User::FILTER_BY.map {|d| d.titleize}), {:class=> "contain ui dropdown", :id=> 'packages_filter_against'} %>
+									<label>Contains</label>
+									<%= text_field_tag :query_container, '',class: "contain", :id=> 'packages_filter_query' %>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-4 col-md-4 col-xs-12">	
+							<div class="form-action m-t-20">
+								<button class="btn red-default" type="button" id="packages_filter_submit_btn">Filter</button>
+								<button class="btn red-default" type="button" id="packages_filter_reset_btn">Clear filter</button>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6 col-md-6 col-xs-12 addnew-s">
+				<div class="pull-right">
+					<%=link_to "Add New",new_package_path,:class=>"btn notification" %>
+				</div>
+
+			</div>
+
+		</div>
+		
+		<div id="packages_container">
+			<%= render 'packages/index' %>
+		<div>
+	</div>
+</section>
+<div class="modal fade" id="copy-list" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header model-head">
+				<button type="button" class="close close-1" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<span class="left-span">Copy List</span>
+			</div>
+			<div class="modal-body">
+				<p>Are you sure you want to copy the list?</p>
+			</div>
+			<div class="modal-footer model-ftr">
+				<div class="package-action pkg-action_p">
+					<button type="submit" class="btn red-btn save">Copy</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+<!-- <div class="form-group">
+	<input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+</div> -->
+
+
+<script type="text/javascript">
+
+$('#packages_filter_submit_btn').click(function(){
+	filter_against = $('#packages_filter_against').val();
+	filter_query = $('#packages_filter_query').val();
+	$.ajax({
+		type: "GEt",
+		url: "/packages-filter",
+		data:{ filter_against: filter_against, filter_query: filter_query, page: 1},
+		dataType: "script",
+		success:function(data){         
+			alertify.success('Filteration completed.');                 
+		},
+		error: function() {
+			alertify.error('Somethind went wrong. Please try again.');    
+		}
+	});
+});
+
+$("#packages_filter_reset_btn").click(function(){
+	$('#packages_filter_query').val('');
+	alertify.success('Reset field completed.');    
+});
+
+
+</script>
+

@@ -1,0 +1,707 @@
+<section id="main-sec">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12">
+				<ol class="breadcrumb brd-crumb">
+					<li><a href="<%=root_url%>">Home</a></li>
+					<li class="active">Comparision Bucket</li>
+				</ol>	
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="com-title">
+					<p>Comparison Bucket</P>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row div-gap">
+				<div class="col-sm-9 col-md-10">
+					<div class="com-text">
+						<p>Compare holiday’s side by side to choose the best suited one for you</P>
+						</div>
+					</div>
+					<div class="col-sm-3 col-md-2">
+						<div class="com-add-btn">
+							<!-- <button type="button" class="btn default-red" ><span>
+								<img src="/assets/plus.png"/></span>Add Package
+							</button> -->		
+              <!-- <span class="crms-status"> Add Package</span>
+              <span class="caret"></span> -->
+
+              <div class="dropdown">
+              	<a class="dropdown-toggle" type="button" id="dm_1" data-toggle="dropdown" aria-expanded="true" />
+              	<button type="button" class="btn default-red" ><span>
+              		<img src="/assets/plus.png"/></span>Add Package
+              	</button>
+              </a>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="dm_1">
+              	<li role="presentation"><a role="menuitem" tabindex="-1" href="<%=root_path%>">Dashboard</a>
+              	</li>
+              	<li role="presentation"><a role="menuitem" tabindex="-1" href="<%=wishlist_path%>">Wishlist</a>
+              	</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row div-gap">
+      	<div class="com-main-content">
+      		<div class="row">
+      			<div class="col-sm-3">
+      				<div class="com-bucket-text">
+      					<p>Comparing <%=@packages.count%> packages</p>
+      					<p>Found the Right One?</p>
+      				</div>
+      			</div>
+      			<%@packages.each do |package|%>
+      			<div class="col-sm-3 ">
+      				<div class="com-bucket-imgdata">
+      					<div class="com-icons clearfix">
+      						<span class="close-icon">
+      							<a href="#" class="session-data" data-type="add-to-compare" data-package-id="<%= package.id%>" data-signed_in="<%= user_signed_in? ? 'true' : 'false'%>" data-in-comparelist= 'true'>
+      								<img src="/assets/com_close.png">
+      							</a>
+      						</span>
+      						<% unless package.is_in_wishlist == true%>
+      						<span class="wish-icon">
+      							<a href="#" class="add-wishlist-in-compare" data-package-id="<%= package.id%>">
+      							<!-- <a href="#"> -->
+      								<img src="/assets/com_wish.png">
+      							</a>
+      						</span>
+      						<% end %>
+      					</div>
+      					<div class="img-box">
+      						<%=image_tag package.pictures.first.image.url,:width => 262,:height => 206%>
+      					</div>
+      					<div class="com-content clearfix">
+      						<div class="com-content-data">
+      							<span class="com-content-text"><%=package.itinerary_name%></span>
+      							<span class="com-content-img" onclick = "javascript: alertify.success('Work under progress');"><a href="#"><img src="/assets/com_heart.png"></a></span>
+      						</div>
+      						<div class="com-content-data clearfix">
+      							<span class="com-content-text"><%=package.cities.last.city_name%></span>
+      							<span class="com-content-img"></span>
+      						</div>
+      						<div class="com-content-data clearfix">
+      							<span class="com-content-text"><%=duration_of package%></span>
+      							<span class="com-content-img" onclick = "javascript: alertify.success('Work under progress');"><a href="#"><img src="/assets/com_sea.png"></a></span>
+      						</div>
+      					</div>
+      					<div class="btn-enq">
+      						<button type="button" class="btn default-red "><span><img src="/assets/enquiry.png"/></span>Enquire</button>
+      					</div>
+      				</div>
+      			</div>
+      			<%end%>
+      		</div>
+
+      		<div class="row div-gap">
+      			<div class="col-sm-3">
+      				<div class="">				
+      					<p class="offer-text1">&nbsp;</p>			
+      				</div>
+      			</div>
+      			<% @packages.each do |package|%>
+      			<div class="col-sm-3">
+      				<div class="offer1">				
+      					<p class="offer-text1"><%= package.itinerary_name.titleize%></p>			
+      				</div>
+      			</div>
+      			<% end %>
+      		</div>
+
+      		<!-- accordion starts here -->
+      		<div class="row div-gap">
+      			<div class="panel-group acc-panel" id="accordion" role="tablist" aria-multiselectable="true">
+
+      				<div class="panel panel-default acc-panel-detail">
+      					<div class="panel-heading acc-heading-com" role="tab" id="headingOne">
+      						<div class="acc-border"></div>
+      						<h4 class="panel-title acc-title-text">
+      							<a  class="collapsed" data-toggle="collapse" href="#collapseExample-001" aria-expanded="false" aria-controls="collapseExample-001">
+      								<span class="acc-title-bg"><span class="acc-img"><img src="/assets/com-pack.png"></span>
+      								<span class="up-down-arrow">Package details</span>
+      							</span>
+      						</a>
+
+								<!--	<a class="collapsed" aria-controls="collapseTwo" aria-expanded="false" href="#collapseTwo" 
+											data-parent="#accordion" data-toggle="collapse"> Groceries </a>									
+										-->
+									</h4>
+								</div>		
+								<div id="collapseExample-001" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+									<div class="panel-body">
+										<div class="row">
+											<div class="col-sm-3">
+												<div class="btn-block">
+													<span class="btn-block-icon"><img src="/assets/c_rupee.png"></span>
+													<span class="btn-block-text"> Price</span>
+												</div>
+												<div class="btn-block">
+													<span class="btn-block-icon"><img src="/assets/i_hotel.png"></span>
+													<span class="btn-block-text"> Hotel Rating</span>
+												</div>
+												<div class="btn-block">
+													<span class="btn-block-icon"><img src="/assets/i_package.png"></span>
+													<span class="btn-block-text"> Package Rating</span>
+												</div>
+												<div class="btn-block">
+													<span class="btn-block-icon"><img src="/assets/i_travel2.png"></span>
+													<span class="btn-block-text"> Travel</span>
+												</div>
+												<div class="btn-block">
+													<span class="btn-block-icon"><img src="/assets/i_meal.png"></span>
+													<span class="btn-block-text"> Meals</span>
+												</div>
+												<div class="btn-block">
+													<span class="btn-block-icon"><img src="/assets/i_duration.png"></span>
+													<span class="btn-block-text"> Duration</span>
+												</div>
+												<div class="btn-block">
+													<span class="btn-block-icon"><img src="/assets/ic_sight.png"></span>
+													<span class="btn-block-text"> Sightseeing</span>
+												</div>
+											</div>
+
+											<% @packages.each do |package|%>
+											<div class="col-sm-3">
+												<div class="btn-block2">
+													<span class="btn-block-text"><%= price_of package%></span>
+												</div>
+												<div class="btn-block2">
+													<span class="btn-block-text">4.5</span>
+												</div>
+												<div class="btn-block2">
+													<span class="btn-block-text"> 4.5</span>
+												</div>
+												<div class="btn-block2">
+													<% package.transports.each do |transport|%>
+													<span class="btn-block-text"><a href="#">
+														<img src="/assets/<%= $transport_pngs_arr[transport.transport_mode]%>"></a>
+													</span>
+													<% end %>
+												</div>
+												<div class="btn-block2">
+													<span class="btn-block-text"><%= meal_type_in package%></span>
+												</div>
+												<div class="btn-block2">
+													<span class="btn-block-text"><%= duration_of package %></span>
+												</div>
+												<div class="btn-block2">
+													<span class="btn-block-text"><%= all_sight_scenes_in package%></span>
+												</div>
+											</div>
+											<% end %>
+										</div>
+									</div>
+								</div>
+							</div>
+							
+							<div class="panel panel-default acc-panel-detail">
+								<div class="panel-heading acc-heading-com" role="tab" id="headingTwo">
+									<div class="acc-border"></div>
+									<h4 class="panel-title acc-title-text">
+										<a class="collapsed" data-toggle="collapse" href="#collapseExample-002" aria-expanded="false" aria-controls="collapseExample-002">
+											<span class="acc-title-bg"><span class="acc-img"><img src="/assets/c_accom.png"></span><span>Accomodation</span></span>
+										</a>
+									</h4>
+								</div>
+								
+								<div id="collapseExample-002" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+									<div class="panel-body">
+										<div class="row">
+											<div class="col-sm-12">
+												<div class="dd-table table-responsive" >
+													<table class="dd-table-com" cellspacing="5" cellpadding="0">
+														<tr>
+															<% ii = 0%>
+															<td class="td-block1 td-view"> Hotel Name </td>
+															<%@packages.each_with_index do |package, index|%>
+															<td class="td-block2 td-view">
+																<%package.hotels.each_with_index do |hotel, inner_index|%>
+																<span class="table-text"> 
+																	<span class="table-text-left"><%= hotel.hotel_name.titleize%></span>
+																</span>
+																<% end %>
+															</td>
+															<% ii = index %>
+															<% end %>
+
+															<% until ii > 1%>
+															<td></td>
+															<% ii += 1%>
+															<% end %>
+														</tr>
+													</table>
+												</div>
+											</div>
+										</div>
+
+										<div class="row">
+											<div class="col-sm-12">
+												<div class="dd-table table-responsive" >
+													<table class="dd-table-com"  cellspacing="5" cellpadding="0">
+														<tr>
+															<td class="td-block1 td-view"> Hotel Star Rating </td>
+															<% ii = 0%>
+															<%@packages.each_with_index do |package, index|%>
+															<td class="td-block2 td-view">
+																<%package.hotels.each_with_index do |hotel, inner_index|%>
+																<span class="table-text"> 
+																	<span class="table-text-left"><%= hotel.rating.titleize%></span>
+																</span>
+																<% end %>
+															</td>
+															<% ii = index %>
+															<% end %>
+
+															<% until ii > 1%>
+															<td></td>
+															<% ii += 1%>
+															<% end %>
+														</tr>
+													</table>
+												</div>
+											</div>
+										</div>
+
+
+
+										<div class="row">
+											<div class="col-sm-12">
+												<div class="dd-table table-responsive" >
+													<table class="dd-table-com"  cellspacing="5" cellpadding="0">
+														<tr>
+															<td class="td-block1 td-view"> Hotel Amenities <span data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample" class="dd-arrow"><a href="#"><img src="/assets/dd_arr.png"></a></span></td>
+															<% ii = 0%>
+															<%@packages.each_with_index do |package, index|%>
+															<td class="td-block2 td-view">
+																<span> 
+																	<span class="table-text-left"><%=package.hotels.first.hotel_name unless package.hotels.blank?%></span>
+																</span>
+															</td>
+															<% ii = index %>
+															<% end %>
+
+															<% until ii > 1%>
+															<td></td>
+															<% ii += 1%>
+															<% end %>
+														</tr>
+													</table>
+													<div class="collapse dd-inner-data" id="collapseExample">
+														<table class="dd-table-com"  cellspacing="5" cellpadding="0">
+															<tr>
+																<td class="td-block4 td-view">  </td>
+																<% ii = 0%>
+																<%@packages.each_with_index do |package, index|%>
+																<td class="td-block2 td-view">
+																	<% package.hotels.each do |hotel|%>
+																	<span class="table-text"> 
+																		<span class="table-text-left">
+																			<b><%= hotel.hotel_name %>: </b>
+																			<%= hotel.hotel_amenities.join(', ')%>
+																		</span>
+																	</span>
+																	<% end %>
+																</td>
+																<% ii = index %>
+																<% end %>
+
+																<% until ii > 1%>
+																<td></td>
+																<% ii += 1%>
+																<% end %>
+															</tr>
+														</table>
+													</div>
+												</div>
+
+											</div>
+										</div>
+
+										<div class="row">
+											<div class="col-sm-12">
+												<div class="dd-table table-responsive" >
+													<table class="dd-table-com"  cellspacing="5" cellpadding="0">
+														<tr>
+															<td class="td-block1 td-view"> Room Amenities <span data-toggle="collapse" href="#collapseExample1" aria-expanded="false" aria-controls="collapseExample1" class="dd-arrow"><a href="#"><img src="/assets/dd_arr.png"></a></span></td>
+															<% ii = 0%>
+															<%@packages.each_with_index do |package, index|%>
+															<td class="td-block2 td-view">
+																<span> 
+																	<span class="table-text-left"><%= package.hotels.first.room_type unless package.hotels.blank?%></span>
+																</span>
+															</td>
+															<% ii = index %>
+															<% end %>
+
+															<% until ii > 1%>
+															<td></td>
+															<% ii += 1%>
+															<% end %>
+														</tr>
+													</table>
+													<div class="collapse dd-inner-data" id="collapseExample1">
+														<table class="dd-table-com"  cellspacing="5" cellpadding="0">
+															<tr>
+																<td class="td-block4 td-view"> </td>
+																<% ii = 0%>
+																<%@packages.each_with_index do |package, index|%>
+																<td class="td-block2 td-view">
+																	
+																	<% package.hotels.each do |hotel|%>
+																	<span class= "table-text">
+																		<span class="table-text-left">
+																			<b><%= hotel.room_type %>: </b>
+																			<%= hotel.room_amenities.join(', ')%>
+																		</span>
+																	</span>
+																	<% end %>
+																</td>
+																<% ii = index %>
+																<% end %>
+
+																<% until ii > 1%>
+																<td></td>
+																<% ii += 1%>
+																<% end %>
+															</tr>
+														</table>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							
+							<div class="panel panel-default acc-panel-detail">
+								<div class="panel-heading acc-heading-com" role="tab" id="headingThree">
+									<div class="acc-border"></div>
+									<h4 class="panel-title acc-title-text">
+										<a class="collapsed" data-toggle="collapse" href="#collapseExample-003" aria-expanded="false" aria-controls="collapseExample-003">
+											<span class="acc-title-bg">Itinerary </span>
+										</a>
+									</h4>
+								</div>
+								
+								<div id="collapseExample-003" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+									<div class="panel-body">
+										<div class="row">
+											<div class="col-sm-12">
+												<div class="dd-table table-responsive" >
+													<table class="dd-table-com"  cellspacing="5" cellpadding="0">
+														<tr>
+															<td class="td-block1 td-view"> Itinerary </td>
+															<% ii = 0%>
+															<%@packages.each_with_index do |package, index|%>
+															<td class="td-block2 td-view">
+																<%package.itineraries.each_with_index do |itinerary, inner_index|%>
+																<span class="table-text"> 
+																	<span class="table-text-left"><%= itinerary.description%></span>
+																</span>
+																<% end %>
+															</td>
+															<% ii = index %>
+															<% end %>
+
+															<% until ii > 1%>
+															<td></td>
+															<% ii += 1%>
+															<% end %>
+														</tr>
+													</table>
+												</div>
+											</div>
+										</div>
+
+									</div>
+								</div>
+							</div>
+							
+							<div class="panel panel-default acc-panel-detail">
+								<div class="panel-heading acc-heading-com" role="tab" id="headingFour">
+									<div class="acc-border"></div>
+									<h4 class="panel-title acc-title-text">
+										<a class="collapsed" data-toggle="collapse" href="#collapseExample-004" aria-expanded="false" aria-controls="collapseExample-004">
+											<span class="acc-title-bg"><span class="acc-img"><img src="/assets/c_tavel.png"></span><span>Travel Details</span></span>
+										</a>
+									</h4>
+								</div>
+								
+								<div id="collapseExample-004" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+									<div class="panel-body">
+										<div class="row">
+											<div class="col-sm-12">
+												<div class="dd-table table-responsive" >
+													<table class="dd-table-com"  cellspacing="5" cellpadding="0">
+														<tr>
+															<td class="td-block1 td-view"> Intercity Travel </td>
+															<% ii = 0%>
+															<%@packages.each_with_index do |package, index|%>
+															<td class="td-block2 td-view">
+																<%package.city_transports.each_with_index do |city_transport, inner_index|%>
+																<span class="table-text"> 
+																	<span class="table-text-left"><%= city_transport.city_transpotation.titleize if city_transport.city_transpotation %></span>
+																</span>
+																<% end %>
+															</td>
+															<% ii = index %>
+															<% end %>
+
+															<% until ii > 1%>
+															<td></td>
+															<% ii += 1%>
+															<% end %>
+														</tr>
+													</table>
+												</div>
+											</div>
+										</div>
+
+										<div class="row">
+											<div class="col-sm-12">
+												<div class="dd-table table-responsive" >
+													<table class="dd-table-com"  cellspacing="5" cellpadding="0">
+														<tr>
+															<td class="td-block1 td-view"> Transfer From <span data-toggle="collapse" href="#collapseExample3" aria-expanded="false" aria-controls="collapseExample3" class="dd-arrow"><a href="#"><img src="/assets/dd_arr.png"></a></span></td>
+															<% ii = 0%>
+															<%@packages.each_with_index do |package, index|%>
+															<td class="td-block2 td-view">
+																<span> 
+																	<span class="table-text-left"><%= package.transports.first.transfer_section%></span>
+																</span>
+															</td>
+															<% ii = index %>
+															<% end %>
+
+															<% until ii > 1%>
+															<td></td>
+															<% ii += 1%>
+															<% end %>
+														</tr>
+													</table>
+
+													<div class="collapse dd-inner-data" id="collapseExample3">
+														<table class="dd-table-com"  cellspacing="5" cellpadding="0">
+															<tr>
+																<td class="td-block4 td-view"> </td>
+																<% ii = 0%>
+																<%@packages.each_with_index do |package, index|%>
+																<td class="td-block2 td-view">
+																	<% package.transports.each do |transport|%>
+																	<span class="table-text"> 
+																		<span class="table-text-left">
+																		<b><%= transport.transfer_section.titleize if transport.transfer_section%>: </b>
+																			<%= transport.transfer_mode %>
+																		</span>
+																	</span>
+																	<% end %>
+																</td>
+																<% ii = index %>
+																<% end %>
+
+																<% until ii > 1%>
+																<td></td>
+																<% ii += 1%>
+																<% end %>
+															</tr>
+														</table>
+													</div>
+												</div>
+											</div>
+										</div>
+
+									</div>
+								</div>
+							</div>
+							
+							<div class="panel panel-default acc-panel-detail">
+								<div class="panel-heading acc-heading-com" role="tab" id="headingFive">
+									<div class="acc-border"></div>
+									<h4 class="panel-title acc-title-text">
+										<a class="collapsed" data-toggle="collapse" href="#collapseExample-005" aria-expanded="false" aria-controls="collapseExample-005">
+											<span class="acc-title-bg"><span class="acc-img"><img src="/assets/c_sight.png"></span><span>Sightseeing</span></span>
+										</a>
+									</h4>
+								</div>
+								<div id="collapseExample-005" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive">
+									<div class="panel-body">
+										<div class="row">
+											<div class="col-sm-3">
+												<div class="btn-block">
+													<span class="btn-block-icon"><img src="/assets/c_sight2.png"></span>
+													<span class="btn-block-text"> Sightseeing</span>
+												</div>
+											</div>
+											<% @packages.each do |package|%>
+											<div class="col-sm-3">
+												<div class="btn-block2">
+													<span class="btn-block-text"><%= all_sight_scenes_in package%></span>
+												</div>
+											</div>
+											<% end %>
+										</div>
+									</div>
+								</div>
+							</div>
+							
+							<div class="panel panel-default acc-panel-detail">
+								<div class="panel-heading acc-heading-com" role="tab" id="headingSix">
+									<div class="acc-border"></div>
+									<h4 class="panel-title acc-title-text">
+										<a class="collapsed" data-toggle="collapse" href="#collapseExample-006" aria-expanded="false" aria-controls="collapseExample-006">
+											<span class="acc-title-bg"><span class="acc-img"><img src="/assets/c_operator.png"></span><span>Operation Details</span></span>
+										</a>
+									</h4>
+								</div>
+								
+								<div id="collapseExample-006" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSix">
+									<div class="panel-body">
+										<div class="row">
+											<div class="col-sm-3">
+												<div class="btn-block">
+													
+													<span class="btn-block-text"> Operator Name</span>
+												</div>
+												<div class="btn-block">
+													
+													<span class="btn-block-text"> Logo</span>
+												</div>
+												<div class="btn-block">
+													
+													<span class="btn-block-text"> Operation Since</span>
+												</div>
+												<div class="btn-block">
+													
+													<span class="btn-block-text"> Branch Location</span>
+												</div>
+												<div class="btn-block">
+													
+													<span class="btn-block-text"> Awards</span>
+												</div>
+												
+											</div>
+											<% @packages.each do |package|%>
+											<% profile = operator_profile_of package%>
+											<div class="col-sm-3">
+												<div class="btn-block2">
+													<span class="btn-block-text"><a href="#"><%= operator_name_of package%></a></span>
+												</div>
+												<div class="btn-block2">
+													<span class="btn-block-text"><a href="#">
+													<% if package.user.profile.logo.url%>
+														<%=image_tag package.user.profile.logo.url(:logo) unless package.user.profile.nil?%>
+														<%end%>
+													</a>
+												</span>
+											</div>
+											<div class="btn-block2">
+												<span class="btn-block-text"> <%= operator_since package%></span>
+											</div>
+											<div class="btn-block2">
+												<span class="btn-block-text"><%= profile.branch_location.titleize%></span>
+											</div>
+											<div class="btn-block2">
+												<span class="btn-block-text"><%= profile.awards.titleize%></span>
+											</div>
+										</div>
+										<% end %>				
+									</div>
+
+								</div>
+							</div>
+						</div>
+
+<!-- 						<div class="panel panel-default acc-panel-detail">
+							<div class="panel-heading acc-heading-com" role="tab" id="headingSeven">
+								<div class="acc-border"></div>
+								<h4 class="panel-title acc-title-text">
+									<a class="collapsed" data-toggle="collapse" href="#collapseExample-007" aria-expanded="false" aria-controls="collapseExample-007">
+										<span class="acc-title-bg">Must Read </span>
+									</a>
+								</h4>
+							</div>
+
+							<div id="collapseExample-007" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSeven">
+								<div class="panel-body">
+									<div class="row">
+										<div class="col-sm-3">
+											<div class="btn-block">
+
+												<span class="btn-block-text">Package  Review	</span>
+											</div>
+											<div class="btn-block">
+
+												<span class="btn-block-text"> What to Watch Out For</span>
+											</div>
+											<div class="btn-block">
+
+												<span class="btn-block-text"> Highlights</span>
+											</div>
+											<div class="btn-block">
+
+												<span class="btn-block-text"> Exclusions</span>
+											</div>
+											<div class="btn-block">
+
+												<span class="btn-block-text"> T & C</span>
+											</div>
+
+										</div>
+										<% @packages.each do |package|%>
+										<% inclusion = get_inclusion_of package%>
+										<div class="col-sm-3">
+											<div class="btn-block2">
+												<span class="btn-block-text">Lorem Ipsum is simply dummy text</span>
+											</div>
+											<div class="btn-block2">
+												<span class="btn-block-text">Package 1</span>
+											</div>
+											<div class="btn-block2">
+												<span class="btn-block-text"> Lorem Ipsum</span>
+											</div>
+											<div class="btn-block2">
+												<span class="btn-block-text"><%= inclusion.exclusion%></span>
+											</div>
+											<div class="btn-block2">
+												<span class="btn-block-text"><%= inclusion.conditions%></span>
+											</div>
+										</div>
+										<% end %>
+									</div>
+
+								</div>
+							</div>
+						</div> -->
+
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+</section>
+
+<!--ends here-->
+
+
+<script type="text/javascript">
+
+// dropdown in crm
+$('.dropdown').hover(function(e) {
+	e.preventDefault();
+	$(this).find('.dropdown-menu').first().stop(true, true).delay(250).slideDown();
+}, function() {
+	$(this).find('.dropdown-menu').first().stop(true, true).delay(100).slideUp()
+});
+
+
+</script>

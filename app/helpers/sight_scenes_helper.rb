@@ -1,0 +1,2 @@
+module SightScenesHelper
+end

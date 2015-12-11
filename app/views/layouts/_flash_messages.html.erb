@@ -1,0 +1,12 @@
+<div class="flash_container">
+  <div id="messages">
+    <div class="message-container">
+      <% flash.each_with_index do |(k,v),i| %>
+          <div id="message-<%= i %>" class="actual-message_alert-<%= k.to_s.sub('_stay', '') %>">
+              <a class="close" data-dismiss="alert" style="float:right">x</a>
+              <%= raw v %>
+          </div>
+      <% end %>
+    </div>
+  </div>
+</div>

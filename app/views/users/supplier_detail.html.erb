@@ -1,0 +1,662 @@
+<!-- start here -->
+	<section id="main-sec">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12">
+					<ol class="breadcrumb brd-crumb">
+					  <li><a href="<%=root_url%>">Home</a></li>
+					  <li class="active">Supplier Details</li>
+					</ol>	
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-3 col-xs-12 col-lg-3">
+					<div class="supplier-sec">
+						<div class="supplier-img ">
+							<%=image_tag @supplier.profile.logo.url(:big_logo) unless @supplier.profile.logo.url.nil?%>
+							<table class="table table-bordered">
+							  <thead>
+								<tr>
+								  <th class="table-head-con" colspan="2"><%=@supplier.name%></th>
+								</tr>
+							  </thead>
+							  <tbody>
+								<tr>
+								  <td scope="row">Based Out</td>
+								  <td><%=@supplier_profile.based_out_of%></td>
+								</tr>
+								<tr>
+								  <td scope="row">Branch Location</td>
+								  <td><%=@supplier_profile.branch_location%></td>
+								</tr>
+								<tr>
+								  <td scope="row">website</td>
+								  <td><%=@supplier_profile.website_name%></td>
+								</tr>
+								<tr>
+								  <td scope="row">Email</td>
+								  <td><%=@supplier.email.split('@').join(' @')%></td>
+								</tr>
+								<tr>
+								  <td scope="row">Phone No.</td>
+								  <td><%=@supplier.contact_no%></td>
+								</tr>
+								<tr>
+								  <td scope="row">IATA Reference</td>
+								  <td><%=@supplier_profile.travel_association_reference_no%></td>
+								</tr>
+								<tr>
+								  <td scope="row">Operating Since </td>
+								  <td> 1990</td>
+								</tr>
+								<tr>
+								  <td scope="row">Awards/ Special Mention</td>
+								  <td> <%=@supplier_profile.awards%> </td>
+								</tr>
+							  </tbody>
+							</table>
+						</div>
+					</div>
+					<div class="word-tag">
+						<h5>We Specialise in:</h5>
+						<%@supplier_profile.tour_locations.split(',').each do |l|%>
+							<a><%=l%></a>
+						<%end%>
+
+					
+					</div>
+				</div>
+				<div class="col-md-9 col-xs-12 col-lg-9 ">
+					<div class="container-fluid">
+						<div class="sec-2 clearfix">
+							<div class="supplier-head clearfix">
+								<div class="col-md-6 col-xs-4 col-sm-6">
+									<div class="supp-head">About Expedia</div>
+								</div>
+								<div class="col-md-6 col-xs-8 col-sm-6">	
+									<span class="follow-icon">
+										<ul class="nav nav-pills nav-stacked">
+										<%unless @supplier_profile.fb_profile_page.empty?%>
+										<li class="fb-icon"><a href="<%=@supplier_profile.fb_profile_page%>">fb</a></li>
+										<%end%>
+
+										<%unless @supplier_profile.ln_profile_page.empty?%>
+											<li class="linkedin-icon"><a href="<%=@supplier_profile.ln_profile_page%>">ln</a></li>
+										<%end%>
+
+										<%unless @supplier_profile.twitter_profile_page.empty?%>
+										<li class="twitter-icon"><a href="<%=@supplier_profile.twitter_profile_page%>">tw</a></li>
+										<%end%>
+										</ul>
+									</span>
+								</div>
+							</div>
+							<div class="supplier-text">
+							<%=@supplier_profile.about_us%>
+							</div>
+							
+							<div role="tabpanel clearfix">
+								  <!-- Nav tabs -->
+								<ul id="myTab" class="nav nav-tabs sec-tabs" role="tablist">
+									  <li role="presentation" class="active"><a href="#home" id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">Destination Type</a></li>
+									  <li class="" role="presentation"><a aria-expanded="false" href="#profile" role="tab" id="Holiday-tab" data-toggle="tab" aria-controls="Holiday ">Holiday Catagories</a></li>
+									   <li class="" role="presentation"><a aria-expanded="false" href="#review" role="tab" id="Review" data-toggle="tab" aria-controls="Review">Review</a></li>
+									 
+								</ul>
+								<div id="myTabContent" class="tab-content clearfix">
+									<div role="tabpanel" class="tab-pane fade active in tab-panel" id="home" aria-labelledby="home-tab">
+									<%unless @beaches_packages.blank? %>
+										<div class="row">
+											<div class="col-md-12">	
+												<div class="inner-sec1">
+													<div class="title-line1">
+														Beaches
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="pack-detail">
+											<span class="left-sp">
+													<span><img src="/assets/rsz_beaches.png">  Beaches</span>
+											</span>
+											<span class="right-sp">
+													<span> <%=@beaches_packages.total_entries%>Packages</span>
+											</span>	
+										</div>
+									<div id="beaches">
+									<%= render :partial => 'users/catagory_wise_packages', :locals => { :packages => @beaches_packages, :category => 'Beaches' }%>
+										<% unless @beaches_packages.current_page == @beaches_packages.total_pages %>
+  										<p id="show-more-beaches">
+    									<%= link_to('Show More', more_packages_path(category: 'Beaches',type:'destination',page: @beaches_packages.current_page + 1),:class=>"btn red-btn") %>
+  										</p>
+									<% end %>
+									</div>
+									<%end%>
+
+									<%unless @deserts_packages.blank? %>
+									<div class="row">
+											<div class="col-md-12">	
+												<div class="inner-sec1">
+													<div class="title-line1">
+														Deserts
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="pack-detail">
+											<span class="left-sp">
+													<span><img src="/assets/rsz_deserts.png">  Deserts</span>
+											</span>
+											<span class="right-sp">
+													<span> <%=@deserts_packages.total_entries%>Packages</span>
+											</span>	
+										</div>
+									<div id="deserts">
+									<%= render :partial => 'users/catagory_wise_packages', :locals => { :packages => @deserts_packages, :category => 'Deserts' }%>
+									<% unless @deserts_packages.current_page == @deserts_packages.total_pages %>
+  										<p id="show-more-deserts">
+    									<%= link_to('Show More', more_packages_path(category: 'Deserts',type:'destination',page: @deserts_packages.current_page + 1),:class=>"btn red-btn") %>
+  										</p>
+									<% end %>
+									</div>
+									<%end%>
+
+									<%unless @hills_valleys_packages.blank? %>
+									<div class="row">
+											<div class="col-md-12">	
+												<div class="inner-sec1">
+													<div class="title-line1">
+														Hills and Valleys
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="pack-detail">
+											<span class="left-sp">
+													<span><img src="/assets/rsz_hills.png">  Hills and Valleys</span>
+											</span>
+											<span class="right-sp">
+													<span> <%=@hills_valleys_packages.total_entries%>Packages</span>
+											</span>	
+										</div>
+									<div id="hills_and_valleys">
+									<%= render :partial => 'users/catagory_wise_packages', :locals => { :packages => @hills_valleys_packages, :category => 'Hills and Valleys' }%>
+									<% unless @hills_valleys_packages.current_page == @hills_valleys_packages.total_pages %>
+  										<p id="show-more-hills_and_valleys">
+    									<%= link_to('Show More', more_packages_path(category: 'Hills and Valleys',type:'destination',page: @hills_valleys_packages.current_page + 1),:class=>"btn red-btn") %>
+  										</p>
+									<% end %>
+									</div>
+									<%end%>
+
+									<%unless @river_lakes_packages.blank? %>
+									<div class="row">
+											<div class="col-md-12">	
+												<div class="inner-sec1">
+													<div class="title-line1">
+														Rivers and Lakes
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="pack-detail">
+											<span class="left-sp">
+													<span><img src="/assets/rsz_rivers.png">  Rivers and Lakes</span>
+											</span>
+											<span class="right-sp">
+													<span> <%=@river_lakes_packages.total_entries%>Packages</span>
+											</span>	
+										</div>
+									<div id="river_and_lakes">
+									<%= render :partial => 'users/catagory_wise_packages', :locals => { :packages => @river_lakes_packages, :category => 'Rivers and Lakes' }%>
+									<% unless @river_lakes_packages.current_page == @river_lakes_packages.total_pages %>
+  										<p id="show-more-river_and_lakes">
+    									<%= link_to('Show More', more_packages_path(category: 'Rivers and Lakes',type:'destination',page: @river_lakes_packages.current_page + 1),:class=>"btn red-btn") %>
+  										</p>
+									<% end %>
+									</div>
+									<%end%>
+
+									<%unless @wildlife_packages.blank? %>
+									<div class="row">
+											<div class="col-md-12">	
+												<div class="inner-sec1">
+													<div class="title-line1">
+														Wildlife
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="pack-detail">
+											<span class="left-sp">
+													<span><img src="/assets/rsz_wildlife.png">  Wildlife</span>
+											</span>
+											<span class="right-sp">
+													<span> <%=@wildlife_packages.total_entries%>Packages</span>
+											</span>	
+										</div>
+									<div id="wildlife">
+									<%= render :partial => 'users/catagory_wise_packages', :locals => { :packages => @wildlife_packages, :category => 'Wildlife'}%>
+									<% unless @wildlife_packages.current_page == @wildlife_packages.total_pages %>
+  										<p id="show-more-wildlife">
+    									<%= link_to('Show More', more_packages_path(category: 'Wildlife',type:'destination',page: @wildlife_packages.current_page + 1),:class=>"btn red-btn") %>
+  										</p>
+									<% end %>
+									</div>
+									<%end%>
+
+									<%unless @religious_packages.blank? %>
+									<div class="row">
+											<div class="col-md-12">	
+												<div class="inner-sec1">
+													<div class="title-line1">
+														Religious
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="pack-detail">
+											<span class="left-sp">
+													<span><img src="/assets/rsz_religious.png">  Religious</span>
+											</span>
+											<span class="right-sp">
+													<span> <%=@religious_packages.total_entries%>Packages</span>
+											</span>	
+										</div>
+									<div id="religious">
+									<%= render :partial => 'users/catagory_wise_packages', :locals => { :packages => @religious_packages, :category => 'Religious'}%>
+									<% unless @religious_packages.current_page == @religious_packages.total_pages %>
+  										<p id="show-more-religious">
+    									<%= link_to('Show More', more_packages_path(category: 'Religious',type:'destination',page: @religious_packages.current_page + 1),:class=>"btn red-btn") %>
+  										</p>
+									<% end %>
+									</div>
+									<%end%>
+
+									<%unless @heritage_packages.blank? %>
+										<div class="row">
+											<div class="col-md-12">	
+												<div class="inner-sec1">
+													<div class="title-line1">
+														Heritage
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="pack-detail">
+											<span class="left-sp">
+													<span><img src="/assets/rsz_heritage.png">  Heritage</span>
+											</span>
+											<span class="right-sp">
+													<span> <%=@heritage_packages.total_entries%>Packages</span>
+											</span>	
+										</div>
+									<div id="heritage">
+									<%= render :partial => 'users/catagory_wise_packages', :locals => { :packages => @heritage_packages, :category => 'Heritage'}%>
+
+									<% unless @heritage_packages.current_page == @heritage_packages.total_pages %>
+  										<p id="show-more-heritage">
+    									<%= link_to('Show More', more_packages_path(category: 'Heritage',type:'destination',page: @heritage_packages.current_page + 1),:class=>"btn red-btn") %>
+  										</p>
+									<% end %>
+									</div>
+									<%end%>
+
+										<div class="gap clearfix"></div>
+								    
+								    </div>
+
+
+
+								<!-- Holidays types starts here --> 
+
+
+								  <div role="tabpanel" class="tab-pane fade" id="profile" aria-labelledby="profile-tab">
+								  <%unless @romantic_packages.blank? %>
+										<div class="row">
+											<div class="col-md-12">	
+												<div class="inner-sec1">
+													<div class="title-line1">
+														Romantic
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="pack-detail">
+											<span class="left-sp">
+													<span><img src="/assets/herticon.png"> Romantic</span>
+											</span>
+											<span class="right-sp">
+													<span> <%=@romantic_packages.total_entries%>Packages</span>
+											</span>	
+										</div>
+									<div id="romantic">
+									<%= render :partial => 'users/catagory_wise_packages', :locals => { :packages => @romantic_packages, :category => 'Romantic'}%>
+
+									<% unless @romantic_packages.current_page == @romantic_packages.total_pages %>
+  										<p id="show-more-romantic">
+    									<%= link_to('Show More', more_packages_path(category: 'Romantic',type:'holiday', page: @romantic_packages.current_page + 1),:class=>"btn red-btn") %>
+  										</p>
+									<% end %>
+									</div>
+									<%end%>
+
+									<%unless @spa_wellness_packages.blank? %>
+										<div class="row">
+											<div class="col-md-12">	
+												<div class="inner-sec1">
+													<div class="title-line1">
+														Spa and Wellness
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="pack-detail">
+											<span class="left-sp">
+													<span><img src="/assets/rsz_spa.png"> Spa and Wellness</span>
+											</span>
+											<span class="right-sp">
+													<span> <%=@spa_wellness_packages.total_entries%>Packages</span>
+											</span>	
+										</div>
+									<div id="spa_and_wellness">
+									<%= render :partial => 'users/catagory_wise_packages', :locals => { :packages => @spa_wellness_packages, :category => 'Spa and Wellness'}%>
+
+									<% unless @spa_wellness_packages.current_page == @spa_wellness_packages.total_pages %>
+  										<p id="show-more-spa_and_wellness">
+    									<%= link_to('Show More', more_packages_path(category: 'Spa and Wellness',type:'holiday', page: @spa_wellness_packages.current_page + 1),:class=>"btn red-btn") %>
+  										</p>
+									<% end %>
+									</div>
+									<%end%>
+
+									<%unless @family_packages.blank? %>
+										<div class="row">
+											<div class="col-md-12">	
+												<div class="inner-sec1">
+													<div class="title-line1">
+														Family
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="pack-detail">
+											<span class="left-sp">
+													<span><img src="/assets/rsz_family.png"> Family</span>
+											</span>
+											<span class="right-sp">
+													<span> <%=@family_packages.total_entries%>Packages</span>
+											</span>	
+										</div>
+									<div id="family">
+									<%= render :partial => 'users/catagory_wise_packages', :locals => { :packages => @family_packages, :category => 'Family'}%>
+
+									<% unless @family_packages.current_page == @family_packages.total_pages %>
+  										<p id="show-more-family">
+    									<%= link_to('Show More', more_packages_path(category: 'Family',type:'holiday', page: @family_packages.current_page + 1),:class=>"btn red-btn") %>
+  										</p>
+									<% end %>
+									</div>
+									<%end%>
+
+									<%unless @budget_packages.blank? %>
+										<div class="row">
+											<div class="col-md-12">	
+												<div class="inner-sec1">
+													<div class="title-line1">
+														Budget
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="pack-detail">
+											<span class="left-sp">
+													<span><img src="/assets/rsz_budget.png"> Budget</span>
+											</span>
+											<span class="right-sp">
+													<span> <%=@budget_packages.total_entries%>Packages</span>
+											</span>	
+										</div>
+									<div id="budget">
+									<%= render :partial => 'users/catagory_wise_packages', :locals => { :packages => @budget_packages, :category => 'Budget'}%>
+
+									<% unless @budget_packages.current_page == @budget_packages.total_pages %>
+  										<p id="show-more-budget">
+    									<%= link_to('Show More', more_packages_path(category: 'Budget',type:'holiday', page: @budget_packages.current_page + 1),:class=>"btn red-btn") %>
+  										</p>
+									<% end %>
+									</div>
+									<%end%>
+
+									<%unless @adventure_packages.blank? %>
+										<div class="row">
+											<div class="col-md-12">	
+												<div class="inner-sec1">
+													<div class="title-line1">
+														Adventure
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="pack-detail">
+											<span class="left-sp">
+													<span><img src="/assets/rsz_adventure.png"> Adventure</span>
+											</span>
+											<span class="right-sp">
+													<span> <%=@adventure_packages.total_entries%>Packages</span>
+											</span>	
+										</div>
+									<div id="adventure">
+									<%= render :partial => 'users/catagory_wise_packages', :locals => { :packages => @adventure_packages, :category => 'Adventure'}%>
+
+									<% unless @adventure_packages.current_page == @adventure_packages.total_pages %>
+  										<p id="show-more-adventure">
+    									<%= link_to('Show More', more_packages_path(category: 'Adventure',type:'holiday', page: @adventure_packages.current_page + 1),:class=>"btn red-btn") %>
+  										</p>
+									<% end %>
+									</div>
+									<%end%>
+
+									<%unless @luxury_packages.blank? %>
+										<div class="row">
+											<div class="col-md-12">	
+												<div class="inner-sec1">
+													<div class="title-line1">
+														Luxury
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="pack-detail">
+											<span class="left-sp">
+													<span><img src="/assets/rsz_luxury.png"> Luxury</span>
+											</span>
+											<span class="right-sp">
+													<span> <%=@luxury_packages.total_entries%>Packages</span>
+											</span>	
+										</div>
+									<div id="luxury">
+									<%= render :partial => 'users/catagory_wise_packages', :locals => { :packages => @luxury_packages, :category => 'Luxury'}%>
+
+									<% unless @luxury_packages.current_page == @luxury_packages.total_pages %>
+  										<p id="show-more-luxury">
+    									<%= link_to('Show More', more_packages_path(category: 'Luxury',type:'holiday', page: @luxury_packages.current_page + 1),:class=>"btn red-btn") %>
+  										</p>
+									<% end %>
+									</div>
+									<%end%>
+
+									<%unless @food_drinks_packages.blank? %>
+										<div class="row">
+											<div class="col-md-12">	
+												<div class="inner-sec1">
+													<div class="title-line1">
+														Food and Drinks
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="pack-detail">
+											<span class="left-sp">
+													<span><img src="/assets/rsz_fastfood.png"> Food and Drinks</span>
+											</span>
+											<span class="right-sp">
+													<span> <%=@food_drinks_packages.total_entries%>Packages</span>
+											</span>	
+										</div>
+									<div id="food_and_drinks">
+									<%= render :partial => 'users/catagory_wise_packages', :locals => { :packages => @food_drinks_packages, :category => 'Food and Drinks'}%>
+
+									<% unless @food_drinks_packages.current_page == @food_drinks_packages.total_pages %>
+  										<p id="show-more-food_and_drinks">
+    									<%= link_to('Show More', more_packages_path(category: 'Food and Drinks',type:'holiday', page: @food_drinks_packages.current_page + 1),:class=>"btn red-btn") %>
+  										</p>
+									<% end %>
+									</div>
+									<%end%>
+
+									<%unless @sports_packages.blank? %>
+										<div class="row">
+											<div class="col-md-12">	
+												<div class="inner-sec1">
+													<div class="title-line1">
+														Sports
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="pack-detail">
+											<span class="left-sp">
+													<span><img src="/assets/rsz_sports.png"> Sports</span>
+											</span>
+											<span class="right-sp">
+													<span> <%=@sports_packages.total_entries%>Packages</span>
+											</span>	
+										</div>
+									<div id="sports">
+									<%= render :partial => 'users/catagory_wise_packages', :locals => { :packages => @sports_packages, :category => 'Sports'}%>
+
+									<% unless @sports_packages.current_page == @sports_packages.total_pages %>
+  										<p id="show-more-sports">
+    									<%= link_to('Show More', more_packages_path(category: 'Sports',type:'holiday', page: @sports_packages.current_page + 1),:class=>"btn red-btn") %>
+  										</p>
+									<% end %>
+									</div>
+									<%end%>
+
+									<%unless @friends_packages.blank? %>
+										<div class="row">
+											<div class="col-md-12">	
+												<div class="inner-sec1">
+													<div class="title-line1">
+														Friends
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="pack-detail">
+											<span class="left-sp">
+													<span><img src="/assets/rsz_friends.png"> Friends</span>
+											</span>
+											<span class="right-sp">
+													<span> <%=@friends_packages.total_entries%>Packages</span>
+											</span>	
+										</div>
+									<div id="luxury">
+									<%= render :partial => 'users/catagory_wise_packages', :locals => { :packages => @friends_packages, :category => 'Friends'}%>
+
+									<% unless @friends_packages.current_page == @friends_packages.total_pages %>
+  										<p id="show-more-luxury">
+    									<%= link_to('Show More', more_packages_path(category: 'Friends',type:'holiday', page: @friends_packages.current_page + 1),:class=>"btn red-btn") %>
+  										</p>
+									<% end %>
+									</div>
+									<%end%>
+
+
+									<div class="gap clearfix"></div>
+									</div>	
+									
+					
+
+
+								<div role="tabpanel" class="tab-pane fade" id="review" aria-labelledby="profile-tab">
+									<div class="container-fluid">
+										<div class="data-sec-1 clearfix">
+											<div class="col-md-8 col-xs-12 col-sm-7">
+												<div class="review-sec">
+													<div inline_comment="comment" class="article comment">
+														<div class="comment-author">
+															<img title="Gamer Chick" alt="Image Alternative text" src="/assets/review-50x50.jpg">
+														</div>
+														<div class="comment-inner"><span class="comment-author-name">Keith Churchill</span>
+															<p class="comment-content">Ridiculus et risus tempus phasellus interdum ipsum nisl a litora felis ultrices sit parturient fringilla sapien quam porttitor sem porttitor taciti sit nibh nisl ridiculus</p>
+															<span class="comment-time">Review For-</span><a href="#" class="comment-reply">3 Nights in Goa</a>
+															<span class="comment-time">Catagory-</span><a href="#" class="comment-reply">Romantic</a>	
+														</div>
+													</div>
+												</div>
+											</div> 
+											<div class="col-md-4 col-xs-12 col-sm-5 rating-raview">
+												<div class="rate">Rating out Of 5</div>
+													<div class="row">
+														<div class="review-type">
+															<span>Value For Money</span>
+														</div>
+														<div class="rating">
+															<span>4.0</span>
+														</div>
+													</div>
+													<div class="row">
+														<div class="review-type">
+														<span>Quality of Service</span>
+														</div>
+														<div class="rating">
+															<span>3.0</span>
+														</div>
+													</div>
+													<div class="row">
+														<div class="review-type">
+															<span>Operator Expertise</span>
+														</div>
+														<div class="rating">
+															<span>2.0</span>
+														</div>
+													</div>
+													<div class="row">
+														<div class="review-type">
+															<span>Convenience in Booking</span>
+														</div>
+														<div class="rating">
+															<span>2.0</span>
+														</div>
+													</div>
+												
+											</div>
+										</div>
+									</div>
+								  </div>
+								  </div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section><!--ends here

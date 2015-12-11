@@ -1,0 +1,122 @@
+<%if user_signed_in?%>
+<div class="modal fade" id="enquiry-form" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header model-head">
+				<button aria-label="Close" data-dismiss="modal" class="close close-1" type="button"><span aria-hidden="true">×</span></button>
+				<h4 id="myModalLabel" class="modal-title inq_of_package"><i class="fa fa-envelope"></i></h4>
+			</div>
+			<div class="modal-body">
+				<%= form_for :enquiry,url: enquiry_path,:html => {:class => "form-horizontal"} do |f| %>
+				<form class="form-horizontal">
+					<div class="form-group">
+						<label class="col-sm-4 control-label ctrl-label " for="inputEmail3">Name</label>
+						<div class="col-sm-8">
+							<%= f.text_field :name,:value => current_user.name ,:class=>"form-control input_box1 input-box"%>
+							<span class="enquiry_name_err_field error"></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-4 control-label ctrl-label " for="inputPassword3">Phone No.</label>
+						<div class="col-sm-8">
+							<%= f.text_field :phone_no,:value => current_user.contact_no ,:class=>"form-control input_box1 input-box"%>
+							<span class="enquiry_phone_no_err_field error"></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-4 control-label ctrl-label " for="inputEmail3">Email</label>
+						<div class="col-sm-8">
+							<%= f.text_field :email,:value => current_user.email ,:class=>"form-control input_box1 input-box"%>
+							<span class="enquiry_email_err_field error"></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-4 control-label ctrl-label " for="inputEmail3">I want to customize by</label>
+						<div class="col-sm-8">
+							<div class="form-group">
+								<div class="custom-checkbox custom-checkbox1 cc-box">
+									<input id="travel" type="checkbox"  value="travel" name="travel" onchange='show_field(this)'>
+									<label for="Family" class="label-text"><span></span>Travel</label>
+									<%=f.text_field :custome_travel,:class => "form-control input_box input_box1 validate_field"%>
+									
+									
+								</div>
+								<span class="enquiry_custome_travel_err_field error"></span>
+							</div>
+							<div class="form-group">
+								<div class="custom-checkbox custom-checkbox1 cc-box">
+									<input id="hotel" type="checkbox"  value="hotel" name="hotel" onchange='show_field(this)'>
+									<label class="label-text"><span></span>Hotel</label>
+									<%=f.text_field :custome_hotel,:class => "form-control input_box input_box1 validate_field"%>
+									
+								</div>
+								<span class="enquiry_custome_hotel_err_field error"></span>
+							</div>
+							<div class="form-group">
+								<div class="custom-checkbox custom-checkbox1 cc-box">
+									<input id="local_transport" type="checkbox"  value="local transport" name="local transport" onchange='show_field(this)'>
+									<label class="label-text"><span></span>Local Transport</label>
+									<%=f.text_field :custome_local_transport,:class => "form-control input_box input_box1 validate_field"%>
+									
+								</div>
+								<span class="enquiry_custome_local_transport_err_field error"></span>
+							</div>
+							<div class="form-group">
+								<div class="custom-checkbox custom-checkbox1 cc-box">
+									<input id="meals" type="checkbox"  value="meals" name="meals" onchange='show_field(this)'>
+									<label class="label-text"><span></span>Meals</label>
+									<%=f.text_field :custome_meals,:class => "form-control input_box input_box1 validate_field"%>
+									
+								</div>
+								<span class="enquiry_custome_meals_err_field error"></span>
+							</div>
+							<div class="form-group">
+								<div class="custom-checkbox custom-checkbox1 cc-box">
+									<input id="sights" type="checkbox"  value="sights" name="sights" onchange='show_field(this)'>
+									<label class="label-text"><span></span>Sightseeing</label>
+									<%=f.text_field :custome_sights,:class => "form-control input_box input_box1 validate_field"%>
+								</div>
+								<span class="enquiry_custome_sights_err_field error"></span>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-4 control-label ctrl-label " for="inputEmail3">Message</label>
+						<div class="col-sm-8">
+							<%=f.text_area :message,:class => "form-control",:rows=>"3"%>
+							
+						</div>
+					</div>
+					<%=f.hidden_field :user_id,value: current_user.id%>
+					<%=f.hidden_field :package_id%>
+					<div class="modal-footer model-ftr">
+						<%= f.submit 'Submit',:class=>"btn btn-info blue-button btn-red enq_submit"%>
+					</div>
+					<%end%>
+				</div>
+			</div>
+		</div>
+	</div>
+	<%end%>
+	<!--pop up enquiry ends here-->
+
+	<script type="text/javascript">
+	$('#enquiry_custome_travel').hide();
+	$('#enquiry_custome_hotel').hide();
+	$('#enquiry_custome_local_transport').hide();
+	$('#enquiry_custome_meals').hide();
+	$('#enquiry_custome_sights').hide();
+
+	function show_field(obj){
+		current_id = $(obj).attr('id');
+		if($(obj).is(':checked')){
+			$('#enquiry_custome_'+current_id).val('').show('slow');
+		}
+		else{
+			$('.error').hide('slow')
+			$('#enquiry_custome_'+current_id).val('').hide('slow');
+
+		}
+	}
+
+	</script>

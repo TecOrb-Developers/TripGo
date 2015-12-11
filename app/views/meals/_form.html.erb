@@ -1,0 +1,68 @@
+<section class="inner">
+	<div class="container">
+		<div class="package-border">
+			<div class="content clearfix">
+				<div class="row">
+					<div class="col-md-9 col-sm-8 col-xs-12">
+						<h2 class="page-title">Add New Package</h2>
+						<h3 class="page-sub-title"> Package  - Package Inclusions</h3>
+					</div>
+				</div>
+			</div>
+			<div class="content clearfix">
+				<ul class="package-list">
+					<li ><span>Package Details</span></li>
+					<li><span>Transport</span></li>
+					<li><span >City Transport</span></li>
+					<li><span >Hotels</span></li>
+					<li><span class="active">Meals</span></li>
+					<li><span >Sightseeing</span></li>
+					<li><span >Itinerary</span></li>
+					<li><span >Other Inclusion</span></li>
+				</ul>
+				<div id="myTabContent" class="tab-content  content-tab">
+					<div class="tab-pane fade in active" id="" data-action ='Edit'>
+						<%= form_for(@package.meal, :url => update_meals_path(@package), :method => :PATCH) do |f| -%>
+						<div class="row">
+							<div class="col-md-12 col-sm-12 col-xs-12 ">
+								<p>Please enter the information regarding meals, hotels, and sightseeing</p>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6 col-sm-8 col-xs-12 col-md-offset-1 col-sm-offset-1 col-xs-offset-0">
+								
+								<div class="form-group">
+									<div class="row ">
+										<div class="col-md-12 col-sm-12 col-xs-12">
+											<div class="form-group-title">Meals<span class="red-star">*</span>
+											<span class="red-star meal_error meal_err"></span>
+										</div>
+										</div>
+									</div>
+									<%Meal::MEALS.each_with_index do |h, i|%>
+									<div class="radio "> 
+										<label class="radio-btn">
+											<%= f.radio_button(:meal_type, (h== 'Other' ? '' : h) ,:class=> "meal_type", :checked=> (f.object.meal_type.nil? ? (i==0) : (h == f.object.meal_type) ), 'data-other' => (h== 'Other' ? '' : "none") ) %> <%=h%></label>
+											<% if (h == "Other")%>
+											<%= text_field_tag "input_meal", get_other_meal(f.object.meal_type) ,{ :placeholder => "Please specify" ,:class => "other_meal_type"} %>
+											<span class="red-star meal_error meal_other_field_err"></span>
+											<% end %>
+										</div>
+										<%end%>
+									</div>
+								</div>
+							</div>
+							<div class="row">  
+								<div class="package-action pkg-action_p">
+									<%= link_to 'Back',edit_hotel_path(@package),:class=>"btn red-btn save" %>
+									<%= submit_tag 'Save',:class => "btn red-btn save meals_submit" %>
+									<%= submit_tag 'Continue',:class => "btn red-btn save meals_submit"%>
+								</div>
+							</div>
+							<% end %>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>

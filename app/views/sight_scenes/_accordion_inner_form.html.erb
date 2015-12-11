@@ -1,0 +1,81 @@
+<div class="accordion-inner">
+  <div class="row">
+    <div class="col-md-6 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1 col-xs-offset-0">
+      <div class="row ">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="form-group-title"> </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="row ">
+          <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="form-group-title">Sightseeing<span class="red-star">*</span>
+              <span class="red-star error_sight"></span>
+            </div>
+          </div>
+        </div>
+        <div class="radio">
+          <%= f.radio_button(:included, 'included' , 'data-accodion_index' => index, 'data-div_id' => "sight_scene-#{index}", :checked=> (f.object.included == 'included' ? true : false), :class=> "sight_scenes_inclued-#{index}", :id=> :"sight_scene_included-#{index}" ) %>
+          <label class="radio-btn"><span></span>Included</label>
+        </div>
+        <div class="radio">
+          <%= f.radio_button(:included, 'not included' , 'data-accodion_index' => index, 'data-div_id' => "sight_scenes_div-#{index}", :checked=> (f.object.included == 'included' ? false : true), :class=> "sight_scenes_inclued-#{index}" ) %>
+          <label class="radio-btn"><span></span>Not Included</label>
+        </div>
+      </div>
+
+      <div id= "sight_scenes_div-<%=index%>">
+<!-- 
+      <div class="form-group">
+        <label for="">Sightseeing<span class="red-star">*</span>
+          <span class="red-star error_sight error_sight_scene_field-<%=index%>"></span>
+        </label>
+        <div class="select-dropdown multiple-pakage"> -->
+          <%#= f.select :sight_scene, SightScene::SIGHT_SCENES, {:prompt => "Please select"},{ :class => 'form-control input-box', :id=> "sight_scene_field-#{index}" } %>
+        <!-- </div> 
+      </div>
+      <div class="form-group">
+        <label for="">Guide<span class="red-star">*</span>
+          <span class="red-star error_sight error_sight_scene_guide-<%=index%>"></span>
+        </label>
+     <div class="select-dropdown multiple-pakage"> -->
+          <%#= f.select :guide, SightScene::GUIDES, {:prompt => "Please select"} ,{:class=> "form-control input-box", :id=> "sight_scene_guide-#{index}"} %>
+        <!-- </div>
+      </div> -->
+
+      <div class="form-group">
+        <label class="form-label" for="">Sightseeing Destination<span class="red-star">*</span>
+          <span class="red-star error_sight error_sight_scene_destination-<%=index%>"></span>
+        </label>
+        <%= f.text_field :destination, :class=> "form-control input-box-1", :id=> "sight_scene_destination-#{index}" %>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="">Sightseeing Description<span class="red-star">*</span>
+          <span class="red-star error_sight error_sight_scene_description-<%=index%>"></span>
+        </label>
+        <%= f.text_area :description, :class=> "form-control input-box-1", :id=> "sight_scene_description-#{index}" %>
+      </div>
+
+      <div class="row form-group">
+        <div class="image-field clearfix">
+          <label class="form-label  col-md-4 col-sm-4 col-xs-12" for="">Upload Image
+            <span class="red-star">*</span>
+            <span class="red-star error_sight error_sight_scene_picture-<%=index%>"></span>
+          </label>
+          <div class="col-md-8 col-sm-8 col-xs-12">
+            <%= f.file_field :picture, :class=> "file", :id=> "sight_scene_picture-#{index}", 'data-img_present' => (f.object.picture.blank? ? false : true) %>
+              <p class= "pull-right"><%f.object.picture if f.object.picture %></p>
+              <%unless f.object.picture.url.nil?%>
+              <div class='package_image'>
+              <%=image_tag f.object.picture.url(:itinerary),:style=>"width: 111px; height: 80px;" %>
+              </div>
+              <%end%>
+          </div>
+        </div>
+      </div>
+      </div>
+
+    </div>
+  </div>
+</div>

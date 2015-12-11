@@ -1,0 +1,123 @@
+	<!--start here-->
+	<section id="main-sec">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12">
+					<ol class="breadcrumb brd-crumb">
+					  <li><a href="<%=root_path%>">Home</a></li>
+					  <li class="active">Contact Us</li>
+					</ol>	
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">	
+					<div class="title-pageheading">
+						<div class="about-border">
+							
+						</div>
+						
+						<div class="page-title-text">
+							<span class="page-title-bg">Contact Us</span>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12">
+					<div id="googleMap"></div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-8 col-md-8 col-xs-12">
+					<div class="col-sm-12 col-md-12 col-xs-12">
+						<span class="msg-head-s col-sm-12 col-md-12 col-xs-12"><i class="fa fa-envelope-o fa-lg"></i> Leave a Message</span>
+					</div>
+					<div class="col-sm-12 col-md-12 col-xs-12 contactus-form">
+						<div class="col-sm-6 col-md-6 col-xs-12">
+							<div class="form-sec">
+								<div class="form-group">
+									<label class="label-text">Name:</label>
+									<input class="form-control  input-box" type="text">
+								</div>
+								<div class="form-group">
+									<label class="label-text">Email id:</label>
+									<input class="form-control  input-box" type="text">
+								</div>
+								<div class="form-group">
+									<label class="label-text">Contact No.:</label>
+									<input class="form-control  input-box" type="text">
+								</div>
+							</div>
+						</div>
+                            <div class="col-sm-6 col-md-6 col-xs-12">
+								<div class="form-sec">
+									<div class="form-group">
+										<label class="label-text">Subject</label>
+										<input class="form-control  input-box" type="text">
+									</div>
+								</div>
+								<div class="form-sec">
+									<div class="form-group">
+										<label class="label-text">Message</label>
+										<textarea class="form-control input-box" rows="1"></textarea>
+									</div>
+								</div>
+								<button aria-label="Close" data-dismiss="modal" class="btn btn-info blue-button btn-red" type="button">Submit</button>
+                            </div>
+					</div>
+				
+				</div>
+				<div class="col-sm-4 col-md-4 col-xs-12">
+						<div class="col-md-12 col-sm-12 col-xs-12 msg-head">
+							<h3 class="title">Location & Details</h3>
+							<div class="row-view">
+								<h3 class="sub-title">Address</h3>
+								123, Phase-2, Main Road, New Delhi - 110023
+							</div>
+							<div class="row-view">
+								<h3 class="sub-title">Phone</h3>
+								<div class="phno-s">+91 9876543210</div>
+								<div class="phno-s">+91 9876543210</div>
+							</div>
+							<div class="row-view">
+								<h3 class="sub-title">Email</h3>
+								<a href="mailto:info@lets-go.com">info@lets-go.com</a>
+							</div>							
+						</div>
+				</div>
+			</div>
+		</div>
+	</section><!--ends here-->
+
+	<script>
+var map;
+function initialize() {
+  var mapOptions = {
+    zoom: 16
+  };
+  map = new google.maps.Map(document.getElementById('googleMap'),
+      mapOptions);
+  var geocoder = new google.maps.Geocoder();
+var address = "Sec-22,Near Noida stadum, Noida";
+geocoder.geocode( { 'address': address}, function(results, status) {
+  if (status == google.maps.GeocoderStatus.OK) {
+    var latitude = results[0].geometry.location.lat();
+    var longitude = results[0].geometry.location.lng();
+      var pos = new google.maps.LatLng(latitude,longitude);
+	var marker = new google.maps.Marker({
+      position: pos,
+      map: map,
+      title: address
+  });
+      map.setCenter(pos);
+      handleNoGeolocation(true);
+  } 
+}); 
+}
+function handleNoGeolocation(errorFlag) {
+  var marker = new google.maps.Marker(options);
+  map.setCenter(options.position);
+}
+google.maps.event.addDomListener(window, 'load', initialize);
+    </script>

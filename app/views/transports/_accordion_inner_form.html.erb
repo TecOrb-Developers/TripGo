@@ -1,0 +1,215 @@
+<div class="accordion-inner">
+  <div class="row">
+    <div class="col-md-6 col-sm-8 col-xs-12 col-md-offset-1 col-sm-offset-1 col-xs-offset-0">
+      <div class="row ">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="form-group-title"> Transport <span class="red-star">*</span> </div>
+          <div class="form-group-title sub-title"> Mode of transportation to First City/Destination </div>
+        </div>
+      </div>
+
+      <div class="row form-group">
+        <%Transport::TRANSPORT_MODE.each_with_index do |h, i|%>
+        <div class="col-sm-6  col-md-6 col-xs-12">
+          <div class="radio "> 
+            <!-- (h == 'Others' ? '' :(h == 'No Transport' ? 'No Transport': h)) -->
+            <%= f.radio_button(:transport_mode, (h=='Others' ? '' : h),:class=> "transport_mode_#{index}", 'data-accodion_index' => index, 'data-div_id' => "#{index}-#{i}", :checked=> (f.object.transport_mode.nil? ? (i==0) : (h == f.object.transport_mode) ), 'data-other' => (h=='Others' ? '' : "none") ) %>
+            <label for="<%=h%>" class="radio-btn"><span></span><%=h%></label>
+
+            <% if h == "Others"%>
+            <%= text_field_tag "input_transport_mode_#{index}", get_transport_mode(f.object.transport_mode) ,{ :placeholder => "Please specify" ,:class => "other_transport"} %>
+            <span class="red-star error other_field_error_<%=index%>"></span>
+            <% end %>
+          </div>
+        </div>        
+        <%end%>
+      </div>
+<!-- 
+      <div class="form-group">
+        <label for="itineraryname">Timing for onward<span class="red-star">*</span></label>
+        <div id="datetimepicker3" class="input-group date">
+          <%#= f.text_field(:time_of_onward, :class=> "rdatetimepicker_#{index} form-control input-box datetimepicker" ,'data-index'=> "#{index}", :readonly=> true) %>
+          <span class="input-group-addon"> <span> <i class="fa fa-clock-o"></i> </span> </span> 
+        </div>
+        <span class="red-star error time_field_error_<%=index%>">
+        </div>
+      -->
+      <div class='time-of-onward_<%=index%>'>
+       <div class="row ">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="form-group-title">Timing for onward<span class="red-star">*</span>
+            <span class="red-star error time_field_error_<%=index%>"></span>
+          </div>
+        </div>
+      </div>
+      <div class="row form-group">
+        <div class="holydays_checks">
+         <%Transport::TIME_OF_ONWAED.each do |h|%>
+         <div class="custom-checkboxx col-sm-6  col-md-6 col-xs-12">
+           <%= f.check_box(:time_of_onward,{ :multiple => true,:class => "time_of_onward_#{index} holiday"}, h,nil) %>
+           <label for="<%=h%>"><span></span><%=h%></label>
+         </div>
+         <%end%>
+       </div>
+     </div>
+   </div>
+
+
+
+   <div class='transport-mode_<%=index%> <%=index%>-0'>
+    <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="form-group-title">Airline<span class="red-star">*</span> 
+          <span class="red-star error error_<%=index%>-0"></span>
+        </div>
+      </div>
+    </div>
+    <div class="row form-group">
+      <%Transport::AIRLINE.each_with_index do |h, i|%>
+      <div class="col-sm-6  col-md-6 col-xs-12">
+        <div class="radio ">
+
+          <%= f.radio_button(:transport_name, (h=='Others' ? '' : h), :checked => (f.object.transport_name.nil? ? false : (h == f.object.transport_name)), :class=> "radio_#{index}-0", 'data-other' => (h=='Others' ? '' : "none") ) %>
+          <label for="<%=h%>" class="radio-btn"><span></span><%=h%></label>
+
+          <% if h == "Others"%>
+          <%= text_field_tag "get_transport_name", get_airline_transport_name(f.object.transport_name, f.object.transport_mode),:placeholder => "Please specify" ,:class => "input_transport_name_#{index}-0" %>
+          <span class="red-star error other_field_error_<%=index%>-0"></span>
+          <% end %>
+
+        </div>
+      </div>        
+      <%end%>
+    </div>
+  </div>
+
+  <div class="transport-mode_<%=index%> <%=index%>-3 hide">
+    <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="form-group-title">Exclusive Private Vehicle Type<span class="red-star">*</span>
+          <span class="red-star error error_<%=index%>-3"></span>
+                </div>
+              </div>
+            </div>
+            <div class="row form-group">
+              <%Transport::PRIVATE_VEHICLE.each_with_index do |h, i|%>
+              <div class="col-sm-6  col-md-6 col-xs-12">
+                <div class="radio">
+                  <%= f.radio_button(:transport_name, (h=='Others' ? '' : h), :checked => (f.object.transport_name.nil? ? false : (h == f.object.transport_name)), :class=> "radio_#{index}-3", 'data-other' => (h=='Others' ? '' : "none") ) %>
+                  <label for="<%=h%>" class="radio-btn"><span></span><%=h%></label>
+
+                  <% if h == "Others"%>
+                  <%= text_field_tag "get_transport_name", get_private_transport_name(f.object.transport_name, f.object.transport_mode) ,{:placeholder => "Please specify" ,:class => "input_transport_name_#{index}-3"} %>
+                  <span class="red-star error other_field_error_<%=index%>-3"></span>
+                  <% end %>
+
+                </div>
+              </div>        
+              <%end%>
+            </div>
+          </div>
+
+          <div class="transport-mode_<%=index%> <%=index%>-1 hide">
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="form-group-title">Train<span class="red-star">*</span> 
+                  <span class="red-star error error_<%=index%>-1"></span></div>
+                        </div>
+                      </div>
+                      <div class="row form-group">
+                        <%Transport::TRAIN.each_with_index do |h, i|%>
+                        <div class="col-sm-6  col-md-6 col-xs-12">
+                          <div class="radio">
+                            <%= f.radio_button(:transport_name, (h=='Others' ? '' : h), :checked => (f.object.transport_name.nil? ? false : (h == f.object.transport_name)), :class=> "radio_#{index}-1", 'data-other' => (h=='Others' ? '' : "none") ) %>
+                            <label for="<%=h%>" class="radio-btn"><span></span><%=h%></label>
+
+                            <% if h == "Others"%>
+                            <%= text_field_tag "get_transport_name", get_train_transport_name(f.object.transport_name, f.object.transport_mode),:placeholder => "Please specify" ,:class => "input_transport_name_#{index}-1" %>
+                            <span class="red-star error other_field_error_<%=index%>-1"></span>
+                            <% end %>
+
+                          </div>
+                        </div>        
+                        <%end%>
+                      </div>
+                    </div>
+
+                    <div class="transport-mode_<%=index%> <%=index%>-2 hide">
+                      <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                          <div class="form-group-title">Bus Type<span class="red-star">*</span> 
+                            <span class="red-star error error_<%=index%>-2"></span></div>
+                                  </div>
+                                </div>
+                                <div class="row form-group">
+                                  <%Transport::BUS.each_with_index do |h, i|%>
+                                  <div class="col-sm-6  col-md-6 col-xs-12">
+                                    <div class="radio ">
+                                      <%= f.radio_button(:transport_name, (h=='Others' ? '' : h), :checked => (f.object.transport_name.nil? ? false : (h == f.object.transport_name)), :class=> "radio_#{index}-2", 'data-other' => (h=='Others' ? '' : "none") ) %>
+                                      <label for="<%=h%>" class="radio-btn"><span></span><%=h%></label>
+
+                                      <% if h == "Others"%>
+                                      <%= text_field_tag "get_transport_name", get_bus_transport_name(f.object.transport_name, f.object.transport_mode),:placeholder => "Please specify" ,:class => "input_transport_name_#{index}-2" %>
+                                      <span class="red-star error other_field_error_<%=index%>-2"></span>
+                                      <% end %>
+
+                                    </div>
+                                  </div>        
+                                  <%end%>
+                                </div>
+                              </div>
+
+                              <div class="row ">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                  <div class="form-group-title"> Transfer Section <span class="red-star">*</span> </div>
+                                </div>
+                              </div>
+                              <div class="row form-group">
+                                <% arr = ['included', 'not_included']%>
+                                <%arr.each_with_index do |h, i|%>
+                                <div class="col-sm-12  col-md-12 col-xs-12">
+                                  <div class="radio">
+                                    <!-- <label class="radio-btn"> -->
+                                    <%= f.radio_button(:transfer_section, h,:id => "city_transfer_#{index}",'data-index' => "#{index}", :checked=> (f.object.transfer_section.nil? ? (i==1) : (h == f.object.transfer_section))) %>
+                                    <label for="<%=h%>" class="radio-btn"><span></span><%=h.titleize%></label>
+
+                                    <%#= f.radio_button :transfer_section , 'included',:id => "city_transfer_#{index}",'data-index' => "#{index}", :checked=> (f.object.transfer_section.nil? ? false : (h == f.object.transfer_section)) %>
+                                    <!-- Included </label> -->
+                                  </div>
+                                </div>
+                                <% end %>
+
+
+
+                              </div>
+
+                              <div id="city_transfer_modes_<%=index%>">              
+                                <div class="row ">
+                                  <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form-group-title"> Transfer Mode <span class="red-star">*</span> 
+                                      <span class="red-star error error_<%=index%>"></span>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="row form-group">
+                                  <%Transport::PRIVATE_VEHICLE.each do |h|%>
+                                  <div class="col-sm-6  col-md-6 col-xs-12">
+                                    <div class="radio ">
+                                      <%= f.radio_button(:transfer_mode, (h=='Others' ? '' : h), :checked => (f.object.transfer_mode.nil? ? false : (h == f.object.transfer_mode)), :class=> "transfer_modes_#{index}", 'data-other' => (h=='Others' ? '' : "none") ) %>
+                                      <label for="<%=h%>" class="radio-btn"><span></span><%=h%></label>
+
+                                      <% if h == "Others"%>
+                                      <%=text_field_tag 'get_mode_input',get_transfer_mode(f.object.transfer_mode),:id => 'get_mode_input',:placeholder => 'Please specify',:class => "input_transfer_mode_#{index}"%>
+                                      <span class="red-star other_mode_field_error_<%=index%> error"></span>
+                                      <% end %>
+
+                                    </div>
+                                  </div>
+                                  <%end%>
+                                </div>
+                              </div>
+
+                            </div>
+                          </div>
+                        </div>
+

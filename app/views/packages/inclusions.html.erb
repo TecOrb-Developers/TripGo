@@ -1,0 +1,637 @@
+<section id="main-sec">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12">
+				<ol class="breadcrumb brd-crumb">
+					<li><a href="#">Home</a></li>
+					<li class="active">Inclusion</li>
+				</ol>	
+			</div>
+		</div>
+		<div class="row ">
+			<div class="col-sm-12 pull-right">
+				<div class="com-add-btn">
+					<button class="btn  default-red" type="button">
+						<span><img src="/assets/arrow.png"></span>Back to Listing</button>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">	
+					<div class="title-pageheading">
+						<div class="about-border">
+
+						</div>
+
+						<div class="page-title-text">
+							<span class="page-title-bg"><%= @package.itinerary_name.titleize%></span>
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<div class="row clearfix">
+				<div class="col-lg-9 col-md-9 col-sm-9">
+					<div class="row">
+						<div class="col-sm-3">
+							<div data-ride="carousel" class="carousel slide" id="carousel">
+								<div class="carousel-inner">
+									<% @package.pictures.each_with_index do |pic, i|%>
+									<div class="item <%= i==0 ? 'active' : ''%>">
+										<%= image_tag pic.image.url(:package_inclusion)%>
+									</div>
+									<%end%>
+								</div>
+							</div> 
+							<div class="clearfix">
+								<div data-interval="false" class="carousel slide" id="thumbcarousel">
+									<div class="carousel-inner">
+										<% i = 0%>
+										<% pictures = @package.pictures%>
+										<% pictures.each_slice(4) do |pics|%>
+										<div class="item <%= i==0 ? 'active' : ''%>">
+											<% pics.first(4).each do |pic|%>
+											<div class="thumb" data-target="#carousel">
+												<%= image_tag pic.image.url(:package_main_icon) %>
+											</div>
+											<% i+=1%>
+											<%end%>
+										</div>
+										<%end%>
+									</div>
+
+									<a data-slide="prev" role="button" href="#thumbcarousel" class="left carousel-control sml-slder">
+										<i class="fa fa-caret-left"></i>
+									</a>
+									<a data-slide="next" role="button" href="#thumbcarousel" class="right carousel-control sml-slder">
+										<i class="fa fa-caret-right"></i>
+									</a>
+								</div> <!-- /thumbcarousel -->
+							</div><!-- /clearfix -->
+						</div> <!-- /col-sm-6 -->
+						<div class="col-sm-9">
+							<h3><%= @package.itinerary_name.titleize%> </h3>
+							<h4>(Lorem ipsum dolor sit amet)</h4>
+							<div class="row">
+								<div class="col-md-6">
+									<div class="kochi-row clearfix">
+										<span class="first"><i class="fa fa-clock-o"></i> Duration</span>
+										<span class="last"> <%= duration_of @package%></span>
+									</div> 
+								</div>
+								<div class="col-md-6">
+									<div class="kochi-row clearfix">
+										<span class="first"><i class="fa fa-user"></i> Operated By</span>
+										<span class="last"> <%= operator_name_of @package%></span>
+									</div> 
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									<div class="kochi-row clearfix">
+										<span class="first"><i class="fa fa-inr"></i> Price</span>
+										<span class="last"><%= number_to_currency(@package.price_per_person,  unit: "Rs. ")%>
+										</span>
+									</div> 
+								</div>
+								<div class="col-md-6">
+									<div class="kochi-row clearfix">
+										<span class="first"><i class="fa fa-star"></i> Package Rating</span>
+										<span class="last"> 4.5</span>
+									</div> 
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-8 col-md-offset-2">
+									<div class="kochi-row1">
+										
+										<% if user_signed_in? %>
+										<button data-toggle="modal" data-target="#enquiry-form" class="btn package_data default-red <%=is_enquired?(@package)%>" type="button" onclick="package_info(this);" data-package-id="<%= @package.id %>" data-package-name="<%= @package.itinerary_name %>" data-role="<%=current_user.role%>">
+											<span>
+												<img src="/assets/enquiry.png">
+											</span>Enquire
+										</button>
+										<%else%>
+										<button class="btn default-red" type="button" onclick="javascript: alertify.error('You need to sign in as user to enquire!!');"><span><img src="/assets/enquiry.png"></span>Enquire</button>
+										<%end%>
+
+										<button class="session-data btn default-red <%= @package.is_in_comparelist ? 'in-wishlist' : ''%>" type="button" data-type="add-to-compare" data-package-id="<%= @package.id%>" data-signed_in="<%= user_signed_in? ? 'true' : 'false'%>" data-show="true">
+											<span><img src="/assets/compare.png"></span>Compare
+										</button>
+
+
+										<button class="session-data btn default-red <%= @package.is_in_wishlist ? 'in-wishlist' : ''%>" type="button" data-type="my-wishlist" data-package-id="<%= @package.id%>" data-signed_in="<%= user_signed_in? ? 'true' : 'false'%>" data-show="true">
+											<span><img src="/assets/wishlist.png"></span>My Wishlist
+										</button>
+
+									</div> 
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-12">
+							<ul class="nav nav-tabs package-tabs" id="myTab">
+								<li class="active"><a data-toggle="tab" href="#Inclusions">Inclusions</a></li>
+								<li class=""><a data-toggle="tab" href="#Itinerary">Itinerary</a></li>
+								<li><a data-toggle="tab" href="#Rates">Rates &amp; Dates</a></li>
+								<li><a data-toggle="tab" href="#Cancellation">Cancellation</a></li>
+								<li><a data-toggle="tab" href="#Exclusions">Exclusions</a></li>
+								<li><a data-toggle="tab" href="#Review">Review</a></li>
+							</ul>
+							<div class="tab-content  content-tab content-tab-pad " id="myTabContent">
+								<div id="Inclusions" class="tab-pane fade clearfix active in">  
+									<div class="tabs-left">
+
+										<!-- Hotels Tab -->
+										<div class="row">
+											<div class="hotels-tab clearfix">
+												<div data-target="#demo" data-toggle="collapse" class="hotels-left collapsed">
+													<img src="/assets/hotl.png">
+													<span>Hotels</span>
+												</div>
+												<div class="hotels-right">
+													<span>
+														<% hotel = @package.hotels.first%>
+														<%= "#{hotel.hotel_name.titleize}, #{hotel.hotel_address.titleize}, #{hotel.city.titleize} . #{hotel.rating} Hotel"%>
+													</span>
+													<div class="collapse" id="demo" style="height: 0px;">
+														<%@package.hotels.each_with_index do |hotel, index|%>
+														<div class="hotels-sec clearfix">
+															<div class="images-sec">
+																<%= image_tag hotel.pictures.first.image.url(:package_icon)%>
+															</div>
+															<div class="hotl-det">
+																<span><%="#{hotel.hotel_name.titleize}, #{hotel.hotel_address.titleize}, #{hotel.city.titleize} "%><a>4.0</a></span>
+																<span class="sub-ttl">Lorem Ipsum text ever since the 1500s,ining essentially unchanged. It was popularised in the 1960s with the release</span>
+																<ul class="nav n-tabs">
+																	<li class="active" role="presentation">
+																		<button class="btn detl collapsed" type="button" data-toggle="collapse" data-target="#hotel-detail-<%=index%>">View Details</button>
+																	</li>
+																	<li role="presentation"><a href="<%=view_on_map_path(hotel.id)%>" target="_blank"><img src="/assets/view.png">View On Map</a></li>
+																	<li role="presentation"><a href="#"><img src="/assets/trip.png">Trip Advisor Rating</a></li>
+																</ul>
+															</div>
+
+															<div class="row">
+																<div class="collapse" id="hotel-detail-<%=index%>" style="height: 0px;">
+																	<!-- Hotel Amenities -->
+																	<div class="detail-view">
+																		<div class="col-md-12">
+																			<div class="highlgt">Hotel Amenities </div>
+																		</div>
+																		<% i = 0; half_of_i = (hotel.hotel_amenities.length/2)%>
+																		<div class="col-md-3">
+																			<% until i > hotel_amenities.length%>
+																			<span class="deatil-s"><%=hotel.hotel_amenities[i]%></span>
+																			<% i+=1%>
+																			<% break if i >= half_of_i%>
+																			<% end %>
+																		</div>
+																		<div class="col-md-3">
+																			<% until i > hotel.hotel_amenities.length%>
+																			<span class="deatil-s"><%=hotel.hotel_amenities[i]%></span>
+																			<% i+=1%>
+																			<% end %>
+																		</div>
+																	</div>
+
+																	<!-- Room Amenities -->
+																	<div class="detail-view">
+																		<div class="col-md-12">
+																			<div class="highlgt">Room Amenities </div>
+																		</div>
+																		<% i = 0; half_of_i = (hotel.room_amenities.length/2)%>
+																		<div class="col-md-3">
+																			<% until i > room_amenities.length%>
+																			<span class="deatil-s"><%=hotel.room_amenities[i]%></span>
+																			<% i+=1%>
+																			<% break if i >= half_of_i%>
+																			<% end %>
+																		</div>
+																		<div class="col-md-3">
+																			<% until i > hotel.room_amenities.length%>
+																			<span class="deatil-s"><%=hotel.room_amenities[i]%></span>
+																			<% i+=1%>
+																			<% end %>
+																		</div>
+																	</div>
+
+																</div>
+															</div>
+														</div>
+														<% end %>
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<!-- Transport Tab -->
+										<div class="row">
+											<div data-target="#trans" data-toggle="collapse" class="hotels-tab clearfix collapsed">
+												<div class="hotels-left">
+													<img src="/assets/hotl.png">
+													<span>Transport</span>
+												</div>
+												<div class="hotels-right">
+													<span data-target="#trans" data-toggle="collapse">
+														Local Transport by <%= @package.city_transports.first.transport_mode%> taxi including airport transfer
+													</span>
+													<!-- Intercity Transport -->
+													<div class="collapse" id="trans" style="height: 0px;">
+														<div class="data-sec1 clearfix">
+															<div class="col-sm-12 col-md-12 col-xs-12">
+																<div class="red-head3">Intercity Transport</div>
+																<% @package.transports.each do |transport|%>
+																<div class="meal-text">
+																	<span class="meal-text-left"> <%= "#{transport.start.titleize} to #{transport.end.titleize} - "%></span>
+																	<span class="meal-text-right"> <%= "#{transport.transport_mode.titleize}"%></span>
+																</div>
+																<%end%>
+															</div>
+														</div>
+														<!-- Local Transport -->
+														<div class="data-sec1 clearfix div-gap">
+															<div class="col-sm-12 col-md-12 col-xs-12">
+																<div class="red-head3">Local Transport</div>
+																<% @package.city_transports.each do |city_transport|%>
+																<div class="meal-text">
+																	<span class="meal-text-left"><%= "#{city_transport.city_name.nil? ? "None" :city_transport.city_name.titleize} - "%></span>
+																	<span class="meal-text-right">
+																		<%= "#{city_transport.transport_mode.nil? ? "None" : city_transport.transport_mode.titleize}"%>
+																	</span>
+																</div>
+																<% end %>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<!-- Meals -->
+										<div class="row">
+											<div data-target="#hotel-meal" data-toggle="collapse" class="hotels-tab clearfix">
+												<div data-target="#hotel-meal" data-toggle="collapse" class="hotels-left">
+													<img src="/assets/hotl.png">
+													<span>Meals</span>
+												</div>
+												<div class="hotels-right">
+													<% meal_type = @package.meal.meal_type || 'Not Included'%>
+													<span>Buffet Breakfast Included</span>
+													<div class="collapse" id="hotel-meal">
+														<div class="data-sec1 clearfix">
+															<div class="col-sm-12 col-md-12 col-xs-12">
+																<div class="red-head3">Meals In a day</div>
+																<div class="meal-text">
+																	<span class="meal-text-left"> Meal -</span>
+																	<span class="meal-text-right">  <%= meal_type.titleize%></span>
+																</div>
+
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<!-- Sightseeing -->
+										<div class="row">
+											<div data-target="#hotel-sightseeing" data-toggle="collapse" class="hotels-tab clearfix">
+												<div data-target="#hotel-sightseeing" data-toggle="collapse" class="hotels-left">
+													<img src="/assets/hotl.png">
+													<span>Sightseeing</span>
+												</div>
+												<% sight_scenes = sight_scenes_in(@package)%>
+												<div class="hotels-right">
+													<% str= ''%>
+													<% unless sight_scenes.blank? 
+														sight_scenes.each_with_index do |ss, i|
+															str += str == '' ? "Day #{i+1} - #{ss.destination}" : ", Day #{i+1} - #{ss.destination}"
+														end
+														end %>
+														<span> <%= sight_scenes.blank? ? "Sight Scenes Not Included." : "#{str}."%></span>
+														<div class="collapse" id="hotel-sightseeing">
+															<div class="data-sec1 clearfix">
+																<div class="col-sm-12 col-md-12 col-xs-12">
+																	<div class="red-head3">Sightseeing Included </div>
+																	<% if !sight_scenes.blank?%>
+																	<% sight_scenes.each do |sight_scene|%>
+																	<div class="sight-data">	
+																		<div class="meal-text1">
+																			<span class="meal-text-left head-text"> <%= sight_scene.destination%></span>
+																		</div>
+																		<div class="meal-text1">
+																			<span class="meal-text-left"> <%= sight_scene.description%></span>
+																		</div>
+																	</div>
+																	<% end %>
+																	<% else %>
+																	<div class="sight-data">	
+																		<div class="meal-text1">
+																			<span class="meal-text-left head-text">No Sight Scenes Available!</span>
+																		</div>
+																	</div>
+																	<% end %>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<!-- Other Inclusion -->
+											<div class="row">
+												<div data-target="#hotel-inclusion" data-toggle="collapse" class="hotels-tab clearfix">
+													<div data-target="#hotel-inclusion" data-toggle="collapse" class="hotels-left">
+														<img src="/assets/hotl.png">
+														<span>Other Inclusion</span>
+													</div>
+													<div class="hotels-right">
+														<span>Services of tour manager,welcome drink, 20% discount at Restaurant.</span>
+														<div class="collapse" id="hotel-inclusion">
+															<div class="data-sec1 clearfix">
+																<div class="col-sm-12 col-md-12 col-xs-12">
+																	<div class="red-head3">Other Inclusion</div>
+																	<p class="meal-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p> 
+																	<p class="meal-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p> 
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<!-- /tab-content -->
+										</div><!-- /tabbable -->
+									</div>
+
+
+									<div id="Itinerary" class="tab-pane fade">
+										<% @package.itineraries.each_with_index do |itr, i|%>
+										<div class="row">
+											<div class="col-md-12">
+												<div class="red-border row">
+													<div class="col-md-2">
+														<%= image_tag itr.picture.url, :width=> 115, :height => 100%>
+														<!-- <img src="/assets/day1.png"> -->
+													</div>
+													<div class="col-md-10">
+														<h5><%= "Day #{i+1}"%></h5>
+														<p><%= itr.description%></p>
+													<!-- <p>Noon at leisure.</p>
+													<p>Taxi picks you up at 4PM for visit to Port Side.  <br>
+														At 6PM taxi takes you to Lights show. After Light show, drop to Hotel</p> -->
+													</div>
+												</div>
+											</div>
+										</div>
+										<% end %>
+									</div>
+
+									<div id="Rates" class="tab-pane fade">
+										<div class="row">
+											<div class="col-md-12">
+												<div class="red-border row">
+													<div class="table-section">
+														<div class="vali-sec clearfix">
+															<div class="vali clearfix">Validity</div>
+															<div class="date1">	
+																<%= validity_of @package%>
+															</div>
+															<div class="vali clearfix">Price</div>
+															<div class="date1">	
+																<!-- 13000 pp on Twin Sharing Basis -->
+																<%= "#{price_of @package} PP"%>
+															</div>
+														</div>
+														<div class="price-sec clearfix">
+															<div class="vali clearfix">Price Includes</div>
+															<div class="icons">
+																<span><img src="/assets/hotel-ico.png"> - Hotal Stay</span>
+															</div>
+															<div class="icons">
+																<% meal = meal_type_in @package%>
+																<% if meal != 'No Meals'%>
+																<span><img src="/assets/meal-ico.png"> - <%= meal%></span>
+																<% end %>
+															</div>
+
+															<% local_transport = local_transport_mode @package %>
+															<div class="icons">
+																<% if local_transport != 'Not Included'%>
+																<span><img src="/assets/car-ico.png"><%= " - #{local_transport}"%></span>
+																<% end %>
+															</div>
+
+															<div class="icons">
+																<% if all_sight_scenes_in(@package) == 'Included'%>
+																<span><img src="/assets/sight-ico.png"> - Sightseeing</span>
+																<% end %>
+															</div>
+														</div>
+														<div class="opt-sec clearfix">
+															<div class="vali clearfix">Option</div>
+															<div class="icons">
+																<% extra_charge = extra_charge_in @package%>
+																<span>
+																	<img src="/assets/adult-ico.png"> Extra Charge &ndash; <%= extra_charge%> PP
+																</span>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<!-- Cancellation -->
+									<div id="Cancellation" class="tab-pane fade">
+										<% inclusion = get_inclusion_of @package%>
+										<div class="row">
+											<h4>Term &amp; Conditions</h4>
+											<p> <%= inclusion.conditions%></p>
+											<h4>Cancellation</h4>
+											<p><%= inclusion.cancallation_policy%></p>
+										</div>
+									</div>
+									<!-- Exclusions -->
+									<div id="Exclusions" class="tab-pane fade">
+										<div class="row">
+											<p><%= inclusion.exclusion%></p>
+										</div>
+									</div>
+
+									<!-- Review -->
+									<div id="Review" class="tab-pane fade">
+										<div class="row">
+											<div class="col-md-12">
+												<div class="red-border row">
+													<div class="col-md-8 col-xs-12 col-sm-7">
+														<div class="review-sec">
+															<div class="article comment" inline_comment="comment">
+																<div class="comment-author">
+																	<img src="/assets/review-50x50.jpg" alt="Image Alternative text" title="Gamer Chick">
+																</div>
+																<div class="comment-inner"><span class="comment-author-name">Keith Churchill</span>
+																	<p class="comment-content">Ridiculus et risus tempus phasellus interdum ipsum nisl a litora felis ultrices sit parturient fringilla sapien quam porttitor sem porttitor taciti sit nibh nisl ridiculus</p>
+																	<span class="comment-time">Review For-</span><a class="comment-reply" href="#">3 Nights in Goa</a>
+																	<span class="comment-time">Catagory-</span><a class="comment-reply" href="#">Romantic</a>	
+																</div>
+															</div>
+														</div>
+													</div> 
+													<div class="col-md-4 col-xs-12 col-sm-5 rating-raview">
+														<div class="rate rate-right clearfix">Rating out Of 5</div>
+														<div class="row">
+															<div class="review-type">
+																<span>Value For Money</span>
+															</div>
+															<div class="rating">
+																<span>4.0</span>
+															</div>
+														</div>
+														<div class="row">
+															<div class="review-type">
+																<span>Quality of Service</span>
+															</div>
+															<div class="rating">
+																<span>3.0</span>
+															</div>
+														</div>
+														<div class="row">
+															<div class="review-type">
+																<span>Operator Expertise</span>
+															</div>
+															<div class="rating">
+																<span>2.0</span>
+															</div>
+														</div>
+														<div class="row">
+															<div class="review-type">
+																<span>Convenience in Booking</span>
+															</div>
+															<div class="rating">
+																<span>2.0</span>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-12">
+												<div class="red-border row">
+													<div class="col-md-8 col-xs-12 col-sm-7">
+														<div class="review-sec">
+															<div class="article comment" inline_comment="comment">
+																<div class="comment-author">
+																	<img src="/assets/review-50x50.jpg" alt="Image Alternative text" title="Gamer Chick">
+																</div>
+																<div class="comment-inner"><span class="comment-author-name">Keith Churchill</span>
+																	<p class="comment-content">Ridiculus et risus tempus phasellus interdum ipsum nisl a litora felis ultrices sit parturient fringilla sapien quam porttitor sem porttitor taciti sit nibh nisl ridiculus</p>
+																	<span class="comment-time">Review For-</span><a class="comment-reply" href="#">3 Nights in Goa</a>
+																	<span class="comment-time">Catagory-</span><a class="comment-reply" href="#">Romantic</a>	
+																</div>
+															</div>
+														</div>
+													</div> 
+													<div class="col-md-4 col-xs-12 col-sm-5 rating-raview">
+														<div class="rate rate-right clearfix">Rating out Of 5</div>
+														<div class="row">
+															<div class="review-type">
+																<span>Value For Money</span>
+															</div>
+															<div class="rating">
+																<span>4.0</span>
+															</div>
+														</div>
+														<div class="row">
+															<div class="review-type">
+																<span>Quality of Service</span>
+															</div>
+															<div class="rating">
+																<span>3.0</span>
+															</div>
+														</div>
+														<div class="row">
+															<div class="review-type">
+																<span>Operator Expertise</span>
+															</div>
+															<div class="rating">
+																<span>2.0</span>
+															</div>
+														</div>
+														<div class="row">
+															<div class="review-type">
+																<span>Convenience in Booking</span>
+															</div>
+															<div class="rating">
+																<span>2.0</span>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+
+					<!--col-3 end here-->
+					<div class="col-lg-3 col-md-3 col-sm-3">
+						<div class="row well well-slid sliderver-s"> 
+							<h2>Similar Packages</h2>
+							<div class="carousel  carousel-sec slide vertical" id="myCarousel">
+								<!-- Carousel items -->
+								<div class="row">
+									<div class="arrow-back">
+										<a data-slide="prev" href="#myCarousel" class="carousel-control left left-arrow"><i class="fa fa-chevron-up"></i></a>
+									</div>
+								</div>
+
+								<div class="carousel-inner c-inner">
+									<% @similar_packages.each_slice(3).with_index do |similar_packages_slice, i|%>
+									<div class="item <%= i==0 ? 'active' : ''%>">
+										<% similar_packages_slice.each do |similar_package|%>
+										<div class="rightverslid">
+											<div class="view-row image">
+												<%= image_tag(similar_package[:cover_picture])%>
+											</div>
+											<div class="view-row disctip">
+												<%=link_to truncate(similar_package[:name],length: 40), inclusion_path(similar_package[:id])%>
+												<div class="rows-data"><%= similar_package[:duration]%></div>
+											</div>
+											<div class="view-row rate-logo">
+												<span class="rate1">
+													<a href="#">
+														<i class="fa fa-inr"></i><%= similar_package[:price]%>
+													</a>
+												</span>
+												<span class="logo">
+													<a href="#">
+														<%= image_tag(similar_package[:operator_logo])%>
+													</a>
+												</span>
+											</div>
+										</div>
+										<% end %>
+									</div>
+									<% end %>
+								</div>
+								<!-- Carousel nav -->
+								<div class="row">
+									<div class="arrow-back-r">
+										<a data-slide="next" href="#myCarousel" class="carousel-control right right-arrow"><i class="fa fa-chevron-down"></i></a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>		
+			</div>
+		</section>

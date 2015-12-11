@@ -1,0 +1,19 @@
+---
+development:
+  cloud_name: trip
+  api_key: '326383992816558'
+  api_secret: hTvNbQYR1GVcnAtuPBPG7fSamDw
+  enhance_image_tag: true
+  static_image_support: false
+production:
+  cloud_name: trip
+  api_key: '326383992816558'
+  api_secret: hTvNbQYR1GVcnAtuPBPG7fSamDw
+  enhance_image_tag: true
+  static_image_support: true
+test:
+  cloud_name: trip
+  api_key: '326383992816558'
+  api_secret: hTvNbQYR1GVcnAtuPBPG7fSamDw
+  enhance_image_tag: true
+  static_image_support: false

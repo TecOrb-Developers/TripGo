@@ -1,0 +1,135 @@
+	<section id="slider"><!--slider-->
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-9">
+					<div id="slider-carousel" class="carousel slide" data-ride="carousel">
+						<ol class="carousel-indicators">
+							<li data-target="#slider-carousel" data-slide-to="0" class="active"></li>
+							<li data-target="#slider-carousel" data-slide-to="1"></li>
+							<li data-target="#slider-carousel" data-slide-to="2"></li>
+						</ol>
+						<div class="carousel-inner home-centre-slider">
+							
+							<% @reccomended_center.each_with_index do |package,index| %> 
+							<div class="item <%= index == 0 ? "active" : ""%>">
+								<div class="col-sm-6 pull-right caroseltxt1 txtcar">
+									<div class="view-jewerl">
+										<div class="view-row"><%= package.itinerary_name %></div>
+										<div class="view-row"><%=duration_of package%>,</div>
+										<div class="view-row"><%=package.user.name%></div>
+										<div class="view-row">&#x20B9; <%= package.price_per_person.to_i%></div>
+										<div class="view-row last"><span>4.5</span></div>
+									</div>
+								</div>
+								<div class="imgbig-s">
+									<%=image_tag package.pictures.first.image.url(:rec_center), :class=>"girl img-responsive"%>
+									<!-- <img src="/assets/banner1.png" class="girl img-responsive" alt="" /> -->
+									<!-- <img src="/assets/pricing.png"  class="pricing" alt="" /> -->
+								</div>
+							</div>
+							<%end%>
+						</div>
+						
+						<a href="#slider-carousel" class="left control-carousel hidden-xs" data-slide="prev">
+							<span class="left-icon"><img src="/assets/left-arrow.png" class="img-responsive" alt="" /></span>
+						</a>
+						<a href="#slider-carousel" class="right control-carousel hidden-xs" data-slide="next">
+							<span class="left-icon"><img src="/assets/right-arrow.png" class="img-responsive" alt="" /></span>
+						</a>
+					</div>
+					
+				</div>
+				<div class="col-sm-3">
+					<div class="container-vertical">							
+						<div class="row-fluid">
+							<div class="span6 offset3">
+								<div id="myCarousel" class="carousel slide vertical">
+									<!-- Carousel items -->
+									
+									<%index = 0%>
+									<div class="carousel-inner">
+										<% @reccomended_side.each_slice(3) do |rec_side|%>
+										<%index = index + 1%>
+										<div class="<%= index == 1 ? "active" : ""%> item">
+											<% rec_side.each do | rs|%>
+											<div class="rightverslid">
+												<div class="view-row image">
+													<%=image_tag rs.pictures.first.image.url(:rec_side)%>
+												</div>
+												<div class="view-row disctip"><%= rs.itinerary_name%>, 
+													<div class="rows-data"><%=duration_of rs%></div>
+												</div>
+												<div class="view-row rate-logo">
+													<span class="rate1"><a href="#"><i class="fa fa-inr"></i> <%=rs.price_per_person%></a></span>
+													<% if rs.user.profile.logo.url%>
+													<span class="logo"><a href="#"><%=image_tag rs.user.profile.logo.url(:logo)%></a></span>
+													<%end%>
+												</div>
+											</div>
+											<%end%>
+											
+										</div>
+										<%end%>
+									</div>
+									<!-- Carousel nav -->
+									<a class="carousel-control left" href="#myCarousel" data-slide="prev"><i class="fa fa-chevron-up"></i></a>
+									<a class="carousel-control right" href="#myCarousel" data-slide="next"><i class="fa fa-chevron-down"></i></a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section><!--/slider-->
+	
+	<!---get inspire---!> <!--/get inspire-->
+	<section>
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="getinspire">
+						<a href="#"> Get Inspired <i class="fa fa-angle-down"></i></a>
+					</div>
+				</div>				
+			</div>
+
+		</div>
+	</section>	
+	<section class="inspirimg" style="background: url('/assets/selctionimag.png')no-repeat top center/cover; min-height:240px;">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="getimgaes">“Not sure where you are going? Get inspired by a variety of specialised packages by expert operators.”</div>
+				</div>				
+			</div>
+		</div>
+	</section>
+
+	<%= render :partial => "home/weekend" %>
+
+	<!---get inspire end---!> <!--/get inspire-->	
+	<section class="campanylogoslid">
+		<div class="holiday-type">
+			<h3>Tour Operators</h3>
+		</div>
+		<div class="container">
+			<div class="row">
+				<div class="container">
+					<div class="clearout"></div>      
+					<ul id="flexiselDemo3"> 
+						<li><img src="/assets/comlogo-01.png" /></li>   
+						<li><img src="/assets/comlogo-02.png" /></li> 
+						<li><img src="/assets/comlogo-03.png" /></li> 
+						<li><img src="/assets/comlogo-04.png" /></li> 
+						<li><img src="/assets/comlogo-05.png" /></li>  
+						<li><img src="/assets/comlogo-06.png" /></li> 
+						<li><img src="/assets/comlogo-07.png" /></li> 
+					</ul>
+				</div>
+			</div>
+		</div>			
+	</section>	
+	<div class="clearout"></div>
+	<div class="clearout"></div>
+	<div class="clearout"></div>

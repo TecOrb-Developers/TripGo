@@ -1,0 +1,35 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 
+  agency_name: MyString
+  based_out_of: MyString
+  head_office_address: MyText
+  branch_location: MyText
+  website_name: MyString
+  travel_association_reference_no: MyText
+  about_us: MyText
+  fb_profile_page: MyString
+  ln_profile_page: MyString
+  twitter_profile_page: MyString
+  tour_locations: MyString
+  category: MyString
+  awards: MyText
+  specilized_in: MyString
+
+two:
+  user_id: 
+  agency_name: MyString
+  based_out_of: MyString
+  head_office_address: MyText
+  branch_location: MyText
+  website_name: MyString
+  travel_association_reference_no: MyText
+  about_us: MyText
+  fb_profile_page: MyString
+  ln_profile_page: MyString
+  twitter_profile_page: MyString
+  tour_locations: MyString
+  category: MyString
+  awards: MyText
+  specilized_in: MyString

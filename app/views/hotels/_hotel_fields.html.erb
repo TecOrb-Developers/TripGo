@@ -1,0 +1,126 @@
+<span class="add_city_field error_hotel red-star"></span>
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-xs-12 ">
+    <p>Please enter the information regarding meals, hotels, and sightseeing</p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6 col-sm-8 col-xs-12 col-md-offset-1 col-sm-offset-1 col-xs-offset-0">
+    <div class="form-group">
+      <label for="itineraryname">City<span class="red-star">*</span></label>
+      <%= f.select :city, city_names,{:placeholder => "please select"},{ :class => 'form-control input-box' } %>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="exampleInputEmail1">Number of Nights<span class="red-star">*</span></label>
+      <%= f.text_field :number_of_days,:class => "form-control input-box-1"%>
+      <span class="error_hotel red-star"></span>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="exampleInputEmail1">Hotel Name<span class="red-star">*</span></label>
+      <%= f.text_field :hotel_name,:class => "form-control input-box-1"%>
+      <span class="error_hotel red-star"></span>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="exampleInputEmail1">Hotel Address<span class="red-star">*</span></label>
+      <%= f.text_area :hotel_address,:class => "form-control input-box-1"%>
+      <span class="error_hotel red-star"></span>
+    </div>
+
+    <div class="row ">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="form-group-title">Hotel Star Rating<span class="red-star">*</span></span> </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="row">
+        <%collection_rating.each_with_index do |r,index|%>
+        <div class="col-sm-6  col-md-6 col-xs-12">
+          <div class="radio">
+           
+            <label class="radio-btn">
+              <%= f.radio_button :rating, r,:checked=> (f.object.rating.nil? ? (index==0) : (r == f.object.rating) )%>
+              <%= r%> </label>
+            </div>
+          </div>
+          <%end%>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-8 col-sm-11 col-xs-12 col-md-offset-1 col-sm-offset-1 col-xs-offset-0">
+      <div class="row ">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="form-group-title">Hotel Amenities<span class="red-star">*</span><span class="error_hotel red-star"></span> </div>
+          <div class="form-group-title sub-title">(Fill the Known Ones) </div>
+        </div>
+      </div>
+
+      <div class="row form-group">
+       <%hotel_amenities.each do |h|%>
+       <div class="col-sm-4  col-md-4 col-xs-12">
+        <div class="radio">
+          <%= f.check_box(:hotel_amenities,{ :multiple => true,:class => "hotel-amenities" }, h,nil) %>
+          <label for="<%=h%>"><span></span><%=h%></label>
+        </div>
+      </div>
+      <%end%>
+    </div>
+  </div>
+
+  <div class="col-md-6 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1 col-xs-offset-0">
+    <div class="row ">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="form-group-title">Add Hotel Image<span class="red-star">*</span> </div>
+      </div>
+    </div>
+    <%= f.fields_for :pictures, (f.object.pictures.blank? ? f.object.pictures.build : f.object.pictures) do |p| %>
+    <div class="row form-group">
+      <div class="image-field clearfix">
+       <label class="form-label  col-md-4 col-sm-4 col-xs-12" for="exampleInputEmail1">Add Image<span class="red-star">*</span></label>
+       <div class="col-md-8 col-sm-8 col-xs-12">
+        <%=p.file_field :image,:class=>"file", 'data-img_present' => (p.object.image.url.nil? ? false : true) %>
+        <span class="error_hotel red-star"></span></p>
+        <%unless p.object.image.url.nil?%>
+        <div class='package_image'>
+          <%=image_tag p.object.image.url(:package_icon),:style=>"width: 111px; height: 80px;" %>
+        </div>
+        <%end%>
+        <%=p.link_to_remove "Remove this image",:class=>"btn black-btn" %>
+      </div>
+    </div>
+  </div>
+  
+  <%end%>
+  <p><%= f.link_to_add "Add image", :pictures,:class=>"btn red-btn" %>
+
+    <div class="form-group">
+      <label for="exampleInputEmail1" class="form-label">Room Type <span class="red-star">*</span></label>
+      <%= f.text_field :room_type,:class => "form-control input-box-1"%>
+      <span class="error_hotel red-star"></span>
+    </div>
+  </div>
+  <div class="col-md-8 col-sm-11 col-xs-12 col-md-offset-1 col-sm-offset-1 col-xs-offset-0">
+    <div class="row ">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="form-group-title">Room Amenities<span class="red-star">*</span> </div>
+        <div class="form-group-title sub-title">(Fill the Known Ones) </div>
+      </div>
+    </div>
+    <div class="row form-group">
+     <%room_amenities.each do |r|%>
+     <div class="col-sm-4  col-md-4 col-xs-12">
+      <div class="radio ">
+        <%= f.check_box(:room_amenities,{ :multiple => true,:class => "hotel-amenities" }, r,nil) %>
+        <label><%= r%></label>
+      </div>
+    </div>
+    <%end%>
+  </div>
+</div>
+</div>
+
+<%= f.link_to_remove "Remove this hotel",:class=>"btn black-btn" %>
+
+<hr>

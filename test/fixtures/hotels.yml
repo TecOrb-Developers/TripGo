@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  package_id: 
+  number_of_days: 1
+  hotel_name: MyString
+  hotel_address: MyText
+  rating: MyString
+  hotel_amenities: MyString
+  room_type: MyString
+  room_amenities: MyString
+
+two:
+  package_id: 
+  number_of_days: 1
+  hotel_name: MyString
+  hotel_address: MyText
+  rating: MyString
+  hotel_amenities: MyString
+  room_type: MyString
+  room_amenities: MyString

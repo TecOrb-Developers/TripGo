@@ -1,0 +1,11 @@
+<center>
+<%= form_for :contact ,:url => contact_path, :method => :post do |f| %>
+
+	Title: <%= f.text_field :title  %> <br><br>
+	Content :  <%= f.text_area :content %><br><br>
+
+	<%= f.submit "Save"%>
+</p>
+<%end%>
+
+</center>

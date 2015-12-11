@@ -1,0 +1,32 @@
+<div class="accordion-inner">
+  <div class="row">
+    <div class="col-md-6 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1 col-xs-offset-0">
+      <div class="form-group">
+        <label for="" class="form-label">Description
+          <span class="red-star">*</span>
+        </label>
+        <span class="red-star itinerary_error error-itineraries_<%=index%>_description"></span>
+        <%= f.text_area :description, class: "form-control input-box-1 itinerary_desc-#{index}", :'data-accodion_index' => index, :id => "itineraries_#{index}_description" %>
+      </div>
+      <div class="row form-group">
+        <div class="image-field clearfix">
+          <label class="form-label col-md-4 col-sm-4 col-xs-12" for="">Add Image
+            <span class="red-star"></span>
+          </label>
+          <span class="red-star itinerary_error error-itineraries_<%=index%>_picture"></span>
+
+
+
+          <div class="col-md-8 col-sm-8 col-xs-12">
+            <%= f.file_field :picture, :class => "itinerary_desc-#{index} file", 'data-img_present' => (f.object.picture.blank? ? false : true), :id=> "itineraries_#{index}_picture" %>
+              <%unless f.object.picture.url.nil?%>
+              <div class='package_image'>
+              <%=image_tag f.object.picture.url(:itinerary),:style=>"width: 111px; height: 80px;" %>
+              </div>
+              <%end%>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

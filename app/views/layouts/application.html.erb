@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Lets Go</title>
+
+	<%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => false %>
+	<%= javascript_include_tag 'application', 'data-turbolinks-track' => false %>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.1.47/jquery.form-validator.min.js"></script> -->
+	<script src="http://code.jquery.com/jquery-migrate-1.0.0.js"></script>
+	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?v=3&sensor=true"></script>
+
+	<%= csrf_meta_tags %>
+
+	<style type="text/css" media="screen">
+	.layout { padding: 50px; font-family: Georgia, serif; }
+	.layout-slider { margin-bottom: 13px; width: 100%; }
+	.layout-slider-settings { font-size: 12px; padding-bottom: 10px; }
+	.layout-slider-settings pre { font-family: Courier; }
+	</style>
+</head>
+
+<body>
+	<% if @ip_exist.nil? %>
+		<!-- <body onload="showpopup()"> -->
+	<% end %>
+		<%= render :partial => "layouts/header" %>
+		<% flash.each do |key, value| %>
+		<%= content_tag(:div, value, class: "flash_notice hide", 'data-type' => "#{key}") %>
+		<% end %>
+
+		<%= yield %>
+		<%= render :partial => "notifications/inquiry" %>
+		<%= render :partial => "layouts/footer" %>
+	</body>
+
+	</html>
+
+	<script type="text/javascript">
+// Script for all inquiry action
+function package_info(obj){
+	package_id = $(obj).data('package-id');
+	package_name = $(obj).data('package-name');
+	role = $(obj).data('role');
+	if (role === 'consumer'){
+		$('.inq_of_package').text("Enquiry for " + package_name);
+		$('#enquiry_package_id').val(package_id);
+	}
+	else{
+		alertify.error('You are not authorized to perform this action!');
+		$('#enquiry-form').model('hide');
+	}
+}
+
+// show signup model on first time 
+// function showpopup(){
+// 	setTimeout(function(){ $('#signup_default').modal('show') },3000); 
+// }
+
+</script>

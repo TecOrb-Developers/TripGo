@@ -1,0 +1,53 @@
+<div class="row ">
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="form-group-title"> At Destination Transportation <span class="red-star">*</span> </div>
+    </div>
+</div>
+
+  <div class="row form-group">
+    <div class="col-sm-12  col-md-12 col-xs-12">
+      <div class="radio">
+          <label class="radio-btn">
+            <%= f.radio_button :city_transpotation , 'included', :checked=> (f.object.city_transpotation.nil? ? true : f.object.city_transpotation == 'included' ),:id => "city_transpotation_#{city_index}",'data-city_index' => "#{city_index}" %>
+          Included </label>
+      </div>
+    </div>
+
+    <div class="col-sm-12  col-md-12 col-xs-12">
+      <div class="radio">
+          <label class="radio-btn">
+            <%= f.radio_button :city_transpotation , 'not_included',:id => "city_transpotation_#{city_index}",'data-city_index' => "#{city_index}" %>
+          Not Included </label>
+      </div>
+    </div>
+  </div>
+  
+  <div id="city_transport_modes_<%=city_index%>">              
+  <div class="row ">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <div class="form-group-title"> At Destination Transportation Mode <span class="red-star">*</span>  <span class="red-star error city_transport_error_<%=city_index%>"></span></div>
+    </div>
+  </div>
+                
+  <div class="row form-group">
+    <%CityTransport::TRANSPORT_MODES.each do |mode|%>
+      <div class="col-sm-6  col-md-6 col-xs-12">
+        <div class="radio ">
+          <%unless mode == 'Other'%>
+            <label class="radio-btn">
+            <%= f.radio_button :transport_mode, mode,:class => "modes_#{city_index}"%>
+            <%= mode %> </label>
+          <%else%>
+            <label class="radio-btn">
+            <%= f.radio_button :transport_mode,'',:checked => false,:class => "modes_#{city_index}"%>
+            <%= mode%> </label>
+            <%=text_field_tag 'get_ct_input',get_city_transport_mode(f.object.transport_mode),:id => "get_ct_input_#{city_index}",:placeholder => 'Please specify'%>
+            <span class="red-star error input_city_transport_error_<%=city_index%>">
+          <%end%>
+        </div>
+      </div>
+      <%end%>
+  </div>
+  </div>
+
+     

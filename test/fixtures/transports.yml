@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  package_id: 
+  transport_mode: MyString
+  transport_name: MyString
+  start: MyString
+  end: MyString
+  transfer_section: MyString
+  transfer_mode: MyString
+
+two:
+  package_id: 
+  transport_mode: MyString
+  transport_name: MyString
+  start: MyString
+  end: MyString
+  transfer_section: MyString
+  transfer_mode: MyString

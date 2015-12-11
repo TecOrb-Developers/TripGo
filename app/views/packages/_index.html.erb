@@ -1,0 +1,197 @@
+		<div class="modal fade" id="dlt-list" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header model-head">
+						<button type="button" class="close close-1" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<span class="left-span">Delete</span>
+					</div>
+					<div class="modal-body">
+						<p>Are you sure you want to delete the list?</p>
+					</div>
+					<div class="modal-footer model-ftr">
+						<div class="package-action pkg-action_p">
+							<button type="submit" class="btn red-btn save">Delete</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="copy-list" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header model-head">
+						<button type="button" class="close close-1" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<span class="left-span">Copy List</span>
+					</div>
+					<div class="modal-body">
+						<p>Are you sure you want to copy the list?</p>
+					</div>
+					<div class="modal-footer model-ftr">
+						<div class="package-action pkg-action_p">
+							<button type="submit" class="btn red-btn save">Copy</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row gap">
+			<div class="col-sm-12">
+				<div class="table-section">
+					<div class="table-responsive">
+						<table class="table table-striped package_table">
+							<thead>
+								<tr class="table-head">
+									<th class="th-sno">S.No.</th>
+									<th class="th-name"><%= sortable("itinerary_name", "Name")%></th>
+									<th class="th-id"><%= sortable("id", "ID")%></th>
+									<th class="th-destn">Destination</th>
+									<th class="th-val">Validity</th>
+									<th class="th-last-mod"><%= sortable("updated_at", "Last Modified")%></th>
+									<th class="th-inq">Inclusion</th>
+									<th class="th-inq">Inquiry</th>
+									<th class="th-view">Views</th>
+									<th class="th-inven">Inventory</th>
+									<th class="th-action">Action</th>
+									<th class="th-sts">Status</th>
+								</tr>
+							</thead>
+							<tbody>
+								<%index = serial_for_paginatation(@packages.current_page, @packages.per_page)%>
+								<%@packages.each do |package|%>
+								<tr class="odd">
+									<td class="th-sno view-rows"><%=index%></td>
+									<td class="view-rows th-name"><%= package.itinerary_name%></td>
+									<td class="view-rows th-id p_id"><%= package.id%></td>
+									<td class="view-rows th-destn"><%= package.cities.last.city_name unless package.cities.blank?%></td>
+									<td class="view-rows th-val"><%= formated_date(package.start_date)%> to <%= formated_date(package.end_date)%></td>
+									<td class="view-rows th-last-mod"><%=formated_datetime(package.updated_at)%></td>
+									<td class="view-rows th-inq">
+										<%=package.included.join(',')%>
+									</td>
+									<td class="view-rows th-inq"><%= package.inquiry_count%></td>
+									<td class="view-rows th-inq"><%= package.viewed_count%></td>
+									<td class="view-rows th-inven"><input type="email" value = "<%=package.inventory%>" class="form-control black-bg edit_inventory" data-p-id="<%=package.id%>" placeholder="120/120" /></td>
+									<td class="view-rows th-action last">
+										<a href="<%=edit_package_path(package)%>">Edit</a>
+										<a href="#" class="copy-list" data-id="<%=package.id%>">Copy</a>
+										<a href="#" class="del-rw" data-id="<%=package.id%>">Delete</a>
+									</td>
+									<td class="view-rows th-sts last"><%= package.status? ? 'Approved' : 'Pending'%></td>
+								</tr>
+								<%index += 1%>
+								<%end%>		
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+
+				<div class="row">
+					<div class="col-sm-4 col-sm-push-8">
+						<div class="table-pager demo_class">
+							<%= will_paginate @packages, :container => false %>
+							<%#= demo_p(@packages) %>
+						</div>
+					</div>
+				</div>
+
+				<script type="text/javascript">
+				$('.demo_class a, .sortable').click(function (e) {
+					e.preventDefault();
+					sort = getParam($(this).attr('href'), 'sort');
+					direction = getParam($(this).attr('href'), 'direction');  
+					filter_against = $('#packages_filter_against').val();
+					filter_query = $('#packages_filter_query').val();
+  // alertify.success('==for testig='+sort+"-->"+direction);
+
+  var page=1;
+  if (!$(this).hasClass('sortable')){
+  	switch ($(this).attr('rel')) {
+  		case 'prev':
+  		page = <%= @packages.current_page - 1 %>
+  		break;
+  		case 'next':
+  		page = <%= @packages.current_page + 1 %>
+  		break;
+  		case 'prev start':
+  		page = 1
+  		break;
+  		case 'start':
+  		page = 1
+  		break;
+  		default:
+  		page = $(this).text();
+  	}
+  }
+  $.ajax({
+  	type: "GET",
+  	url: "/packages-filter",
+  	data:{ filter_against: filter_against, filter_query: filter_query, page: page, sort: sort, direction: direction},
+  	dataType: "script",
+  	success:function(data){
+	          // alert("datfsdfla");                  
+	        },
+	        error: function() {
+	        	alertify.error('Something went wrong. Please try again..');    
+	        }
+	      });
+});
+
+
+// delete package ajax request
+$(".del-rw").click(function(e){
+	e.preventDefault();
+	id = $(this).data('id');
+	alertify.confirm("Are you sure you want to delete the package?", function(event){
+		if (event){
+			$.ajax({
+				type: "DELETE",
+				url: "/packages/"+id,
+				data:{ },
+				dataType: "script",
+				success:function(data){ 
+					alertify.success('Package destroyed Successfully.') 
+				},
+				error: function() {
+					alertify.error('Something went wrong. Please try again.');    
+				}
+			});
+		}
+	});
+});
+
+// copy package ajax request
+$(".copy-list").click(function(e){
+	e.preventDefault();
+	id = $(this).data('id');
+	alertify.confirm("Are you sure you want to copy the package?", function(event){
+		if (event){
+			$.ajax({
+				type: "POST",
+				url: "/packages/"+id+"/duplicate_package",
+				data:{ package_id: id },
+				dataType: "script",
+				success:function(data){ 
+					alertify.success('Package duplicated Successfully.') 
+				},
+				error: function() {
+					alertify.error('Something went wrong. Please try again.');    
+				}
+			});
+		}
+	});
+});
+
+function getParam(url, name){
+	results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(url);
+	if (results==null){
+		return null;
+	}
+	else{
+		return results[1] || 0;
+	}
+}
+
+</script>

@@ -1,0 +1,9 @@
+<div class="form-group">
+  <label id = "label_for_city">City<span class="red-star">*</span></label>
+
+  <%= f.text_field :city_name,:class=>"form-control" %>
+  <span class="city_field error"></span>
+</div>
+<%#if @package.new_record? %>
+<%= f.link_to_remove "Remove this city",:class=>"btn black-btn" %>
+<%#end%>

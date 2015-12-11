@@ -1,0 +1,15 @@
+<center>
+<p><%= flash[:notice] %></p>
+<h2>Send Notifications</h2>
+<%= form_for :send_mail ,:url => users_send_mail_path, :method => :post do |f| %>
+
+	Select Partner : <%= f.select :to, ['All Supplier', 'All Consumer'] %> <br><br>
+
+	 <h3>  <label for="send_offer">Offer:</label>
+		<%= f.text_area :offer,:row => '3'%></h3><br>
+
+	<%= f.submit%>
+
+<%end%>
+
+</center>

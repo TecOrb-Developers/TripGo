@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  destination: MyString
+  assigned_to: MyString
+  visit_for: MyString
+  is_customize_request: false
+  status: MyString
+
+two:
+  name: MyString
+  destination: MyString
+  assigned_to: MyString
+  visit_for: MyString
+  is_customize_request: false
+  status: MyString

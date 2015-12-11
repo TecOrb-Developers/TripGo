@@ -1,0 +1,101 @@
+<div class="col-md-3 col-xs-12 col-lg-3">
+	<div class="search-left-sec">
+		<div class="search-title">
+			<p>Filter By:</p>
+		</div>
+		<div class="search-all search-mtop">
+			<div class="searc-cross1">
+				<span class="reset-select">
+					<img src="/assets/cross-sm.png">
+				</span>
+				<span data-type='reset' class= "reset-select">Clear All</span>
+			</div>
+			<div class="searc-cross2">
+				<span class= "reset-select"><img src="/assets/cross-sm.png"></span>
+				<span data-type='select' class="reset-select">Select All</span>
+			</div>
+		</div>
+
+		<div class="search-title3 search-mtop">
+			<p>Price Filter</p>
+		</div>
+
+		<div class="search-filter search-mtop">
+			<div class="layout-slider">
+				<input id="Slider2" type="slider" name="price_range" value="1000;50000" />
+				<!-- <input id="Slider2" type="slider" name="price_range" value="<%#=params[:price_range].present? ? params[:price_range] : session[:obj]['price_range'] %>" /> -->
+			</div>
+		</div>
+
+		<div class="filter-range search-mtop">
+			<div class="left-search">
+				<span><%=session[:obj]['min_price']%></span>
+			</div>
+
+			<div class="right-search">
+				<span><%=session[:obj]['max_price']%></span>
+			</div>
+		</div>
+		<div class="search-title2 search-mtop">
+			<p>Type of Holiday</p>
+			<%Package::HOLIDAY_TYPES.each_with_index do |h, i|%>
+			<div class="custom-checkbox2">
+				<%= check_box_tag 'holiday_types[]', h, is_searched_for?(h, params[:holiday_types]), {:multiple => true, :class=> "filter-by"} %>
+				<label for="<%=h%>"><span></span><img class="search-mright" src="/assets/<%=Package::HOLIDAY_TYPES_ICON[i]%>.png"><%=h%></label>
+			</div>
+			<% end %>
+		</div>
+
+		<div class="search-title2 search-mtop">
+			<p>Type of Destination</p>
+			<%Package::HOLIDAYS.each_with_index do |h, i|%>
+			<div class="custom-checkbox2">
+				<%= check_box_tag 'destination_types[]', h, is_searched_for?(h, params[:destination_types]), {:multiple => true, :class=> "filter-by"} %>
+				<label for="<%=h%>"><span></span><img class="search-mright" src="/assets/<%=Package::HOLIDAYS_ICON[i]%>.png"><%=h%></label>
+			</div>
+			<% end %>
+		</div>
+
+		<div class="search-title2 search-mtop">
+			<p>Hotel Star Rating</p>
+			<%collection_rating.each_with_index do |h, i|%>
+			<div class="custom-checkbox2">
+				<%= check_box_tag 'hotel_rating[]', h, is_searched_for?(h, params[:hotel_rating]), {:multiple => true, :class=> "filter-by"} %>
+				<%#= radio_button_tag 'hotel_rating', h, ((h==params[:hotel_rating] ? true : (i==0 ? true : false))), {:multiple => true, :class=> "filter-by"} %>
+				<label for="<%=h%>"><span></span><%=h%></label>
+			</div>
+			<% end %>
+		</div>
+
+		<div class="search-title2 search-mtop">
+			<p>Package Inclusions</p>
+			<%Package::INCLUSIONS.each_with_index do |(key, h), i|%>
+			<div class="custom-checkbox2">
+				<%= check_box_tag 'inclusions[]', h, is_searched_for?(h, params[:inclusions]), {:multiple => true, :class=> "filter-by"} %>
+				<label for="<%=h%>"><span></span><img class="search-mright" src="/assets/<%=Package::INCLUSIONS_ICON[i]%>.png"><%=key%></label>
+			</div>
+			<% end %>
+		</div>
+		
+		<div class="search-title3 search-mtop">
+			<p>Tour Operators</p>
+			<% tour_operators(@packages).each do |operator|%>
+			<div class="custom-checkbox2">
+				<%= check_box_tag 'operators[]', operator, is_searched_for?(operator, params[:operators]), {:multiple => true, :class=> "filter-by"} %>
+				<label for="<%=operator%>"><span></span><%=operator%></label>
+			</div>
+			<%end%>
+		</div>
+	</div>
+</div>
+<%= hidden_field_tag :base_city, params[:base_city]%>
+<%= hidden_field_tag :destination, params[:destination]%>
+<%= hidden_field_tag :date, params[:date]%>
+<%= hidden_field_tag :duration, params[:duration]%>
+<%= hidden_field_tag :sort_by, params[:sort_by]%>
+<%= hidden_field_tag :is_filter, ''%>
+<%#= submit_tag "sss"%>
+
+<script type="text/javascript" charset="utf-8">
+jQuery("#Slider2").slider({ from: "<%=session[:obj]['min_price']%>", to: "<%=session[:obj]['max_price']%>", step: 500 });
+</script>

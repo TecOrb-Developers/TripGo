@@ -1,0 +1,28 @@
+.package_table th a {
+  color: #fff !important;
+  text-decoration: none;
+}
+
+.th-action{
+	text-align: center;
+}
+
+.th-inq, .th-view{
+	text-align: right;
+}
+
+/*
+.package_table th .current {
+  padding-right: 12px;
+  background-repeat: no-repeat;
+  background-position: right center;
+  color: #000;
+}
+.package_table th .asc {
+  background-image: url(/assets/up_arrow.gif);
+}
+
+.package_table th .desc {
+  background-image: url(/assets/down_arrow.gif);
+}*/
+

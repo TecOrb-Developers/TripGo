@@ -1,0 +1,45 @@
+<section class="inner">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-8 col-md-6 col-sm-push-2 col-md-push-3">
+        <div class="sign-up">
+        <div class="form-section my-account clearfix">
+          <div class="data-cont">
+            <div class="title">
+
+<h2>Change your password</h2>
+</div>
+
+<%= form_for(resource, as: resource_name, url: password_path(resource_name),html: {:class => "form-horizontal" }, method: :put ) do |f| %>
+  <%= f.hidden_field :reset_password_token %>
+<%#= devise_error_messages! %>
+  <div class="form-group">
+    <label for="exampleInputEmail1">Password<span class="red-star">*</span></label>
+    
+    <%= f.password_field :password, autofocus: true, autocomplete: "off",:class => "form-control",:placeholder =>  "Enter password" %>
+    <span ><font color='red'> <%= resource.errors[:password].join(", ") unless resource.errors[:password].nil? %></font></span>
+  
+  </div>
+
+  <div class="form-group">
+    <label for="exampleInputEmail1">Confirm Password<span class="red-star">*</span></label>
+    <%= f.password_field :password_confirmation, autocomplete: "off",:class => "form-control",:placeholder =>  "Enter confirm password" %>
+    <span ><font color='red'> <%= resource.errors[:password_confirmation].join(", ") unless resource.errors[:password_confirmation].nil? %></font></span>
+  
+  </div>
+
+  <div class="form-group">
+   
+    <%= f.submit "Change my password", :class => "btn red-default save"%>
+ 
+  </div>
+<% end %>
+
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+
+</section>

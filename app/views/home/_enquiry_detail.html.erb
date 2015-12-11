@@ -1,0 +1,70 @@
+<div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header model-head">
+			<button aria-label="Close" data-dismiss="modal" class="close close-1" type="button"><span aria-hidden="true">×</span></button>
+			<h4 id="myModalLabel" class="modal-title"><i class="fa fa-envelope"></i> User Enquiry</h4>
+		</div>
+		<div class="modal-body">
+			<form class="form-horizontal">
+				<div class="form-group">
+					<label class="col-sm-4 control-label ctrl-label">Name</label>
+					<div class="col-sm-8">
+						<label class="control-label ctrl-label"><%= @enquiry.name.titleize%></label>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label ctrl-label">Phone No.</label>
+					<div class="col-sm-8">
+						<label class="control-label ctrl-label"><%= @enquiry.phone_no%></label>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label ctrl-label " for="">Email</label>
+					<div class="col-sm-8">
+						<label class="control-label ctrl-label"><%= @enquiry.email%></label>
+					</div>
+				</div>
+
+
+				<div class="form-group">
+					<label class="col-sm-4 control-label ctrl-label ">Customized by: </label>
+					<div class="col-sm-8">
+						<div class="form-group">
+							<label class="col-sm-5 control-label ctrl-label">Travel</label>
+							<div class="col-sm-7">
+								<label class="control-label ctrl-label "> : <%= @enquiry.custome_travel.titleize%></label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-5 control-label ctrl-label">Hotel</label>
+							<div class="col-sm-7">
+								<label class="control-label ctrl-label "> : <%= @enquiry.custome_hotel.titleize%></label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-5 control-label ctrl-label">Local Transport</label>
+							<div class="col-sm-7">
+								<label class="control-label ctrl-label "> : <%= @enquiry.custome_local_transport.titleize%></label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-5 control-label ctrl-label">Meals</label>
+							<div class="col-sm-7">
+								<label class="control-label ctrl-label "> : <%= @enquiry.custome_meals.titleize%></label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-5 control-label ctrl-label">Sightseeing</label>
+							<div class="col-sm-7">
+								<label class="control-label ctrl-label "> : <%= @enquiry.custome_sights.titleize%></label>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="modal-footer model-ftr">
+			<button aria-label="Close" data-dismiss="modal" class="btn btn-info blue-button btn-red" type="button">Close</button>
+		</div>
+	</div>
+</div>

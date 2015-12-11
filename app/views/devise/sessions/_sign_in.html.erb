@@ -1,0 +1,273 @@
+	<!--Sign Up pop-up start here-->
+	<div class="modal fade" id="signup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header model-head">
+					<button type="button" class="close close-1" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<div class="row">
+						<div class="signup-left-t">
+							<span class="left-span">Sign In</span>
+						</div>
+						<div class="signup-right-t">
+							<span class="left-span">Sign up</span>
+						</div>
+					</div>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="bt-bottom">
+								<div class="form-group">
+									<div class="radio-inline">
+										<label class="radio-inline">
+											<input type="radio" value="option1" id="" name="login-suplier" class= "user-type-user"> I'm User
+										</label>
+									</div>
+									<div class="radio-inline">
+										<label class="radio-inline radio-btn-activ">
+											<input type="radio" value="option1" id="radio-suplier" name="login-suplier" class= "user-type-suplier" checked> I'm Suplier
+										</label>
+									</div>
+								</div>
+								<div class="text-box">
+									Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam id dolor id nibh ultricies vehicula.
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row ">
+
+						<div class="signup-left-t">
+							<div class="login-block">
+								<%= form_for :user, url: new_user_session_path,:html => {:class => "form-horizontal"} do |f| %>
+								<div class="form-group">
+									<label for="" class="col-sm-4 control-label ctrl-label ">Email</label>
+									<div class="col-sm-8">
+										<%= f.email_field :email, autofocus: true,:class => "form-control input-box", :id=> "user_email_suplier" %>
+										<span class="email_field error"></span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="" class="col-sm-4 control-label ctrl-label ">Password</label>
+									<div class="col-sm-8">
+										<%= f.password_field :password, autocomplete: "off",:class => "form-control input-box", :id=> "user_password_suplier" %>
+										<span class="password_field error"></span>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-md-9 col-md-offset-3">
+										<div class="anchor-text">
+											<ul>
+												<li><a data-target="#forgot" data-toggle="modal" href="#" id ="forgot_pass">Forgot Password?</a></li>
+											</ul>
+										</div>
+									</div>	
+								</div>
+								<div class="modal-footer model-ftr">
+									<%= f.submit "Log in", :class=>"btn btn-info blue-button btn-black login login-user" %>
+								</div>	
+								<%end%>
+							</div>
+						</div>
+						<div class="signup-right-t">
+							<div class="signup-block">
+								<%= link_to "Sign Up Here", users_suplier_sign_up_path,:class=>"btn btn-info blue-button btn-black" %>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div> 
+		</div>
+	</div>
+	<%= render :partial => "devise/passwords/forgot_password" %>
+	<!--Sign Up ends here-->
+	
+	<!--Sign Up for user here-->
+	<div class="modal fade" id="signup_default" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-windw">
+			<div class="modal-content">
+				<div class="modal-header model-head">
+
+					<button type="button" class="close close-1" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<div class="row">
+						<div class="signup-left-t">
+							<span class="left-span">Sign In</span>
+						</div>
+						<div class="signup-right-t">
+							<span class="left-span">Sign up</span>
+						</div>
+					</div>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="bt-bottom">
+								<div class="form-group">
+									<div class="radio-inline">
+										<label class="radio-inline radio-btn-activ">
+											<input type="radio" value="option1" id="radio-user" name="user-login" class= "user-type-user" checked > I'm User
+										</label>
+									</div>
+									<div class="radio-inline">
+										<label class="radio-inline">
+											<input type="radio" value="option1" id="" name="user-login" class= "user-type-suplier"> I'm Suplier
+										</label>
+									</div>
+								</div>
+								<div class="text-box">
+									Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam id dolor id nibh ultricies vehicula.
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row ">
+						<div class="col-md-6 col-xs-12 col-sm-6">	
+							<div class="signup-left">
+								<a href="/auth/facebook">
+									<button type="button" class="btn btn-default btn-lg btn-fb">
+										<span aria-hidden="true"><img src="/assets/fbicon.png"></span> Sign In with Facebook
+									</button></a>
+									<a href="/auth/google_oauth2">
+										<button type="button" class="btn btn-default btn-lg btn-gplus">
+											<span aria-hidden="true"><img src="/assets/googleplus.png"></span> Sign In with Google+
+										</button>
+									</a>
+									
+									<div class="col-md-12">	
+										<div class="inr-sec">
+											<div class="t-line">
+												or
+											</div>
+										</div>
+									</div>
+
+									<div class="login-block">
+										<%= form_for :user, url: new_user_session_path,:html => {:class => "form-horizontal signup-signin-form"} do |f| %>
+										<div class="form-group">
+											<label for="" class="col-sm-4 control-label ctrl-label ">Email</label>
+											<div class="col-sm-8">
+												<%= f.email_field :email, autofocus: true,:class => "form-control input-box", :id=> "user_email_consumer" %>
+												<span class="email_field error"></span>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="" class="col-sm-4 control-label ctrl-label ">Password</label>
+											<div class="col-sm-8">
+												<%= f.password_field :password, autocomplete: "off",:class => "form-control input-box", :id=> "user_password_consumer" %>
+												<span class="password_field error"></span>
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-md-9 col-md-offset-3">
+												<div class="anchor-text">
+													<ul>
+														<li>
+															<a data-target="#forgot" data-toggle="modal" href="#" id ="forgot_pass">Forgot Password?</a>
+														</li>
+													</ul>
+												</div>
+											</div>	
+										</div>
+										<div class="form-group">
+											
+											<div class="anchor-text">
+												<ul>
+													<li>
+														By Signing up/Signing in, you agree to Tripshelf’s <%= link_to "terms & conditions",terms_and_condition_path%> and
+														
+														<%= link_to "privacy policy",terms_and_condition_path%>
+														
+													</li>
+												</ul>
+											</div>
+											
+										</div>
+
+										<div class="modal-footer model-ftr">
+											<%= f.submit "Log in", :class=>"btn btn-info blue-button btn-black login" %>
+										</div>	
+										<%end%>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-md-6 col-xs-12 col-sm-6">
+								<div class="signup-right">
+									<button class="btn btn-default btn-lg btn-fb" type="button">
+										<span aria-hidden="true"><img src="/assets/fbicon.png"></span> Sign Up with Facebook
+									</button>
+									<button class="btn btn-default btn-lg btn-gplus" type="button">
+										<span aria-hidden="true"><img src="/assets/googleplus.png"></span> Sign Up with Google+
+									</button>
+									<div class="col-md-12">	
+										<div class="inr-sec">
+											<div class="t-line">
+												or
+											</div>
+										</div>
+									</div>
+									<div class="login-block">
+										<%= form_for(:user, url: users_create_consumer_account_path, :html=>{:class=> "form-horizontal signup-signin-form"}) do |f| %>
+										<div class="form-group">
+											<label class="col-sm-4 control-label ctrl-label">Name</label>
+											<div class="col-sm-8">
+												<%= f.text_field :name, :class=>"form-control input-box", :id=>'consumer_name' %>
+												<span class="red-star error"></span>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-4 control-label ctrl-label">Email</label>
+											<div class="col-sm-8">
+												<%= f.email_field :email, :class=>"form-control input-box", :id=>'consumer_email' %>
+												<span class="red-star error"></span>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-4 control-label ctrl-label">Phone No.</label>
+											<div class="col-sm-8">
+												<%= f.text_field :contact_no, :class=>"form-control input-box", :id=>'consumer_contact_no' %>
+												<span class="red-star error"></span>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-4 control-label ctrl-label">Password</label>
+											<div class="col-sm-8">
+												<%= f.password_field :password, :class=>"form-control input-box", :id=>'consumer_password' %>
+												<span class="red-star error"></span>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-4 control-label ctrl-label">Confirm Password</label>
+											<div class="col-sm-8">
+												<%= f.password_field :password_confirmation, :class=>"form-control input-box", :id=>'consumer_password_confirmation'%>
+												<span class="red-star error"></span>
+											</div>
+										</div>
+										<div class="form-group">
+											
+											<div class="anchor-text">
+												<ul>
+													<li>
+														By Signing up/Signing in, you agree to Tripshelf’s <%= link_to "terms & conditions",terms_and_condition_path%> and
+														
+														<%= link_to "privacy policy",terms_and_condition_path%>
+														
+													</li>
+												</ul>
+											</div>
+											
+										</div>
+										<div class="modal-footer model-ftr">
+											<!-- <button aria-label="Close" data-dismiss="modal" class="btn btn-info blue-button btn-black" type="submit" id= 'consumer_registration_submit'>Sign Up</button> -->
+											<%= f.submit "Sign up", :id=> 'consumer_registration_submit', :class=>"btn btn-info blue-button btn-black" %>
+										</div>
+										<% end %>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--sign up ends here-->

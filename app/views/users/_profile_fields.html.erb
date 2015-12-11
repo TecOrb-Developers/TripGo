@@ -1,0 +1,158 @@
+<div class="form-group">
+    <label for="exampleInputEmail1">Name of Travel Agency<span class="red-star">*</span></label>
+    <%= pf.text_field :agency_name,:class=>"form-control" %>
+    <span class="pr_error_label5 error"></span>
+</div>
+<div class="form-group">
+    <div class="image-field clearfix">
+      <label class="form-label  col-md-4 col-sm-4 col-xs-12" for="">Upload logo
+        <span class="red-star profile_logo_error"></span>
+    </label>
+    <div class="col-md-8 col-sm-8 col-xs-12">
+        <%= pf.file_field :logo, :class=> "file", 'data-img_present' => (pf.object.logo.blank? ? false : true) %>
+        <p class= "pull-right"><%pf.object.logo if pf.object.logo %></p>
+    </div>
+</div>
+</div>
+<div class="form-group">
+    <label for="exampleInputPassword1">Based Out of<span class="red-star">*</span></label>
+    <%= pf.text_field :based_out_of,:class=>"form-control" %>
+    <span class="pr_error_label6 error"></span>
+</div>
+
+<div class="form-group">
+    <label for="exampleInputPassword1">Head Office Address<span class="red-star">*</span></label>
+    <%= pf.text_area :head_office_address,:class=>"form-control" %>
+    <span class="pr_error_label7 error"></span>
+</div>
+
+<div class="form-group">
+    <label for="exampleInputPassword1">Branch Locations<span class="red-star">*</span> </label>
+    <%= pf.text_area :branch_location,:class=>"form-control" %>
+    <span class="pr_error_label8 error"></span>
+</div>
+
+<div class="form-group">
+    <label for="exampleInputEmail1">Website Address<span class="red-star">*</span></label>
+    <%= pf.text_field :website_name,:class=>"form-control" %>
+    <span class="pr_error_label9 error"></span>
+</div>
+
+<div class="form-group">
+    <label for="exampleInputPassword1">Travel Association Reference No. :<br>E.g IATA, TAAI </label>
+    <%= pf.text_area :travel_association_reference_no,:class=>"form-control" %>
+</div>
+<center>           
+    <button type="submit" id="next_one" onclick="return false" class="btn red-default save " > Save And Continue </button> 
+</center>
+</div>
+
+<div id="form_two" style="display: none;">
+
+    <div class="form-group">
+        <label for="exampleInputPassword1">About Us<span class="red-star">*</span></label>
+        <%= pf.text_area :about_us,:class=>"form-control" %>
+        <span class="pr_error_label10 error"></span>
+    </div>
+    <div class = 'profile_page_link'>
+        <div class="form-group">
+            <label for="">Facebook Profile Page<span class="red-star"></span></label>
+            <%= pf.text_field :fb_profile_page,:class=>"form-control profile_link_1" %>
+
+        </div>
+
+        <div class="form-group">
+            <label for="">LinkedIn Profile Page<span class="red-star"></span></label>
+            <%= pf.text_field :ln_profile_page,:class=>"form-control profile_link_2" %>
+        </div>
+
+        <div class="form-group">
+            <label for="">Twitter Profile Page<span class="red-star"></span></label>
+            <%= pf.text_field :twitter_profile_page,:class=>"form-control profile_link_2" %>
+
+        </div>
+        <span class="pr_error_label13 error"></span>
+    </div>
+
+
+    <div class="form-group">
+        <label for="exampleInputPassword1">Tours In India - Locations<span class="red-star">*</span></label>
+        <%= pf.text_field :tour_locations, 'data-role'=>'tagsinput' %>
+        <%#= pf.text_field :tour_locations,:value => "",:class => "form-control",'data-role'=>'tagsinput'%>
+        <%#= pf.select :tour_locations,:tour_locations,{},{:multiple => true, :class => "form-control",'data-role'=>'tagsinput'} %>
+        <span class="pr_error_label14 error"></span>
+
+    </div>
+
+    <div class="form-group clearfix">
+        <h3 class="title-form-s">Based on tour activity and category:<span class="red-star">*</span></h3>
+        <div class = "set_categories">
+            <%User::CATEGORIES.each do |c|%>
+            <div class="col-sm-6  col-md-6 col-xs-12">
+                <%unless c == 'Others'%>
+                <%= pf.check_box(:category,{ :multiple => true,:class => "category" }, c,nil) %>
+                <label><%= c%></label>
+                <%else%>
+                <%=check_box_tag "other_category"%>
+                <label><%= c%></label>
+                <%= pf.text_field :category,{ :value => get_category(pf.object.category),:multiple => true ,:class => "form-control specify"}%>
+                <span class="pr_error_label19 error"></span>
+                <%end%>
+            </div>
+            <% end %>
+        </div>
+        <span class="pr_error_label15 error"></span>
+    </div>
+
+
+    <div class="form-group">
+        <label for="exampleInputPassword1">Awards & Recognition<span class="red-star">*</span></label>
+        <%= pf.text_area :awards,:class=>"form-control" %>
+        <span class="pr_error_label16 error"></span>
+    </div>
+
+    <div class="form-group clearfix">
+        <h3 class="title-form-s">We Specialize in:<span class="red-star">*</span></h3>
+        <div class = "set_specilized">
+            <%User::SPECILIZED.each do |s|%>
+            <div class="col-sm-6  col-md-6 col-xs-12">
+                <%unless s == 'Others'%>
+                <%= pf.check_box(:specilized_in, { :multiple => true ,:class => "specilized"}, s,nil) %>
+                <label><%= s%></label>
+                <%else%>
+                <%=check_box_tag "other"%>
+                <label><%= s%></label>
+                <%= pf.text_field :specilized_in,{:value => get_specilized(pf.object.specilized_in),:multiple => true ,:class => "specilized form-control specify"}%>
+                <span class="pr_error_label18 error"></span>
+                <%end%>
+            </div>
+            <% end %>
+        </div>
+        <span class="pr_error_label17 error"></span>
+    </div>
+    <script type="text/javascript">
+    var location_names = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        prefetch: {
+          url: '/assets/locations.json',
+          filter: function(list) {
+            return $.map(list, function(location_name) {
+              return { name: location_name }; });
+        }
+    }
+});
+
+    location_names.initialize();
+
+    $('#user_profile_attributes_tour_locations').tagsinput({
+        typeaheadjs: {
+          name: 'location_names',
+          displayKey: 'name',
+          valueKey: 'name',
+          source: location_names.ttAdapter()
+      }
+  });
+
+    </script>
+

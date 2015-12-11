@@ -1,0 +1,34 @@
+	<section id="main-sec">
+		<div class="container">
+			
+			<div class="row">
+				<div class="col-md-12">
+					<div class="red-head1">Notification & Offers</div>
+					<div class="noti-sec clearfix">
+						<% unless @notifications.blank? %>
+						<% for noti in @notifications %>
+						<div class="first row-s">
+							<div class="noti-part">
+								<img src="/assets/<%=notification_icon_for noti.notifiable_type%>" />
+							</div>
+							<div class="noti-right">
+								<a><%= noti.notifiable_type%></a>
+								<div class="noti-text">
+									<span class="text-left">
+										<%= noti.message %>
+										<%= notification_url_for noti.action_type, noti.notifiable_id %>
+									</span>
+									<span class="text-right"><%= "#{time_ago_in_words(noti.created_at, include_seconds: true)} Ago".titleize %></span>
+								</div>
+							</div>
+						</div>
+						<% end %>
+						<% else %>
+
+						<% end %>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<%= render :partial => "notifications/inquiry" %>

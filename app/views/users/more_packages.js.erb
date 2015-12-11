@@ -1,0 +1,8 @@
+
+$('#<%=params[:category].downcase.split(' ').join('_')%>').append("<%=j render(partial: 'users/catagory_wise_packages',  :locals =>{packages: @more_packages, category: params[:category]} , format: 'html') %>");
+
+<% if @more_packages.current_page == @more_packages.total_pages %>
+  $('#show-more-<%=params[:category].downcase.split(' ').join('_')%>').remove();
+<% else %>
+  $('#show-more-<%=params[:category].downcase.split(' ').join('_')%> a').attr('href', '<%= more_packages_path(category: params[:category],page: @posts.current_page + 1) %>');
+<% end %>

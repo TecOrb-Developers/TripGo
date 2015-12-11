@@ -1,0 +1,77 @@
+<section class="inner">
+	<div class="container">
+		<div class="package-border">
+			<div class="content clearfix">
+				<div class="row">
+					<div class="col-md-9 col-sm-8 col-xs-12">
+						<h2 class="page-title">Add New Package</h2>
+						<h3 class="page-sub-title">Package  - Package Inclusions</h3>
+					</div>
+				</div>
+			</div>
+			<div class="content clearfix">
+				<ul class="package-list">
+					<li ><span>Package Details</span></li>
+					<li><span>Transport</span></li>
+					<li><span >City Transport</span></li>
+					<li><span >Hotels</span></li>
+					<li><span >Meals</span></li>
+					<li><span class="active">Sightseeing</span></li>
+					<li><span >Itinerary</span></li>
+					<li><span >Other Inclusion</span></li>
+				</ul>
+				<div id="myTabContent" class="tab-content  content-tab">
+					<div class="tab-pane fade in active" id="transport" data-action ='Edit' >
+						<div class="row">
+							<div class="col-md-12 col-sm-12 col-xs-12 ">
+								<div class="header-text">
+									<p> Please enter in detailed format the main transportation method to and from the  destination and at destination 
+										transport facility provided </p>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12 col-sm-12 col-xs-12 ">
+									<div class="intercity-strip">Sightseeing</div>
+								</div>
+							</div>
+							<div class="multiple-transport clearfix">
+								<div id="accordion2" class="accordion">
+									<%= form_tag update_sight_scenes_path(@package), :method => :patch, :multipart => true do %>
+										<% @package.sight_scenes.each_with_index do |sight_secne, index|%>
+											<%= fields_for "sight_scenes[]", sight_secne do |f| %>
+											<div class="accordion-group">
+												<div class="accordion-heading ">
+													<a href="#collapse_<%=index%>" data-parent="#accordion2" data-toggle="collapse" class="accordion-toggle collapsed clearfix ">
+													<%= "Day #{index+1}".titleize %> <i class="fa fa-chevron-down"></i> </a> 
+												</div>
+												<div class="accordion-body collapse"id="collapse_<%=index%>" style="height: 0px;">
+													<%= render :partial => "accordion_inner_form", :locals=> {:f => f, :index => index}%>
+												</div>
+											</div>
+											<% end %>
+										<% end %>
+									<div class="row">  
+										<div class="package-action pkg-action_p">
+											<%= link_to 'Back',edit_meals_path(@package),:class=>"btn red-btn save" %>
+											<%= submit_tag 'Save',:class => "btn red-btn save sight_secne_submit" %>
+											<%= submit_tag 'Continue',:class => "btn red-btn save sight_secne_submit"%>
+										</div>
+									</div>
+									<% end %>
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+
+
+
+
+
+
+				</div>
+			</div>
+		</div>
+	</section>

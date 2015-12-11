@@ -1,0 +1,147 @@
+		<div class="row gap">
+			<div class="col-sm-12">
+				<div class="table-section">
+					<div class="table-responsive">
+            
+						<table class="table table-striped">
+							<thead>
+								<tr class="table-head">
+									<th class="th-select">Select</th>
+									<th class="th-no">S.No.</th>
+									<th class="th-name">Name</th>
+									<th class="th-userid">User ID</th>
+									<th class="th-dest">Destination</th>
+									<th class="th-tour">Tour ID</th>
+									<th class="th-date">Date</th>
+									<th class="th-from">From</th>
+									<th class="th-assign">Assigned To</th>
+									<th class="th-optonselect">Options Selected</th>
+									<th class="th-custreq">Customize Request</th>
+									<th class="th-status">Status</th>
+								</tr>
+							</thead>
+              <% index = serial_for_paginatation(@crms.current_page, @crms.per_page) %>
+              <% @crms.each_with_index do |crm|%>
+              <tbody>
+               <tr class="odd">
+                <td class="first th-select view-rows">
+                  <%= check_box_tag "crms_ids[]", crm.id, false%>
+                </td>
+                <td class="th-no view-rows"><%= index%></td>
+                <td class="view-rows th-name"><%= crm.name%></td>
+                <td class="view-rows th-userid"><%=crm.user_id%></td>
+                <td class="view-rows th-dest">
+                  <a href="#" class="del-link2" ><%= crm.destination %> </a>
+                </td>
+                <td class="view-rows th-tour"><%= crm.package_id %></td>
+                <td class="view-rows th-date"><%= crm.visit_date %></td>
+                <td class="view-rows th-from"><%= crm.start_from %></td>
+                <td class="view-rows th-assign">
+                  <input type="email" value = "<%=crm.assigned_to%>" class="form-control black-bg assigned_to" id="" placeholder="abc@abc.com" />
+                </td>
+
+                <% if crm.visit_for.split(', ').include? 'Enquiry'%>
+                <td class="view-rows th-optonselect enquiry_detail" data-package-id="<%=crm.package_id%>" data-user-id="<%=crm.user_id%>">
+                  <%= crm.visit_for%>
+                </td>
+                <% else %>
+                <td class="view-rows th-optonselect"><%= crm.visit_for%></td>
+                <% end %>
+                <td class="view-rows th-custreq"><%= crm.is_customize_request? ? "Yes" : "No"%></td>
+                <td class="view-rows th-status last">
+                  <div class="dropdown">
+                    <a class="dropdown-toggle" type="button" id="dm_<%=crm.id%>" data-toggle="dropdown" aria-expanded="true" />
+                      <span class="crms-status"> <%= crm.status %></span>
+                      <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dm_<%=crm.id%>">
+                      <li role="presentation"><a class="crms-status-otn" role="menuitem" tabindex="-1" href="#">Pending</a></li>
+                      <li role="presentation"><a class="crms-status-otn" role="menuitem" tabindex="-1" href="#">Unassigned</a></li>
+                      <li role="presentation"><a class="crms-status-otn" role="menuitem" tabindex="-1" href="#">Fraud</a></li>
+                      <li role="presentation"><a class="crms-status-otn" role="menuitem" tabindex="-1" href="#">Assigned</a></li>
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+            <% index += 1%>
+            <% end %>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-4 col-sm-push-8">
+      <div class="table-pager demo_class">
+        <%= will_paginate @crms, :container => false %>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+  $('.demo_class a').click(function (e) {
+    e.preventDefault(); 
+    filter_against = $('#crms_filter_against').val();
+    filter_query = $('#crms_filter_query').val();
+  // alertify.success('==for testig='+sort+"-->"+direction);
+  var page=1;
+
+  switch ($(this).attr('rel')) {
+    case 'prev':
+    page = <%= @crms.current_page - 1 %>
+    break;
+    case 'next':
+    page = <%= @crms.current_page + 1 %>
+    break;
+    case 'prev start':
+    page = 1
+    break;
+    case 'start':
+    page = 1
+    break;
+    default:
+    page = $(this).text();
+  }
+  $.ajax({
+    type: "GET",
+    url: "/crms-filter",
+    data:{ filter_against: filter_against, filter_query: filter_query, page: page},
+    dataType: "script",
+    success:function(data){
+            // alert("datfsdfla");                  
+          },
+          error: function() {
+            alertify.error('Something went wrong. Please try again.');    
+          }
+        });
+});
+
+// dropdown in crm
+$('.dropdown').hover(function(e) {
+  e.preventDefault();
+  $(this).find('.dropdown-menu').first().stop(true, true).delay(250).slideDown();
+}, function() {
+  $(this).find('.dropdown-menu').first().stop(true, true).delay(100).slideUp()
+});
+
+
+$('.enquiry_detail').on('click', function(e){
+  package_id = $(this).data('package-id');
+  user_id = $(this).data('user-id');
+
+  $.ajax({
+    type: "GET",
+    url: "/get-enquiry-detail",
+    data:{ package_id: package_id, user_id: user_id},
+    dataType: "script",
+    success:function(data){
+      $('#enquiry_detail').modal('show');                 
+    },
+    error: function() {
+      alertify.error('Something went wrong. Please try again.');    
+    }
+  });
+
+});
+</script>
